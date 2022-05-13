@@ -4,6 +4,8 @@
  */
 package com.sami.backtochildhood;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author As-Sami
@@ -92,11 +94,16 @@ public class HomePagePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
-        System.out.println("Exit");
+        
+        System.exit(0);
     }//GEN-LAST:event_ExitButtonActionPerformed
 
     private void PlayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayButtonActionPerformed
-        System.out.println("Play");
+        JFrame frame = (JFrame) getParent();
+        
+        frame.getContentPane().removeAll();
+        frame.add(new GameType());
+        frame.repaint();
     }//GEN-LAST:event_PlayButtonActionPerformed
 
 
