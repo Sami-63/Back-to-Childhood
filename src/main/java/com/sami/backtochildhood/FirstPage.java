@@ -43,8 +43,10 @@ public class FirstPage extends javax.swing.JFrame {
         setTitle("Back to Childhood");
         setBackground(new java.awt.Color(132, 9, 219));
         setBounds(new java.awt.Rectangle(0, 0, 800, 500));
+        setMaximumSize(new java.awt.Dimension(800, 500));
+        setMinimumSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 500));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         StartGame.setBackground(new java.awt.Color(101, 7, 168));
         StartGame.setForeground(java.awt.Color.white);
@@ -104,7 +106,8 @@ public class FirstPage extends javax.swing.JFrame {
                 .addContainerGap(75, Short.MAX_VALUE))
         );
 
-        getContentPane().add(StartGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+        getContentPane().add(StartGame);
+        StartGame.setBounds(150, 100, 500, 300);
 
         GameMode.setBackground(new java.awt.Color(101, 7, 168));
         GameMode.setForeground(java.awt.Color.white);
@@ -180,7 +183,8 @@ public class FirstPage extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        getContentPane().add(GameMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+        getContentPane().add(GameMode);
+        GameMode.setBounds(150, 100, 500, 300);
         GameMode.setVisible(false);
 
         MakeABoxChooseGrid.setBackground(new java.awt.Color(101, 7, 168));
@@ -252,7 +256,8 @@ public class FirstPage extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        getContentPane().add(MakeABoxChooseGrid, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+        getContentPane().add(MakeABoxChooseGrid);
+        MakeABoxChooseGrid.setBounds(150, 100, 500, 300);
         MakeABoxChooseGrid.setVisible(false);
 
         BackgroundPanel.setBackground(new java.awt.Color(55, 4, 92));
@@ -275,7 +280,8 @@ public class FirstPage extends javax.swing.JFrame {
             .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        getContentPane().add(BackgroundPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+        getContentPane().add(BackgroundPanel);
+        BackgroundPanel.setBounds(0, 0, 800, 500);
 
         getAccessibleContext().setAccessibleDescription("");
 
