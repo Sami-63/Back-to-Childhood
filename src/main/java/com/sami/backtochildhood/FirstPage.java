@@ -13,6 +13,8 @@ public class FirstPage extends javax.swing.JFrame {
     /**
      * Creates new form FirstPage
      */
+    
+    
     public FirstPage() {
         initComponents();
     }
@@ -33,6 +35,7 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABox = new javax.swing.JButton();
         TicTacToe = new javax.swing.JButton();
         Ludo = new javax.swing.JButton();
+        BackButton = new javax.swing.JButton();
         MakeABoxChooseGrid = new javax.swing.JPanel();
         Type1 = new javax.swing.JButton();
         Type2 = new javax.swing.JButton();
@@ -159,28 +162,50 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
 
+        BackButton.setBackground(new java.awt.Color(183, 77, 225));
+        BackButton.setFont(new java.awt.Font("MV Boli", 1, 14)); // NOI18N
+        BackButton.setText("Back");
+        BackButton.setActionCommand("PlayButton");
+        BackButton.setBorder(null);
+        BackButton.setFocusable(false);
+        BackButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BackButton.setMaximumSize(new java.awt.Dimension(20, 20));
+        BackButton.setMinimumSize(new java.awt.Dimension(20, 20));
+        BackButton.setPreferredSize(new java.awt.Dimension(100, 50));
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout GameModeLayout = new javax.swing.GroupLayout(GameMode);
         GameMode.setLayout(GameModeLayout);
         GameModeLayout.setHorizontalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(GameModeLayout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TicTacToe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameModeLayout.createSequentialGroup()
+                .addContainerGap(154, Short.MAX_VALUE)
+                .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(MakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TicTacToe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Ludo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addGap(146, 146, 146))
+            .addGroup(GameModeLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         GameModeLayout.setVerticalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModeLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(30, 30, 30)
+                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(TicTacToe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(Ludo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         getContentPane().add(GameMode);
@@ -309,11 +334,14 @@ public class FirstPage extends javax.swing.JFrame {
     private void TicTacToeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeActionPerformed
         System.out.println("Tic tac toe"); 
         GameMode.setVisible(false);
+        
+        dispose();
+        new TicTacToe();
     }//GEN-LAST:event_TicTacToeActionPerformed
 
     private void LudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LudoActionPerformed
         System.out.println("Ludo");
-        GameMode.setVisible(false);        
+        GameMode.setVisible(false);
     }//GEN-LAST:event_LudoActionPerformed
 
     private void Type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type1ActionPerformed
@@ -342,6 +370,11 @@ public class FirstPage extends javax.swing.JFrame {
             StartGame.setVisible(true);
         }
     }//GEN-LAST:event_GameModeKeyTyped
+
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        GameMode.setVisible(false);
+        StartGame.setVisible(true);
+    }//GEN-LAST:event_BackButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,6 +412,7 @@ public class FirstPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BackButton;
     private javax.swing.JPanel BackgroundPanel;
     private javax.swing.JButton ExitButton;
     private javax.swing.JPanel GameMode;

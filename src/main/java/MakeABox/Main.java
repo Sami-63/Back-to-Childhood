@@ -4,6 +4,8 @@
  */
 package MakeABox;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author As-Sami
@@ -39,12 +41,15 @@ public class Main {
         //</editor-fold>
       
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FirstPageClone().setVisible(true);
-            }
-        });
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FirstPageClone().setVisible(true);
+//            }
+//        });
+        
+        new GameFrame();
+
     }
     
 }

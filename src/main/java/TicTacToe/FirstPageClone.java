@@ -4,6 +4,8 @@
  */
 package TicTacToe;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author As-Sami
@@ -14,6 +16,8 @@ public class FirstPageClone extends javax.swing.JFrame {
      * Creates new form FirstPage
      */
     TicTacToe game;
+    
+//    JPanel gamePanel;
     
     public FirstPageClone() {
         initComponents();
@@ -157,7 +161,12 @@ public class FirstPageClone extends javax.swing.JFrame {
     private void TicTacToeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeActionPerformed
         System.out.println("Tic tac toe"); 
         GameMode.setVisible(false);
-        
+            
+//        gamePanel = new JPanel();
+//        gamePanel.add(new TicTacToe());
+//        gamePanel.setLayout(null);
+//        gamePanel.setBounds(200 , 25, 400, 400);
+//        
         game = new TicTacToe();
         game.setBounds(200 , 25, 400, 400);
         add(game);
@@ -203,8 +212,6 @@ public class FirstPageClone extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FirstPageClone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

@@ -17,272 +17,291 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class MakeABox extends JPanel{
+public class MakeABox extends JPanel {
 
-	private String p1 = "S", p2 = "M";
-	boolean turn; 
+    private String p1 = "S", p2 = "M";
+    boolean turn;
 
-	private final int row = 10;
-	private final int column = 10;
-	private Dot dots[][];
-	private LineX lineX[][];
-	private LineY lineY[][];
-	private Box boxes[][];
+    private final int row = 4;
+    private final int column = 4;
+    private Dot dots[][];
+    private LineX lineX[][];
+    private LineY lineY[][];
+    private Box boxes[][];
 
-	public MakeABox(){
-		
-		turn = true;// true -> player 1 turn, false -> player 2 turn
+    public MakeABox() {
 
-		dots = new Dot[row+2][column+2];
-		lineX = new LineX[row+2][column+2];
-		lineY = new LineY[column+2][row+2];
-		boxes = new Box[row+2][column+2];
-				
-		this.setPreferredSize(new Dimension( 70*row - 50, 70*column - 50 ));
-		this.setBackground(Color.GRAY);
-		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
-		
+        turn = true;// true -> player 1 turn, false -> player 2 turn
 
-		for(int i=0; i<2*row-1 ; i++){
-			if( i%2==0 ){
-				for(int j=0 ; j<column*2-1 ; j++){
-					if(j%2==0)
-						this.add( dots[i/2][j/2] = new Dot() );
-					else
-						this.add( lineX[i/2][j/2] = new LineX(i/2,j/2) );
-				}
-			}else{
-				for(int j=0 ; j<column*2-1 ; j++){
-					if(j%2==0)
-						this.add( lineY[i/2][j/2] = new LineY(i/2,j/2) );
-					else
-						this.add( boxes[i/2][j/2] = new Box(i/2,j/2) );
-				}
-			}
-		}
+        dots = new Dot[row + 2][column + 2];
+        lineX = new LineX[row + 2][column + 2];
+        lineY = new LineY[column + 2][row + 2];
+        boxes = new Box[row + 2][column + 2];
 
-	}
+        this.setPreferredSize(new Dimension(70 * row - 50, 70 * column - 50));
+        this.setBackground(Color.GRAY);
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
+        for (int i = 0; i < 2 * row - 1; i++) {
+            if (i % 2 == 0) {
+                for (int j = 0; j < column * 2 - 1; j++) {
+                    if (j % 2 == 0) {
+                        this.add(dots[i / 2][j / 2] = new Dot(i / 2, j / 2));
+                    } else {
+                        this.add(lineX[i / 2][j / 2] = new LineX(i / 2, j / 2));
+                    }
+                }
+            } else {
+                for (int j = 0; j < column * 2 - 1; j++) {
+                    if (j % 2 == 0) {
+                        this.add(lineY[i / 2][j / 2] = new LineY(i / 2, j / 2));
+                    } else {
+                        this.add(boxes[i / 2][j / 2] = new Box(i / 2, j / 2));
+                    }
+                }
+            }
+        }
 
-	private class Dot extends JButton{
+    }
 
-		private int height = 20, width = 20;
-		private Color bg = Color.BLACK;
+    private class Dot extends JButton {
 
-		public Dot(){
-			
-			this.setEnabled(false);
-			this.setBorderPainted(false);
-			this.setBackground(bg);
-			this.setSize(width, height);
-			setMinimumSize(getSize());
-			setMaximumSize(getSize());
-			setPreferredSize(getSize());
-		}
-	}
+        private int x, y;
 
-	private class LineX extends JButton{	
-		private int x,y;
-		
-		private int height = 20, width = 50;
-		private Color bg = Color.white, activate = new Color(45, 45, 46);
-		private boolean clicked;
+        private int height = 20, width = 20;
+        private Color bg = Color.BLACK;
 
-		boolean isClicked(){
-			return clicked;
-		}
+        public Dot(int x, int y) {
+            this.x = x;
+            this.y = y;
 
-		public LineX(int x, int y){
-			this.x = x;
-			this.y = y;
+            this.setEnabled(false);
+            this.setBorderPainted(false);
+            this.setBackground(bg);
+            this.setSize(width, height);
+            setMinimumSize(getSize());
+            setMaximumSize(getSize());
+            setPreferredSize(getSize());
+        }
+    }
 
-			this.setBorderPainted(false);
-			this.clicked = false;
-			this.setBackground(bg);
-			this.setSize(width, height);
-			setMinimumSize(getSize());
-			setMaximumSize(getSize());
-			setPreferredSize(getSize());
+    private class LineX extends JButton {
 
-			this.addMouseListener(new MouseListener(){
-				@Override
-				public void mouseClicked(MouseEvent e){
-					if( clicked )return;
+        private int x, y;
 
-					LineX xx = (LineX)e.getSource();
-					xx.setBackground(activate);
-					clicked = true;
+        private int height = 20, width = 50;
+        private Color bg = Color.white, activate = new Color(45, 45, 46);
+        private boolean clicked;
 
-					int nx,ny;
-					boolean scored = false;
+        boolean isClicked() {
+            return clicked;
+        }
 
-					nx = x-1;
-					ny = y;
+        public LineX(int x, int y) {
+            this.x = x;
+            this.y = y;
 
-					if( 	nx>-1 && nx<row && 
-						lineX[nx][ny].isClicked() && 
-						lineY[nx][ny].isClicked() && 
-						lineY[nx][ny+1].isClicked()
-					){					
-						boxes[nx][ny].setOwner((turn ? p1 : p2));
-						scored = true;
-					}
+            this.setBorderPainted(false);
+            this.clicked = false;
+            this.setBackground(bg);
+            this.setSize(width, height);
+            setMinimumSize(getSize());
+            setMaximumSize(getSize());
+            setPreferredSize(getSize());
 
-					nx = x+1;
-					ny = y;
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (clicked) {
+                        return;
+                    }
 
-					if( 	nx>-1 && nx<row && 
-						lineX[nx][ny].isClicked() && 
-						lineY[x][y].isClicked()   && 
-						lineY[x][y+1].isClicked() 
-					){
-						boxes[x][y].setOwner((turn ? p1 : p2));
-						scored = true;
-					}
+                    LineX xx = (LineX) e.getSource();
+                    xx.setBackground(activate);
+                    clicked = true;
 
-					if(scored==false)
-						turn = (turn ? false : true);
+                    int nx, ny;
+                    boolean scored = false;
 
-					// System.out.println(x + " " + y);
-				}
+                    nx = x - 1;
+                    ny = y;
 
-				@Override
-				public void mousePressed(MouseEvent e){}
-				@Override
-				public void mouseReleased(MouseEvent e){}
+                    if (nx > -1 && nx < row
+                            && lineX[nx][ny].isClicked()
+                            && lineY[nx][ny].isClicked()
+                            && lineY[nx][ny + 1].isClicked()) {
+                        boxes[nx][ny].setOwner((turn ? p1 : p2));
+                        scored = true;
+                    }
 
-				@Override
-				public void mouseEntered(MouseEvent e){
-					if(clicked) return;
-					LineX xx = (LineX)e.getSource();
-					xx.setBackground(Color.gray);
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e){
-					if( clicked )return;
-					LineX xx = (LineX)e.getSource();
-					xx.setBackground(Color.white);
-				}
-			}
-			);
-		}
-	}
+                    nx = x + 1;
+                    ny = y;
 
-	private class LineY extends JButton{
-		private int x,y;
+                    if (nx > -1 && nx < row
+                            && lineX[nx][ny].isClicked()
+                            && lineY[x][y].isClicked()
+                            && lineY[x][y + 1].isClicked()) {
+                        boxes[x][y].setOwner((turn ? p1 : p2));
+                        scored = true;
+                    }
 
-		private int height = 50, width = 20;
-		private Color bg = Color.white, activate = new Color(45, 45, 46);
-		private boolean clicked;
+                    if (scored == false) {
+                        turn = (turn ? false : true);
+                    }
 
-		boolean isClicked(){
-			return clicked;
-		}
+                    // System.out.println(x + " " + y);
+                }
 
-		public LineY(int x, int y){
-			this.x = x;
-			this.y = y;
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
 
-			this.setBorderPainted(false);
-			this.clicked = false;
-			this.setBackground(bg);
-			this.setSize(width, height);
-			setMinimumSize(getSize());
-			setMaximumSize(getSize());
-			setPreferredSize(getSize());
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
 
-			this.addMouseListener(new MouseListener(){
-				@Override
-				public void mouseClicked(MouseEvent e){
-					LineY xx = (LineY)e.getSource();
-					xx.setBackground(activate);
-					clicked = true;
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (clicked) {
+                        return;
+                    }
+                    LineX xx = (LineX) e.getSource();
+                    xx.setBackground(Color.gray);
+                }
 
-					int nx,ny;
-					boolean scored = false;
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (clicked) {
+                        return;
+                    }
+                    LineX xx = (LineX) e.getSource();
+                    xx.setBackground(Color.white);
+                }
+            }
+            );
+        }
+    }
 
-					nx = x;
-					ny = y-1;
+    private class LineY extends JButton {
 
-					if( ny>-1 && ny<column && 
-						lineY[nx][ny].isClicked() &&
-						lineX[nx][ny].isClicked() &&
-						lineX[nx+1][ny].isClicked()
-					){
-						boxes[nx][ny].setOwner((turn ? p1 : p2));
-						scored = true;
-					}
-							
-					nx = x;
-					ny = y+1;
+        private int x, y;
 
-					if( ny>-1 && ny<column && 
-						lineY[nx][ny].isClicked() &&
-						lineX[x][y].isClicked() &&
-						lineX[x+1][y].isClicked()
-					){
-						boxes[x][y].setOwner((turn ? p1 : p2));
-						scored = true;
-					}
-						
-					if(scored==false)
-						turn = (turn ? false : true);
+        private int height = 50, width = 20;
+        private Color bg = Color.white, activate = new Color(45, 45, 46);
+        private boolean clicked;
 
-					// System.out.println(x + " " + y);
-				}
+        boolean isClicked() {
+            return clicked;
+        }
 
-				@Override
-				public void mousePressed(MouseEvent e){}
-				@Override
-				public void mouseReleased(MouseEvent e){}
+        public LineY(int x, int y) {
+            this.x = x;
+            this.y = y;
 
-				@Override
-				public void mouseEntered(MouseEvent e){
-					if(clicked) return;
-					LineY xx = (LineY)e.getSource();
-					xx.setBackground(Color.gray);
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e){
-					if(clicked) return;
-					LineY xx = (LineY)e.getSource();
-					xx.setBackground(Color.white);
-				}
-			}
-			);
-		}
+            this.setBorderPainted(false);
+            this.clicked = false;
+            this.setBackground(bg);
+            this.setSize(width, height);
+            setMinimumSize(getSize());
+            setMaximumSize(getSize());
+            setPreferredSize(getSize());
 
-		
-	}
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    LineY xx = (LineY) e.getSource();
+                    xx.setBackground(activate);
+                    clicked = true;
 
-	private class Box extends JButton{
-		private int x,y;
+                    int nx, ny;
+                    boolean scored = false;
 
-		private int height = 50, width = 50;
-		private Color bg = Color.white;
-		private String owner;
+                    nx = x;
+                    ny = y - 1;
 
-		public Box(int x, int y){
-			this.x = x;
-			this.y = y;
+                    if (ny > -1 && ny < column
+                            && lineY[nx][ny].isClicked()
+                            && lineX[nx][ny].isClicked()
+                            && lineX[nx + 1][ny].isClicked()) {
+                        boxes[nx][ny].setOwner((turn ? p1 : p2));
+                        scored = true;
+                    }
 
-			owner = "";
+                    nx = x;
+                    ny = y + 1;
 
-			this.setBorderPainted(false);
-			this.setEnabled(false);
-			this.setBackground(bg);
-			this.setSize(width, height);
-			setMinimumSize(getSize());
-			setMaximumSize(getSize());
-			setPreferredSize(getSize());
-		}
+                    if (ny > -1 && ny < column
+                            && lineY[nx][ny].isClicked()
+                            && lineX[x][y].isClicked()
+                            && lineX[x + 1][y].isClicked()) {
+                        boxes[x][y].setOwner((turn ? p1 : p2));
+                        scored = true;
+                    }
 
-		void setOwner(String s){
-			owner = s;
-			this.setText(s);
-		}
-	}
+                    if (scored == false) {
+                        turn = (turn ? false : true);
+                    }
+
+                    // System.out.println(x + " " + y);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (clicked) {
+                        return;
+                    }
+                    LineY xx = (LineY) e.getSource();
+                    xx.setBackground(Color.gray);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (clicked) {
+                        return;
+                    }
+                    LineY xx = (LineY) e.getSource();
+                    xx.setBackground(Color.white);
+                }
+            }
+            );
+        }
+
+    }
+
+    private class Box extends JButton {
+
+        private int x, y;
+
+        private int height = 50, width = 50;
+        private Color bg = Color.white;
+        private String owner;
+
+        public Box(int x, int y) {
+            this.x = x;
+            this.y = y;
+
+            owner = "";
+
+            this.setBorderPainted(false);
+            this.setEnabled(false);
+            this.setBackground(bg);
+            this.setSize(width, height);
+            setMinimumSize(getSize());
+            setMaximumSize(getSize());
+            setPreferredSize(getSize());
+        }
+
+        void setOwner(String s) {
+            owner = s;
+            this.setText(s);
+        }
+    }
 }
