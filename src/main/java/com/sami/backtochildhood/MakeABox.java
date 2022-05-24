@@ -2,15 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package MakeABox;
+package com.sami.backtochildhood;
 
 /**
  *
  * @author As-Sami
  */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -24,15 +26,18 @@ public class MakeABox extends JFrame {
     boolean turn;
 
     JPanel mainPanel;
-    private final int row = 4;
-    private final int column = 4;
+    private int row;
+    private int column;
     private Dot dots[][];
     private LineX lineX[][];
     private LineY lineY[][];
     private Box boxes[][];
 
-    public MakeABox() {
+    public MakeABox(int row, int column) {
 
+        this.row = row;
+        this.column = column;
+        
         turn = true;// true -> player 1 turn, false -> player 2 turn
 
         mainPanel = new JPanel();
@@ -41,7 +46,7 @@ public class MakeABox extends JFrame {
         lineY = new LineY[column + 2][row + 2];
         boxes = new Box[row + 2][column + 2];
 
-        mainPanel.setPreferredSize(new Dimension(70 * row - 50, 70 * column - 50));
+        this.setPreferredSize(new Dimension(70 * column , 70 * row ));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -65,9 +70,11 @@ public class MakeABox extends JFrame {
             }
         }
 
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.add(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         this.setResizable(false);
         this.setVisible(true);
     }

@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
 
     GameFrame() {
         MakeABox panel = new MakeABox();
-        this.add(panel);
+//        this.add(panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setResizable(false);

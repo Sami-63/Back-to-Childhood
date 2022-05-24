@@ -48,7 +48,7 @@ public class Main {
 //            }
 //        });
         
-        new GameFrame();
+        new MakeABox();
 
     }
     

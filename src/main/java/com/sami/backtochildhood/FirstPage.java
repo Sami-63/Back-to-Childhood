@@ -345,15 +345,22 @@ public class FirstPage extends javax.swing.JFrame {
     }//GEN-LAST:event_LudoActionPerformed
 
     private void Type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type1ActionPerformed
-        // TODO add your handling code here:
+        
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(4,4);
     }//GEN-LAST:event_Type1ActionPerformed
 
     private void Type2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type2ActionPerformed
-        // TODO add your handling code here:
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(6,8);
     }//GEN-LAST:event_Type2ActionPerformed
 
     private void Type3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type3ActionPerformed
-        // TODO add your handling code here:
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(10,12);
     }//GEN-LAST:event_Type3ActionPerformed
 
     private void StartGameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_StartGameKeyTyped
