@@ -240,6 +240,10 @@ public class TicTacToe implements ActionListener {
         }
 
         textfield.setText("X wins!");
+        
+        frame.dispose();
+        new ExitPage().setType(4);
+        
     }
 
     public void OWins(int a, int b, int c) {
@@ -252,6 +256,8 @@ public class TicTacToe implements ActionListener {
         }
 
         textfield.setText("O wins!");
+        frame.dispose();
+        new ExitPage().setType(4);
     }
 
 }
