@@ -41,6 +41,7 @@ public class FirstPage extends javax.swing.JFrame {
         Type2 = new javax.swing.JButton();
         Type3 = new javax.swing.JButton();
         BackgroundPanel = new javax.swing.JPanel();
+        kGradientPanel2 = new com.k33ptoo.components.KGradientPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Back to Childhood");
@@ -117,11 +118,6 @@ public class FirstPage extends javax.swing.JFrame {
         GameMode.setFocusable(false);
         GameMode.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
         GameMode.setPreferredSize(new java.awt.Dimension(500, 300));
-        GameMode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                GameModeKeyTyped(evt);
-            }
-        });
 
         MakeABox.setBackground(new java.awt.Color(183, 77, 225));
         MakeABox.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
@@ -233,7 +229,7 @@ public class FirstPage extends javax.swing.JFrame {
 
         Type2.setBackground(new java.awt.Color(183, 77, 225));
         Type2.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Type2.setText("6 X 8");
+        Type2.setText("6 X 6");
         Type2.setActionCommand("PlayButton");
         Type2.setBorder(null);
         Type2.setFocusable(false);
@@ -246,7 +242,7 @@ public class FirstPage extends javax.swing.JFrame {
 
         Type3.setBackground(new java.awt.Color(183, 77, 225));
         Type3.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Type3.setText("10 X 12");
+        Type3.setText("10 X 10");
         Type3.setActionCommand("PlayButton");
         Type3.setBorder(null);
         Type3.setFocusable(false);
@@ -294,15 +290,29 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
 
+        kGradientPanel2.setkEndColor(new java.awt.Color(36, 36, 62));
+        kGradientPanel2.setkStartColor(new java.awt.Color(15, 12, 41));
+
+        javax.swing.GroupLayout kGradientPanel2Layout = new javax.swing.GroupLayout(kGradientPanel2);
+        kGradientPanel2.setLayout(kGradientPanel2Layout);
+        kGradientPanel2Layout.setHorizontalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+        kGradientPanel2Layout.setVerticalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout BackgroundPanelLayout = new javax.swing.GroupLayout(BackgroundPanel);
         BackgroundPanel.setLayout(BackgroundPanelLayout);
         BackgroundPanelLayout.setHorizontalGroup(
             BackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addComponent(kGradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         BackgroundPanelLayout.setVerticalGroup(
             BackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addComponent(kGradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(BackgroundPanel);
@@ -354,13 +364,14 @@ public class FirstPage extends javax.swing.JFrame {
     private void Type2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type2ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-        new MakeABox(6,8);
+        new MakeABox(6,6);
     }//GEN-LAST:event_Type2ActionPerformed
 
     private void Type3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type3ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-        new MakeABox(10,12);
+        new MakeABox(10, 10);
+        
     }//GEN-LAST:event_Type3ActionPerformed
 
     private void StartGameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_StartGameKeyTyped
@@ -370,13 +381,6 @@ public class FirstPage extends javax.swing.JFrame {
     private void BackgroundPanelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BackgroundPanelKeyTyped
         System.out.println("Typing in outer panel");
     }//GEN-LAST:event_BackgroundPanelKeyTyped
-
-    private void GameModeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_GameModeKeyTyped
-        if( evt.getKeyCode() == 27 ){
-            GameMode.setVisible(false);
-            StartGame.setVisible(true);
-        }
-    }//GEN-LAST:event_GameModeKeyTyped
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         GameMode.setVisible(false);
@@ -432,5 +436,6 @@ public class FirstPage extends javax.swing.JFrame {
     private javax.swing.JButton Type1;
     private javax.swing.JButton Type2;
     private javax.swing.JButton Type3;
+    private com.k33ptoo.components.KGradientPanel kGradientPanel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -46,7 +46,7 @@ public class MakeABox extends JFrame {
         lineY = new LineY[column + 2][row + 2];
         boxes = new Box[row + 2][column + 2];
 
-        this.setPreferredSize(new Dimension(70 * column , 70 * row ));
+        mainPanel.setPreferredSize(new Dimension(70 * row - 50, 70 * column - 50));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -305,9 +305,9 @@ public class MakeABox extends JFrame {
 
             owner = "";
 
+            this.setBackground(Color.red);
             this.setBorderPainted(false);
             this.setEnabled(false);
-            this.setBackground(bg);
             this.setSize(width, height);
             setMinimumSize(getSize());
             setMaximumSize(getSize());
@@ -316,6 +316,7 @@ public class MakeABox extends JFrame {
 
         void setOwner(String s) {
             owner = s;
+            this.setBackground(Color.green);
             this.setText(s);
         }
     }

@@ -13,7 +13,7 @@ public class ExitPage extends javax.swing.JFrame {
     /**
      * Creates new form ExitPage
      */
-    int gameType = 0;
+    int gameType = 4;
     public ExitPage() {
         initComponents();
     }
@@ -48,6 +48,11 @@ public class ExitPage extends javax.swing.JFrame {
         Exit.setBackground(new java.awt.Color(255, 51, 51));
         Exit.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ExitRetryLayout = new javax.swing.GroupLayout(ExitRetry);
         ExitRetry.setLayout(ExitRetryLayout);
@@ -113,9 +118,14 @@ public class ExitPage extends javax.swing.JFrame {
                 break;
                 
             default :
+                System.out.println("kaj kortese");
                 System.exit(0);
         }
     }//GEN-LAST:event_RetryActionPerformed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_ExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,7 +157,7 @@ public class ExitPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExitPage(0).setVisible(true);
+                new ExitPage().setVisible(true);
             }
         });
     }
