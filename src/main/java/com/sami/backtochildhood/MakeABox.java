@@ -46,7 +46,7 @@ public class MakeABox extends JFrame {
         lineY = new LineY[column + 2][row + 2];
         boxes = new Box[row + 2][column + 2];
 
-        mainPanel.setPreferredSize(new Dimension(70 * row - 50, 70 * column - 50));
+        mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -305,7 +305,7 @@ public class MakeABox extends JFrame {
 
             owner = "";
 
-            this.setBackground(Color.red);
+            this.setBackground(bg);
             this.setBorderPainted(false);
             this.setEnabled(false);
             this.setSize(width, height);

@@ -29,17 +29,18 @@ public class FirstPage extends javax.swing.JFrame {
     private void initComponents() {
 
         StartGame = new javax.swing.JPanel();
-        PlayButton = new javax.swing.JButton();
-        ExitButton = new javax.swing.JButton();
+        kButton1 = new com.k33ptoo.components.KButton();
+        kButton2 = new com.k33ptoo.components.KButton();
         GameMode = new javax.swing.JPanel();
-        MakeABox = new javax.swing.JButton();
-        TicTacToe = new javax.swing.JButton();
-        Ludo = new javax.swing.JButton();
-        BackButton = new javax.swing.JButton();
+        MakeABoxButton = new com.k33ptoo.components.KButton();
+        TicTacToeButton = new com.k33ptoo.components.KButton();
+        LudoButton = new com.k33ptoo.components.KButton();
+        BackFromGameMode = new com.k33ptoo.components.KButton();
         MakeABoxChooseGrid = new javax.swing.JPanel();
-        Type1 = new javax.swing.JButton();
-        Type2 = new javax.swing.JButton();
-        Type3 = new javax.swing.JButton();
+        Start4x4 = new com.k33ptoo.components.KButton();
+        Start6x8 = new com.k33ptoo.components.KButton();
+        Start10x12 = new com.k33ptoo.components.KButton();
+        BackFromMakeABox = new com.k33ptoo.components.KButton();
         BackgroundPanel = new javax.swing.JPanel();
         kGradientPanel2 = new com.k33ptoo.components.KGradientPanel();
 
@@ -63,29 +64,17 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
 
-        PlayButton.setBackground(new java.awt.Color(183, 77, 225));
-        PlayButton.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        PlayButton.setText("Play");
-        PlayButton.setActionCommand("PlayButton");
-        PlayButton.setBorder(null);
-        PlayButton.setFocusable(false);
-        PlayButton.setPreferredSize(new java.awt.Dimension(100, 50));
-        PlayButton.addActionListener(new java.awt.event.ActionListener() {
+        kButton1.setText("Play");
+        kButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PlayButtonActionPerformed(evt);
+                kButton1ActionPerformed(evt);
             }
         });
 
-        ExitButton.setBackground(new java.awt.Color(183, 77, 225));
-        ExitButton.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        ExitButton.setText("Exit");
-        ExitButton.setActionCommand("PlayButton");
-        ExitButton.setBorder(null);
-        ExitButton.setFocusable(false);
-        ExitButton.setPreferredSize(new java.awt.Dimension(100, 50));
-        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+        kButton2.setText("Exit");
+        kButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExitButtonActionPerformed(evt);
+                kButton2ActionPerformed(evt);
             }
         });
 
@@ -94,20 +83,20 @@ public class FirstPage extends javax.swing.JFrame {
         StartGameLayout.setHorizontalGroup(
             StartGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(StartGameLayout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addGroup(StartGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PlayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addGap(180, 180, 180)
+                .addGroup(StartGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         StartGameLayout.setVerticalGroup(
             StartGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StartGameLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(PlayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+            .addGroup(StartGameLayout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         getContentPane().add(StartGame);
@@ -119,58 +108,31 @@ public class FirstPage extends javax.swing.JFrame {
         GameMode.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
         GameMode.setPreferredSize(new java.awt.Dimension(500, 300));
 
-        MakeABox.setBackground(new java.awt.Color(183, 77, 225));
-        MakeABox.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        MakeABox.setText("Make a box");
-        MakeABox.setActionCommand("PlayButton");
-        MakeABox.setBorder(null);
-        MakeABox.setFocusable(false);
-        MakeABox.setPreferredSize(new java.awt.Dimension(100, 50));
-        MakeABox.addActionListener(new java.awt.event.ActionListener() {
+        MakeABoxButton.setText("make a box");
+        MakeABoxButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MakeABoxActionPerformed(evt);
+                MakeABoxButtonActionPerformed(evt);
             }
         });
 
-        TicTacToe.setBackground(new java.awt.Color(183, 77, 225));
-        TicTacToe.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        TicTacToe.setText("Tic-tac-toe");
-        TicTacToe.setActionCommand("PlayButton");
-        TicTacToe.setBorder(null);
-        TicTacToe.setFocusable(false);
-        TicTacToe.setPreferredSize(new java.awt.Dimension(100, 50));
-        TicTacToe.addActionListener(new java.awt.event.ActionListener() {
+        TicTacToeButton.setText("tix tac toe");
+        TicTacToeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TicTacToeActionPerformed(evt);
+                TicTacToeButtonActionPerformed(evt);
             }
         });
 
-        Ludo.setBackground(new java.awt.Color(183, 77, 225));
-        Ludo.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Ludo.setText("Ludo");
-        Ludo.setActionCommand("PlayButton");
-        Ludo.setBorder(null);
-        Ludo.setFocusable(false);
-        Ludo.setPreferredSize(new java.awt.Dimension(100, 50));
-        Ludo.addActionListener(new java.awt.event.ActionListener() {
+        LudoButton.setText("Ludo");
+        LudoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LudoActionPerformed(evt);
+                LudoButtonActionPerformed(evt);
             }
         });
 
-        BackButton.setBackground(new java.awt.Color(183, 77, 225));
-        BackButton.setFont(new java.awt.Font("MV Boli", 1, 14)); // NOI18N
-        BackButton.setText("Back");
-        BackButton.setActionCommand("PlayButton");
-        BackButton.setBorder(null);
-        BackButton.setFocusable(false);
-        BackButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BackButton.setMaximumSize(new java.awt.Dimension(20, 20));
-        BackButton.setMinimumSize(new java.awt.Dimension(20, 20));
-        BackButton.setPreferredSize(new java.awt.Dimension(100, 50));
-        BackButton.addActionListener(new java.awt.event.ActionListener() {
+        BackFromGameMode.setText("Back");
+        BackFromGameMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackButtonActionPerformed(evt);
+                BackFromGameModeActionPerformed(evt);
             }
         });
 
@@ -178,30 +140,31 @@ public class FirstPage extends javax.swing.JFrame {
         GameMode.setLayout(GameModeLayout);
         GameModeLayout.setHorizontalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameModeLayout.createSequentialGroup()
-                .addContainerGap(154, Short.MAX_VALUE)
-                .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(MakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TicTacToe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Ludo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(146, 146, 146))
             .addGroup(GameModeLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GameModeLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GameModeLayout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         GameModeLayout.setVerticalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModeLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(TicTacToe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(Ludo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         getContentPane().add(GameMode);
@@ -214,42 +177,31 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxChooseGrid.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
         MakeABoxChooseGrid.setPreferredSize(new java.awt.Dimension(500, 300));
 
-        Type1.setBackground(new java.awt.Color(183, 77, 225));
-        Type1.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Type1.setText("4 X 4");
-        Type1.setActionCommand("PlayButton");
-        Type1.setBorder(null);
-        Type1.setFocusable(false);
-        Type1.setPreferredSize(new java.awt.Dimension(100, 50));
-        Type1.addActionListener(new java.awt.event.ActionListener() {
+        Start4x4.setText("4x4");
+        Start4x4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Type1ActionPerformed(evt);
+                Start4x4ActionPerformed(evt);
             }
         });
 
-        Type2.setBackground(new java.awt.Color(183, 77, 225));
-        Type2.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Type2.setText("6 X 6");
-        Type2.setActionCommand("PlayButton");
-        Type2.setBorder(null);
-        Type2.setFocusable(false);
-        Type2.setPreferredSize(new java.awt.Dimension(100, 50));
-        Type2.addActionListener(new java.awt.event.ActionListener() {
+        Start6x8.setText("6x8");
+        Start6x8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Type2ActionPerformed(evt);
+                Start6x8ActionPerformed(evt);
             }
         });
 
-        Type3.setBackground(new java.awt.Color(183, 77, 225));
-        Type3.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        Type3.setText("10 X 10");
-        Type3.setActionCommand("PlayButton");
-        Type3.setBorder(null);
-        Type3.setFocusable(false);
-        Type3.setPreferredSize(new java.awt.Dimension(100, 50));
-        Type3.addActionListener(new java.awt.event.ActionListener() {
+        Start10x12.setText("10x12");
+        Start10x12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Type3ActionPerformed(evt);
+                Start10x12ActionPerformed(evt);
+            }
+        });
+
+        BackFromMakeABox.setText("Back");
+        BackFromMakeABox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackFromMakeABoxActionPerformed(evt);
             }
         });
 
@@ -258,23 +210,30 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxChooseGridLayout.setHorizontalGroup(
             MakeABoxChooseGridLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MakeABoxChooseGridLayout.createSequentialGroup()
-                .addGap(150, 150, 150)
                 .addGroup(MakeABoxChooseGridLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Type2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Type1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Type3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(150, Short.MAX_VALUE))
+                    .addGroup(MakeABoxChooseGridLayout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addGroup(MakeABoxChooseGridLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Start10x12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Start6x8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Start4x4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(MakeABoxChooseGridLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BackFromMakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
         MakeABoxChooseGridLayout.setVerticalGroup(
             MakeABoxChooseGridLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MakeABoxChooseGridLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(Type1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(Type2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(Type3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(MakeABoxChooseGridLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(BackFromMakeABox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(Start4x4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(Start6x8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(Start10x12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         getContentPane().add(MakeABoxChooseGrid);
@@ -324,56 +283,6 @@ public class FirstPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
-        System.out.println("Exit");
-        System.exit(0);
-    }//GEN-LAST:event_ExitButtonActionPerformed
-
-    private void PlayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayButtonActionPerformed
-        System.out.println("Play");
-        StartGame.setVisible(false);
-        GameMode.setVisible(true);
-    }//GEN-LAST:event_PlayButtonActionPerformed
-
-    private void MakeABoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeABoxActionPerformed
-        System.out.println("Make a box");
-        GameMode.setVisible(false);
-        MakeABoxChooseGrid.setVisible(true);
-    }//GEN-LAST:event_MakeABoxActionPerformed
-
-    private void TicTacToeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeActionPerformed
-        System.out.println("Tic tac toe"); 
-        GameMode.setVisible(false);
-        
-        dispose();
-        new TicTacToe();
-    }//GEN-LAST:event_TicTacToeActionPerformed
-
-    private void LudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LudoActionPerformed
-        System.out.println("Ludo");
-        GameMode.setVisible(false);
-    }//GEN-LAST:event_LudoActionPerformed
-
-    private void Type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type1ActionPerformed
-        
-        MakeABoxChooseGrid.setVisible(false);
-        dispose();
-        new MakeABox(4,4);
-    }//GEN-LAST:event_Type1ActionPerformed
-
-    private void Type2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type2ActionPerformed
-        MakeABoxChooseGrid.setVisible(false);
-        dispose();
-        new MakeABox(6,6);
-    }//GEN-LAST:event_Type2ActionPerformed
-
-    private void Type3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Type3ActionPerformed
-        MakeABoxChooseGrid.setVisible(false);
-        dispose();
-        new MakeABox(10, 10);
-        
-    }//GEN-LAST:event_Type3ActionPerformed
-
     private void StartGameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_StartGameKeyTyped
         System.out.println("tying");
     }//GEN-LAST:event_StartGameKeyTyped
@@ -382,10 +291,63 @@ public class FirstPage extends javax.swing.JFrame {
         System.out.println("Typing in outer panel");
     }//GEN-LAST:event_BackgroundPanelKeyTyped
 
-    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
+        System.out.println("Exit");
+        System.exit(0);
+    }//GEN-LAST:event_kButton2ActionPerformed
+
+    private void kButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton1ActionPerformed
+        System.out.println("Play");
+        StartGame.setVisible(false);
+        GameMode.setVisible(true);
+    }//GEN-LAST:event_kButton1ActionPerformed
+
+    private void LudoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LudoButtonActionPerformed
+        System.out.println("Ludo");
+        GameMode.setVisible(false);
+    }//GEN-LAST:event_LudoButtonActionPerformed
+
+    private void TicTacToeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeButtonActionPerformed
+        System.out.println("Tic tac toe"); 
+        GameMode.setVisible(false);
+        
+        dispose();
+        new TicTacToe();
+    }//GEN-LAST:event_TicTacToeButtonActionPerformed
+
+    private void MakeABoxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeABoxButtonActionPerformed
+        System.out.println("Make a box");
+        GameMode.setVisible(false);
+        MakeABoxChooseGrid.setVisible(true);
+    }//GEN-LAST:event_MakeABoxButtonActionPerformed
+
+    private void BackFromGameModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackFromGameModeActionPerformed
         GameMode.setVisible(false);
         StartGame.setVisible(true);
-    }//GEN-LAST:event_BackButtonActionPerformed
+    }//GEN-LAST:event_BackFromGameModeActionPerformed
+
+    private void Start4x4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start4x4ActionPerformed
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(4,4);
+    }//GEN-LAST:event_Start4x4ActionPerformed
+
+    private void Start6x8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start6x8ActionPerformed
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(6,8);
+    }//GEN-LAST:event_Start6x8ActionPerformed
+
+    private void Start10x12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start10x12ActionPerformed
+        MakeABoxChooseGrid.setVisible(false);
+        dispose();
+        new MakeABox(10,12);
+    }//GEN-LAST:event_Start10x12ActionPerformed
+
+    private void BackFromMakeABoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackFromMakeABoxActionPerformed
+        MakeABoxChooseGrid.setVisible(false);
+        GameMode.setVisible(true);
+    }//GEN-LAST:event_BackFromMakeABoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -421,21 +383,54 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
     }
+    
+    void run(){
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Metal".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FirstPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FirstPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FirstPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FirstPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FirstPage().setVisible(true);
+            }
+        });
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BackButton;
+    private com.k33ptoo.components.KButton BackFromGameMode;
+    private com.k33ptoo.components.KButton BackFromMakeABox;
     private javax.swing.JPanel BackgroundPanel;
-    private javax.swing.JButton ExitButton;
     private javax.swing.JPanel GameMode;
-    private javax.swing.JButton Ludo;
-    private javax.swing.JButton MakeABox;
+    private com.k33ptoo.components.KButton LudoButton;
+    private com.k33ptoo.components.KButton MakeABoxButton;
     private javax.swing.JPanel MakeABoxChooseGrid;
-    private javax.swing.JButton PlayButton;
+    private com.k33ptoo.components.KButton Start10x12;
+    private com.k33ptoo.components.KButton Start4x4;
+    private com.k33ptoo.components.KButton Start6x8;
     private javax.swing.JPanel StartGame;
-    private javax.swing.JButton TicTacToe;
-    private javax.swing.JButton Type1;
-    private javax.swing.JButton Type2;
-    private javax.swing.JButton Type3;
+    private com.k33ptoo.components.KButton TicTacToeButton;
+    private com.k33ptoo.components.KButton kButton1;
+    private com.k33ptoo.components.KButton kButton2;
     private com.k33ptoo.components.KGradientPanel kGradientPanel2;
     // End of variables declaration//GEN-END:variables
 }
