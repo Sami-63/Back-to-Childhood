@@ -26,14 +26,13 @@ public class TicTacToe implements ActionListener {
 
     TicTacToe() {
         
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
-        
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();        
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
 
         textfield.setBackground(new Color(25, 25, 25));
