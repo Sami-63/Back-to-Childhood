@@ -9,23 +9,28 @@ package com.sami.backtochildhood;
  * @author As-Sami
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class MakeABox extends JFrame {
 
     private String p1 = "S", p2 = "M";
     boolean turn;
 
-    JPanel mainPanel;
+    JPanel mainPanel, scorePanel, navigationPanel;
+    JTextField textField;
     private int row;
     private int column;
     private Dot dots[][];
@@ -40,12 +45,28 @@ public class MakeABox extends JFrame {
         
         turn = true;// true -> player 1 turn, false -> player 2 turn
 
+        scorePanel = new JPanel();
         mainPanel = new JPanel();
-        dots = new Dot[row + 2][column + 2];
-        lineX = new LineX[row + 2][column + 2];
-        lineY = new LineY[column + 2][row + 2];
-        boxes = new Box[row + 2][column + 2];
-
+        navigationPanel = new JPanel();
+        dots = new Dot[30][30];
+        lineX = new LineX[30][30];
+        lineY = new LineY[30][30];
+        boxes = new Box[30][30];
+        
+        scorePanel.setPreferredSize(new Dimension(70 * column - 50, 70));
+        navigationPanel.setPreferredSize(new Dimension(70 * column - 50, 70));
+        
+        textField = new JTextField();
+        textField.setBackground(new Color(0,0,0,125));
+        textField.setFont(new Font("MV Boli", Font.BOLD, 50));
+        textField.setHorizontalAlignment(JLabel.CENTER);
+        textField.setText("Make-A-Box");
+        textField.setOpaque(true);
+        textField.setSize(70 * column - 50, 70);
+        
+        scorePanel.setBackground(new Color(25, 250, 0));
+//        scorePanel.add(textField);
+        
         mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -69,9 +90,14 @@ public class MakeABox extends JFrame {
                 }
             }
         }
+        
+        navigationPanel.setBackground(Color.blue);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.add(mainPanel);
+        this.setLayout(new BorderLayout(0,10));
+        this.add(scorePanel, BorderLayout.NORTH);
+        this.add(mainPanel, BorderLayout.CENTER);
+        this.add(navigationPanel, BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -316,8 +342,11 @@ public class MakeABox extends JFrame {
 
         void setOwner(String s) {
             owner = s;
-            this.setBackground(Color.green);
             this.setText(s);
         }
+    }
+    
+    public static void main(String[] args) {
+        new MakeABox(4,6);    
     }
 }

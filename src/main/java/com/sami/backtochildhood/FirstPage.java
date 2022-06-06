@@ -305,6 +305,8 @@ public class FirstPage extends javax.swing.JFrame {
     private void LudoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LudoButtonActionPerformed
         System.out.println("Ludo");
         GameMode.setVisible(false);
+        dispose();
+        new SnakeLudo(2);
     }//GEN-LAST:event_LudoButtonActionPerformed
 
     private void TicTacToeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeButtonActionPerformed
