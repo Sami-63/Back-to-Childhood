@@ -177,7 +177,7 @@ public class SnakeLudo extends JFrame {
         private int x, y;
         private final int radius = 30;
         Color color;
-        public int position = 90;
+        public int position = 0;
         Point cell[];
 
         public void move(int n) {
