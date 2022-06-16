@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package MakeABoxOnline;
+package BackEnd;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -60,13 +60,14 @@ public class Server {
                 q.add(name);
             } else if (q.size() == 1) {
                 String opponent = q.remove();
-
-                new Thread(new CreateConnection(name, opponent)).start();
+                
+                if( userList.get(name).nc.isConnected() && userList.get(opponent).nc.isConnected() )
+                    new Thread(new CreateConnection(name, opponent)).start();
             }
         }
     }
 
-    public static class CreateConnection implements Runnable {
+    static class CreateConnection implements Runnable {
 
         User player1, player2;
         Random rand = new Random();
@@ -74,72 +75,54 @@ public class Server {
         public CreateConnection(String p1, String p2) {
             this.player1 = userList.get(p1);
             this.player2 = userList.get(p2);
+
+            // maybe these line will be deleted
+            userList.remove(p1);
+            userList.remove(p2);
         }
 
         @Override
         public void run() {
-            
-            int type = rand.nextInt() % 4;
-
-            if(type<0) type += 4;
-
-            int row=-1, column=-1;
-            switch(type){
-                case 0:
-                    row=5; column=7;
-                    break;
-                
-                case 1:
-                    row=7; column=9;
-                    break;
-                
-                    case 2:
-                    row=9; column=9;
-                    break;
-            
-                case 3:
-                    row=13; column=13;
-                    break;
-            }
-            
-            
-
             boolean turn = rand.nextBoolean();
-            Data data = new Data();
+            
+            if (turn) {
 
-            // turn = true -> player 1 moves first
+                Data data = new Data();
+                data.msg = "1";
+                player1.nc.write(data);
 
-            data.msg = (turn ? 1 : 0) + "$" + player2.username + "$" + row + "$" + column;
-            player1.nc.write(data);
-
-            data.msg = (turn ? 0 : 1) + "$" + player1.username + "$" + row + "$" + column;;
-            player2.nc.write(data);
-                            
-            System.out.println("\n\n\n");
-
-            boolean running = true;
-            while(running){
-
-                if(turn){
-
-                    String res = player1.nc.recieveString();
-                    player2.nc.sendString(res);
-
-                    if(res.charAt(res.length()-1) == '0')
-                        turn = false;
-
-                }else{
-
-                    String res = player2.nc.recieveString();
-                    player1.nc.sendString(res);
-
-                    if(res.charAt(res.length()-1) == '0')
-                        turn = true;
+                data.msg = "0";
+                player2.nc.write(data);
+                                
+                for(int i=0 ; i<9 ; i++){
+                    if(i%2==0){
+                        data = (Data) player1.nc.read();
+                        player2.nc.write(data);
+                    }else{
+                        data = (Data) player2.nc.read();
+                        player1.nc.write(data);
+                    }
                 }
 
-            }
+            } else {
 
-            
+                Data data = new Data();
+                data.msg = "1";
+                player2.nc.write(data);
+
+                data.msg = "0";
+                player1.nc.write(data);
+                
+                for(int i=0 ; i<9 ; i++){
+                    if(i%2==1){
+                        data = (Data) player1.nc.read();
+                        player2.nc.write(data);
+                    }else{
+                        data = (Data) player2.nc.read();
+                        player1.nc.write(data);
+                    }
+                }
+            }
         }
     }
 }

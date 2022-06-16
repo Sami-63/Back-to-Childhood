@@ -48,6 +48,9 @@ public class MakeABox extends JFrame {
     NetworkConnection nc;
 
     public MakeABox(String name, String opponent, int row, int column, int turn, NetworkConnection nc) {
+        this.name = name;
+        this.opponent = opponent;
+
         
         setName(); 
         turn = (turn == 0 ? -1 : 1);
