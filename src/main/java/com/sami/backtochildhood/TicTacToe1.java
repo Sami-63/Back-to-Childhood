@@ -2,20 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package TicTacToeOnline;
+package com.sami.backtochildhood;
 
 /**
  *
  * @author Hp
  */
+
+import Server.NetworkConnection;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
-public class TicTacToe extends com.sami.backtochildhood.TicTacToe {
+public class TicTacToe1 extends TicTacToe {
 
     NetworkConnection nc;
 
-    TicTacToe(NetworkConnection nc, boolean turn) {
+    TicTacToe1(NetworkConnection nc, boolean turn) {
         super();
         this.nc = nc;
         this.player1_turn = turn;

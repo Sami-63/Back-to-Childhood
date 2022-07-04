@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package BackEnd;
+package Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -51,6 +47,10 @@ public class NetworkConnection {
 
     public String recieveString(){
         Data data = (Data) read();
+        if(data == null){
+            System.out.println("couldn't recieve string");
+            return "";
+        }
         return data.msg;
     }
 

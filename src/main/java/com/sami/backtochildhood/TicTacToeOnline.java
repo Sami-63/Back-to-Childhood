@@ -1,41 +1,32 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package TicTacToeOnline;
+package com.sami.backtochildhood;
 
+import Server.NetworkConnection;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
+import javax.swing.JFrame;
 
 /**
  *
  * @author As-Sami
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws IOException {
+public class TicTacToeOnline {
+    static void run(String name, JFrame frame) throws IOException{
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
         NetworkConnection nc = new NetworkConnection(socket);
         System.out.println("Network connected");
-
-        System.out.print("Enter username : ");
-        Scanner sc = new Scanner(System.in);
-        String username = sc.next();
-        nc.write(username);
-
-        System.out.println("\nSearching for players...");
-
-        Data data = (Data) nc.read();
-        String msg = data.msg;
-        System.out.println(msg);
+        
+        System.out.println("Searching for players");
+        
+        nc.sendString(name + "|tic-tac-toe");
+        String response = nc.recieveString();
         
         boolean turn;
-        if (msg.equals("1")) {
+        if (response.equals("1")) {
             System.out.println("You got the first move");
             turn = true;
         } else {
@@ -44,7 +35,7 @@ public class Main {
         }
         System.out.println("turn = " + turn);
         System.out.println("----------------------------------------");
-        // new KataKuti(nc, turn);
-        new TicTacToe(nc, turn);
+        
+        new TicTacToe1(nc, turn);
     }
 }
