@@ -30,13 +30,17 @@ public class MakeABox extends JFrame {
     boolean turn;
 
     JPanel mainPanel, scorePanel, navigationPanel;
+    JLabel scoreLabel, navLabel;
     JTextField textField;
+    
     private int row;
     private int column;
     private Dot dots[][];
     private LineX lineX[][];
     private LineY lineY[][];
     private Box boxes[][];
+
+    private int scoreA = 0, scoreB = 0;
 
     public MakeABox(int row, int column) {
 
@@ -45,16 +49,32 @@ public class MakeABox extends JFrame {
         
         turn = true;// true -> player 1 turn, false -> player 2 turn
 
-        scorePanel = new JPanel();
         mainPanel = new JPanel();
-        navigationPanel = new JPanel();
+        
         dots = new Dot[30][30];
         lineX = new LineX[30][30];
         lineY = new LineY[30][30];
         boxes = new Box[30][30];
         
+        scorePanel = new JPanel();
         scorePanel.setPreferredSize(new Dimension(70 * column - 50, 70));
+        scorePanel.setBackground(new Color(25, 250, 0));
+
+        scoreLabel = new JLabel();
+        scoreLabel.setText( "A = " + scoreA + " | B = " + scoreB );
+        scoreLabel.setFont(new Font("Ink Free", Font.BOLD, 40));
+        scorePanel.add(scoreLabel);
+        
+
+        navigationPanel = new JPanel();
         navigationPanel.setPreferredSize(new Dimension(70 * column - 50, 70));
+        navigationPanel.setBackground(Color.blue);
+
+        navLabel = new JLabel();
+        navLabel.setText( "A's turn" );
+        navLabel.setFont(new Font("Ink Free", Font.BOLD, 40));
+        navigationPanel.add(navLabel);
+        
         
         textField = new JTextField();
         textField.setBackground(new Color(0,0,0,125));
@@ -64,8 +84,6 @@ public class MakeABox extends JFrame {
         textField.setOpaque(true);
         textField.setSize(70 * column - 50, 70);
         
-        scorePanel.setBackground(new Color(25, 250, 0));
-//        scorePanel.add(textField);
         
         mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
         mainPanel.setBackground(Color.GRAY);
@@ -90,8 +108,6 @@ public class MakeABox extends JFrame {
                 }
             }
         }
-        
-        navigationPanel.setBackground(Color.blue);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLayout(new BorderLayout(0,10));
@@ -103,6 +119,17 @@ public class MakeABox extends JFrame {
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         this.setResizable(false);
         this.setVisible(true);
+    }
+
+    public void updateNav(){
+        if(turn)
+            navLabel.setText("A's turn");
+        else
+            navLabel.setText("B's turn");
+    }
+
+    public void updateScore(){
+        scoreLabel.setText( "A = " + scoreA + " | B = " + scoreB );
     }
 
     private class Dot extends JButton {
@@ -188,6 +215,7 @@ public class MakeABox extends JFrame {
 
                     if (scored == false) {
                         turn = (turn ? false : true);
+                        updateNav();
                     }
 
                     // System.out.println(x + " " + y);
@@ -281,6 +309,7 @@ public class MakeABox extends JFrame {
 
                     if (scored == false) {
                         turn = (turn ? false : true);
+                        updateNav();
                     }
 
                     // System.out.println(x + " " + y);
@@ -341,6 +370,13 @@ public class MakeABox extends JFrame {
         }
 
         void setOwner(String s) {
+            if( turn )
+                scoreA++;
+            else
+                scoreB++;
+            
+            updateScore();
+
             owner = s;
             this.setText(s);
         }

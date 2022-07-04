@@ -272,9 +272,7 @@ public class SnakeLudo extends JFrame {
         System.out.println(turn);
     }
     
-    public void animateLadder(Point p1, Point p2){
-        
-    }
+    
 
     public static void main(String[] args) {
         new SnakeLudo(2);

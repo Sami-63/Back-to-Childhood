@@ -6,7 +6,7 @@ package com.sami.backtochildhood;
 
 /**
  *
- * @author Hp
+ * @author Mahmud
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -20,11 +20,11 @@ public class TicTacToe implements ActionListener {
     JFrame frame = new JFrame();
     JPanel title_panel = new JPanel();
     JPanel button_panel = new JPanel();
-    JLabel textfield = new JLabel();
-    JButton[] buttons = new JButton[9];
-    boolean player1_turn;
+    public JLabel textfield = new JLabel();
+    public JButton[] buttons = new JButton[9];
+    public boolean player1_turn;
 
-    TicTacToe() {
+    public TicTacToe() {
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
@@ -37,7 +37,7 @@ public class TicTacToe implements ActionListener {
 
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setBackground(new Color(25, 250, 0));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 75));
+        textfield.setFont(new Font("Ink Free", Font.BOLD, 60));
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Tic-Tac-Toe");
         textfield.setOpaque(true);
@@ -50,7 +50,8 @@ public class TicTacToe implements ActionListener {
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
-            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 120));
+            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 100));
+            buttons[i].setBackground(Color.black);
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
         }
@@ -238,11 +239,7 @@ public class TicTacToe implements ActionListener {
             buttons[i].setEnabled(false);
         }
 
-        textfield.setText("X wins!");
-        
-        
-       
-        
+        textfield.setText("X wins!");   
     }
 
     public void OWins(int a, int b, int c) {
@@ -259,4 +256,7 @@ public class TicTacToe implements ActionListener {
                
     }
 
+    public static void main(String[] args) {
+        new TicTacToe();
+    }
 }

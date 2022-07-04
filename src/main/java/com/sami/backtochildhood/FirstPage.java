@@ -4,6 +4,10 @@
  */
 package com.sami.backtochildhood;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author As-Sami
@@ -13,9 +17,14 @@ public class FirstPage extends javax.swing.JFrame {
     /**
      * Creates new form FirstPage
      */
-    
+    private String gameName = "", username = "";
     
     public FirstPage() {
+        initComponents();
+    }
+    
+    public FirstPage(String username) {
+        this.username = username;
         initComponents();
     }
 
@@ -35,12 +44,21 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxButton = new com.k33ptoo.components.KButton();
         TicTacToeButton = new com.k33ptoo.components.KButton();
         LudoButton = new com.k33ptoo.components.KButton();
+        ChurPoliceButton = new com.k33ptoo.components.KButton();
         BackFromGameMode = new com.k33ptoo.components.KButton();
         MakeABoxChooseGrid = new javax.swing.JPanel();
         Start4x4 = new com.k33ptoo.components.KButton();
         Start6x8 = new com.k33ptoo.components.KButton();
         Start10x12 = new com.k33ptoo.components.KButton();
         BackFromMakeABox = new com.k33ptoo.components.KButton();
+        Online = new javax.swing.JPanel();
+        usernameJField = new javax.swing.JTextField();
+        StartButton = new com.k33ptoo.components.KButton();
+        TicTacToeChoose = new javax.swing.JPanel();
+        OnlineButton = new com.k33ptoo.components.KButton();
+        OfflineButton = new com.k33ptoo.components.KButton();
+        SearchingPlayers = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         BackgroundPanel = new javax.swing.JPanel();
         kGradientPanel2 = new com.k33ptoo.components.KGradientPanel();
 
@@ -129,6 +147,13 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
 
+        ChurPoliceButton.setText("Chur Police");
+        ChurPoliceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChurPoliceButtonActionPerformed(evt);
+            }
+        });
+
         BackFromGameMode.setText("Back");
         BackFromGameMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,30 +166,33 @@ public class FirstPage extends javax.swing.JFrame {
         GameModeLayout.setHorizontalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
                 .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(GameModeLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(GameModeLayout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(116, Short.MAX_VALUE))
+                    .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChurPoliceButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         GameModeLayout.setVerticalGroup(
             GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGroup(GameModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GameModeLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BackFromGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GameModeLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(MakeABoxButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TicTacToeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LudoButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChurPoliceButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         getContentPane().add(GameMode);
@@ -240,6 +268,146 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxChooseGrid.setBounds(150, 100, 500, 300);
         MakeABoxChooseGrid.setVisible(false);
 
+        Online.setBackground(new java.awt.Color(101, 7, 168));
+        Online.setForeground(java.awt.Color.white);
+        Online.setFocusable(false);
+        Online.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
+        Online.setPreferredSize(new java.awt.Dimension(500, 300));
+        Online.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                OnlineKeyTyped(evt);
+            }
+        });
+
+        usernameJField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
+        usernameJField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        usernameJField.setText("username");
+        usernameJField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameJFieldActionPerformed(evt);
+            }
+        });
+
+        StartButton.setText("Start");
+        StartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout OnlineLayout = new javax.swing.GroupLayout(Online);
+        Online.setLayout(OnlineLayout);
+        OnlineLayout.setHorizontalGroup(
+            OnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OnlineLayout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addGroup(OnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(StartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usernameJField))
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        OnlineLayout.setVerticalGroup(
+            OnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OnlineLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(usernameJField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(StartButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Online);
+        Online.setBounds(150, 100, 500, 300);
+        Online.setVisible(false);
+
+        TicTacToeChoose.setBackground(new java.awt.Color(101, 7, 168));
+        TicTacToeChoose.setForeground(java.awt.Color.white);
+        TicTacToeChoose.setFocusable(false);
+        TicTacToeChoose.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
+        TicTacToeChoose.setPreferredSize(new java.awt.Dimension(500, 300));
+        TicTacToeChoose.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TicTacToeChooseKeyTyped(evt);
+            }
+        });
+
+        OnlineButton.setText("Online");
+        OnlineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OnlineButtonActionPerformed(evt);
+            }
+        });
+
+        OfflineButton.setText("Offline");
+        OfflineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OfflineButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout TicTacToeChooseLayout = new javax.swing.GroupLayout(TicTacToeChoose);
+        TicTacToeChoose.setLayout(TicTacToeChooseLayout);
+        TicTacToeChooseLayout.setHorizontalGroup(
+            TicTacToeChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TicTacToeChooseLayout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addGroup(TicTacToeChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(OfflineButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OnlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
+        );
+        TicTacToeChooseLayout.setVerticalGroup(
+            TicTacToeChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TicTacToeChooseLayout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(OnlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(OfflineButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(TicTacToeChoose);
+        TicTacToeChoose.setBounds(150, 100, 500, 300);
+        TicTacToeChoose.setVisible(false);
+
+        SearchingPlayers.setBackground(new java.awt.Color(101, 7, 168));
+        SearchingPlayers.setForeground(java.awt.Color.white);
+        SearchingPlayers.setFocusable(false);
+        SearchingPlayers.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
+        SearchingPlayers.setPreferredSize(new java.awt.Dimension(500, 300));
+        SearchingPlayers.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                SearchingPlayersKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Searching for players");
+        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+
+        javax.swing.GroupLayout SearchingPlayersLayout = new javax.swing.GroupLayout(SearchingPlayers);
+        SearchingPlayers.setLayout(SearchingPlayersLayout);
+        SearchingPlayersLayout.setHorizontalGroup(
+            SearchingPlayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SearchingPlayersLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+        SearchingPlayersLayout.setVerticalGroup(
+            SearchingPlayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchingPlayersLayout.createSequentialGroup()
+                .addContainerGap(106, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106))
+        );
+
+        getContentPane().add(SearchingPlayers);
+        SearchingPlayers.setBounds(150, 100, 500, 300);
+        SearchingPlayers.setVisible(false);
+
         BackgroundPanel.setBackground(new java.awt.Color(55, 4, 92));
         BackgroundPanel.setForeground(java.awt.Color.white);
         BackgroundPanel.setFocusable(false);
@@ -313,8 +481,7 @@ public class FirstPage extends javax.swing.JFrame {
         System.out.println("Tic tac toe"); 
         GameMode.setVisible(false);
         
-        dispose();
-        new TicTacToe();
+        TicTacToeChoose.setVisible(true);
     }//GEN-LAST:event_TicTacToeButtonActionPerformed
 
     private void MakeABoxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeABoxButtonActionPerformed
@@ -350,6 +517,50 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxChooseGrid.setVisible(false);
         GameMode.setVisible(true);
     }//GEN-LAST:event_BackFromMakeABoxActionPerformed
+
+    private void ChurPoliceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChurPoliceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChurPoliceButtonActionPerformed
+
+    private void OnlineKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OnlineKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_OnlineKeyTyped
+
+    private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
+        System.out.println("action in button");
+        System.out.println(usernameJField.getText());
+        Online.setVisible(false);
+        SearchingPlayers.setVisible(true);
+        
+        try {
+            TicTacToeOnline.run(usernameJField.getText(), this);
+        } catch (IOException ex) {
+            System.out.println("error in online katakuti");
+        }
+    }//GEN-LAST:event_StartButtonActionPerformed
+
+    private void usernameJFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameJFieldActionPerformed
+        StartButton.doClick();
+    }//GEN-LAST:event_usernameJFieldActionPerformed
+
+    private void OnlineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnlineButtonActionPerformed
+        TicTacToeChoose.setVisible(false);
+        gameName = "tic-tac-toe";
+        Online.setVisible(true);
+    }//GEN-LAST:event_OnlineButtonActionPerformed
+
+    private void OfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OfflineButtonActionPerformed
+        dispose();
+        new TicTacToe();
+    }//GEN-LAST:event_OfflineButtonActionPerformed
+
+    private void TicTacToeChooseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TicTacToeChooseKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TicTacToeChooseKeyTyped
+
+    private void SearchingPlayersKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchingPlayersKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchingPlayersKeyTyped
 
     /**
      * @param args the command line arguments
@@ -422,17 +633,26 @@ public class FirstPage extends javax.swing.JFrame {
     private com.k33ptoo.components.KButton BackFromGameMode;
     private com.k33ptoo.components.KButton BackFromMakeABox;
     private javax.swing.JPanel BackgroundPanel;
+    private com.k33ptoo.components.KButton ChurPoliceButton;
     private javax.swing.JPanel GameMode;
     private com.k33ptoo.components.KButton LudoButton;
     private com.k33ptoo.components.KButton MakeABoxButton;
     private javax.swing.JPanel MakeABoxChooseGrid;
+    private com.k33ptoo.components.KButton OfflineButton;
+    private javax.swing.JPanel Online;
+    private com.k33ptoo.components.KButton OnlineButton;
+    private javax.swing.JPanel SearchingPlayers;
     private com.k33ptoo.components.KButton Start10x12;
     private com.k33ptoo.components.KButton Start4x4;
     private com.k33ptoo.components.KButton Start6x8;
+    private com.k33ptoo.components.KButton StartButton;
     private javax.swing.JPanel StartGame;
     private com.k33ptoo.components.KButton TicTacToeButton;
+    private javax.swing.JPanel TicTacToeChoose;
+    private javax.swing.JLabel jLabel1;
     private com.k33ptoo.components.KButton kButton1;
     private com.k33ptoo.components.KButton kButton2;
     private com.k33ptoo.components.KGradientPanel kGradientPanel2;
+    private javax.swing.JTextField usernameJField;
     // End of variables declaration//GEN-END:variables
 }
