@@ -1,5 +1,6 @@
 package Server;
 
+
 public class CreateConnection implements Runnable{
     public NetworkConnection nc;
     public UserList userList;
@@ -14,24 +15,19 @@ public class CreateConnection implements Runnable{
         System.out.println("In crate connection...");
 
         String response = nc.recieveString();
-        System.out.println(response);
         
         String responses[] = response.split("\\|"); // name|game
 
-        String name = responses[0], game = responses[1];
-        System.out.println("Name : " + name + " | game : " + game);
-        switch (game) {
-            case "tic-tac-toe":
-                new Thread(new CreateTicTacToe(nc, name, userList)).start();
-                break;
-        
-            case "make-a-box":
-                new Thread(new CreateMakeABox(nc, name)).start();
-                break;
+        String name = responses[0], gameName = responses[1];
+        System.out.println("Name : " + name + " | game : " + gameName);
+        System.out.println("-------------------------------------------------\n");
 
-            default:
-                System.out.println("the end of file.....");
-                break;
-        }
+        if(gameName.equals("tic-tac-toe"))
+            new Thread(new CreateTicTacToe(nc, name, userList)).start();
+        else if(gameName.equals("make-a-box"))
+            new Thread(new CreateMakeABox(nc, name, userList)).start();
+        else
+            System.out.println("-> problem <-");
+        
     }
 }

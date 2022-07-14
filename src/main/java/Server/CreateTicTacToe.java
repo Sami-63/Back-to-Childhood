@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
@@ -15,9 +16,12 @@ public class CreateTicTacToe implements Runnable{
 
     @Override
     public void run() {
-        
-        Vector<User> users = userList.getUsers(user, 2);
-        
+        System.out.println("in create tic tac toe");
+
+        Vector<User> users = userList.getUsers(user, 2, "tic-tac-toe");
+        System.out.println("-------------------------------------------------\n");
+
+
         if(users.size()==0)return;
 
         // game starts from here.....
@@ -26,6 +30,10 @@ public class CreateTicTacToe implements Runnable{
         
         User player1 = users.elementAt(0);
         User player2 = users.elementAt(1);
+
+        System.out.println("Found 2 players....");
+        System.out.println("Player 1 : " + player1.username + " | Status : " + (player1.isOnline() ? "Online" : "Offline"));
+        System.out.println("Player 2 : " + player2.username + " | Status : " + (player2.isOnline() ? "Online" : "Offline"));
 
         if (turn) {
 
@@ -64,6 +72,14 @@ public class CreateTicTacToe implements Runnable{
                     player1.nc.write(data);
                 }
             }
+        }
+
+        try {
+            player1.nc.socket.close();
+            player2.nc.socket.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }

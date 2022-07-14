@@ -13,11 +13,11 @@ import Server.NetworkConnection;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
-public class TicTacToe1 extends TicTacToe {
+public class TicTacToeOnline extends TicTacToe {
 
     NetworkConnection nc;
 
-    TicTacToe1(NetworkConnection nc, boolean turn) {
+    TicTacToeOnline(NetworkConnection nc, boolean turn) {
         super();
         this.nc = nc;
         this.player1_turn = turn;

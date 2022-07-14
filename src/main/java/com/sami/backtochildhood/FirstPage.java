@@ -51,6 +51,9 @@ public class FirstPage extends javax.swing.JFrame {
         Start6x8 = new com.k33ptoo.components.KButton();
         Start10x12 = new com.k33ptoo.components.KButton();
         BackFromMakeABox = new com.k33ptoo.components.KButton();
+        MakeABoxChoose = new javax.swing.JPanel();
+        OnlineButton1 = new com.k33ptoo.components.KButton();
+        OfflineButton1 = new com.k33ptoo.components.KButton();
         Online = new javax.swing.JPanel();
         usernameJField = new javax.swing.JTextField();
         StartButton = new com.k33ptoo.components.KButton();
@@ -268,6 +271,56 @@ public class FirstPage extends javax.swing.JFrame {
         MakeABoxChooseGrid.setBounds(150, 100, 500, 300);
         MakeABoxChooseGrid.setVisible(false);
 
+        MakeABoxChoose.setBackground(new java.awt.Color(101, 7, 168));
+        MakeABoxChoose.setForeground(java.awt.Color.white);
+        MakeABoxChoose.setFocusable(false);
+        MakeABoxChoose.setFont(new java.awt.Font("Constantia", 0, 24)); // NOI18N
+        MakeABoxChoose.setPreferredSize(new java.awt.Dimension(500, 300));
+        MakeABoxChoose.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                MakeABoxChooseKeyTyped(evt);
+            }
+        });
+
+        OnlineButton1.setText("Online");
+        OnlineButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OnlineButton1ActionPerformed(evt);
+            }
+        });
+
+        OfflineButton1.setText("Offline");
+        OfflineButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OfflineButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout MakeABoxChooseLayout = new javax.swing.GroupLayout(MakeABoxChoose);
+        MakeABoxChoose.setLayout(MakeABoxChooseLayout);
+        MakeABoxChooseLayout.setHorizontalGroup(
+            MakeABoxChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MakeABoxChooseLayout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addGroup(MakeABoxChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(OfflineButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OnlineButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
+        );
+        MakeABoxChooseLayout.setVerticalGroup(
+            MakeABoxChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MakeABoxChooseLayout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(OnlineButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(OfflineButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(MakeABoxChoose);
+        MakeABoxChoose.setBounds(150, 100, 500, 300);
+        MakeABoxChoose.setVisible(false);
+
         Online.setBackground(new java.awt.Color(101, 7, 168));
         Online.setForeground(java.awt.Color.white);
         Online.setFocusable(false);
@@ -480,14 +533,15 @@ public class FirstPage extends javax.swing.JFrame {
     private void TicTacToeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeButtonActionPerformed
         System.out.println("Tic tac toe"); 
         GameMode.setVisible(false);
-        
+        gameName = "tic-tac-toe";
         TicTacToeChoose.setVisible(true);
     }//GEN-LAST:event_TicTacToeButtonActionPerformed
 
     private void MakeABoxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeABoxButtonActionPerformed
         System.out.println("Make a box");
         GameMode.setVisible(false);
-        MakeABoxChooseGrid.setVisible(true);
+        gameName = "make-a-box";
+        MakeABoxChoose.setVisible(true);
     }//GEN-LAST:event_MakeABoxButtonActionPerformed
 
     private void BackFromGameModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackFromGameModeActionPerformed
@@ -498,19 +552,19 @@ public class FirstPage extends javax.swing.JFrame {
     private void Start4x4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start4x4ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-        new MakeABox(4,4);
+         new MakeABox(4,4);
     }//GEN-LAST:event_Start4x4ActionPerformed
 
     private void Start6x8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start6x8ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-        new MakeABox(6,8);
+         new MakeABox(6,8);
     }//GEN-LAST:event_Start6x8ActionPerformed
 
     private void Start10x12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start10x12ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-        new MakeABox(10,12);
+         new MakeABox(10,12);
     }//GEN-LAST:event_Start10x12ActionPerformed
 
     private void BackFromMakeABoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackFromMakeABoxActionPerformed
@@ -532,10 +586,21 @@ public class FirstPage extends javax.swing.JFrame {
         Online.setVisible(false);
         SearchingPlayers.setVisible(true);
         
-        try {
-            TicTacToeOnline.run(usernameJField.getText(), this);
-        } catch (IOException ex) {
-            System.out.println("error in online katakuti");
+        repaint();
+        System.out.println("Game :" + gameName);
+        
+        if(gameName=="tic-tac-toe"){
+            try {
+                TicTacToeMakeOnline.run(usernameJField.getText(), this);
+            } catch (IOException ex) {
+                System.out.println("error in online katakuti");
+            }
+        }else if( gameName=="make-a-box" ){
+            try {
+                MakeABoxMakeOnline.run(usernameJField.getText(), this);
+            } catch (IOException ex) {
+                Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_StartButtonActionPerformed
 
@@ -561,6 +626,20 @@ public class FirstPage extends javax.swing.JFrame {
     private void SearchingPlayersKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchingPlayersKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchingPlayersKeyTyped
+
+    private void OnlineButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnlineButton1ActionPerformed
+        MakeABoxChoose.setVisible(false);
+        Online.setVisible(true);
+    }//GEN-LAST:event_OnlineButton1ActionPerformed
+
+    private void OfflineButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OfflineButton1ActionPerformed
+        MakeABoxChoose.setVisible(false);
+        MakeABoxChooseGrid.setVisible(true);
+    }//GEN-LAST:event_OfflineButton1ActionPerformed
+
+    private void MakeABoxChooseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MakeABoxChooseKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MakeABoxChooseKeyTyped
 
     /**
      * @param args the command line arguments
@@ -637,10 +716,13 @@ public class FirstPage extends javax.swing.JFrame {
     private javax.swing.JPanel GameMode;
     private com.k33ptoo.components.KButton LudoButton;
     private com.k33ptoo.components.KButton MakeABoxButton;
+    private javax.swing.JPanel MakeABoxChoose;
     private javax.swing.JPanel MakeABoxChooseGrid;
     private com.k33ptoo.components.KButton OfflineButton;
+    private com.k33ptoo.components.KButton OfflineButton1;
     private javax.swing.JPanel Online;
     private com.k33ptoo.components.KButton OnlineButton;
+    private com.k33ptoo.components.KButton OnlineButton1;
     private javax.swing.JPanel SearchingPlayers;
     private com.k33ptoo.components.KButton Start10x12;
     private com.k33ptoo.components.KButton Start4x4;

@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  *
  * @author As-Sami
  */
-public class TicTacToeOnline {
+public class TicTacToeMakeOnline {
     static void run(String name, JFrame frame) throws IOException{
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
@@ -36,6 +36,6 @@ public class TicTacToeOnline {
         System.out.println("turn = " + turn);
         System.out.println("----------------------------------------");
         
-        new TicTacToe1(nc, turn);
+        new TicTacToeOnline(nc, turn);
     }
 }

@@ -102,15 +102,15 @@ public class ExitPage extends javax.swing.JFrame {
     private void RetryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetryActionPerformed
         switch(gameType){
             case 1:
-                new MakeABox(4,4);
+                // new MakeABoxOnline(4,4);
                 break;
                 
             case 2:
-                new MakeABox(6,6);
+                // new MakeABoxOnline(6,6);
                 break;
             
             case 3:
-                new MakeABox(10,10);
+                // new MakeABoxOnline(10,10);
                 break;
                 
             case 4:

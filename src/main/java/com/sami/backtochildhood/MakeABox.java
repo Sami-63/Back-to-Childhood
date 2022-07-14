@@ -383,6 +383,6 @@ public class MakeABox extends JFrame {
     }
     
     public static void main(String[] args) {
-        new MakeABox(4,6);    
+        // new MakeABoxOnline(4,6);    
     }
 }
