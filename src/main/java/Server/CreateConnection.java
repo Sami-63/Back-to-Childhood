@@ -26,6 +26,8 @@ public class CreateConnection implements Runnable{
             new Thread(new CreateTicTacToe(nc, name, userList)).start();
         else if(gameName.equals("make-a-box"))
             new Thread(new CreateMakeABox(nc, name, userList)).start();
+        else if(gameName.equals("chur-police"))
+            new Thread(new CreateChurPolice(nc, name, userList)).start();
         else
             System.out.println("-> problem <-");
         
