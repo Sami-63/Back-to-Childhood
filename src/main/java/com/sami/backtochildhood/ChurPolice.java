@@ -196,17 +196,14 @@ public class ChurPolice extends JFrame {
 
         @Override
         public void run() {
-            f();
-        }
 
-        synchronized public void f() {
-            Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-            for (Thread x : threadSet)
-                System.out.println(x);
+            System.out.println("in geme thread");
+            System.out.println("turn = " + turn + "| now = " + (turn + startingTurn) % 4);
+            for (int i = 0; i < 4; i++)
+                System.out.println("disable[" + i + "] = " + disable[i]);
 
-            System.out.println("in game thread-----");
-            for (int m = 0; m < 10; m++) {
-
+            if (turn == 0) {
+                // reciving card from server
                 String res = nc.recieveString();
                 String r[] = res.split("\\|");
                 System.out.println("Cards : " + res);
@@ -214,35 +211,36 @@ public class ChurPolice extends JFrame {
                     cardPoint[i].setText(r[i]);
                 }
 
+                // animating the shuffle
                 getStarted();
-                System.out.println("get started complete");
-                for (int i = 0; i < 4; i++) {
-                    System.out.println("Move : " + m);
-                    if ((i + startingTurn) % 4 == 0) {
-
-                        System.out.println("mmy turn");
-                        for (int j = 0; j < 4; j++)
-                            if (cards[i].getLocation() == shufflePosition[i])
-                                disable[i] = false;
-                        try {
-                            System.out.println("trying to wait");
-                            wait();
-                            System.out.println("waiting successful");
-                        } catch (Exception e) {
-                            System.out.println("couldn't wait");
-                            e.printStackTrace();
-                        }
-                    } else {
-
-                        System.out.println("waiting for opponent");
-                        String response = nc.recieveString();
-                        int selectedCard = Integer.parseInt(response);
-                        cards[selectedCard].setLocation(handPosition[(i + startingTurn) % 4]);
-                    }
-                }
             }
-        }
 
+            if ((turn + startingTurn) % 4 == 0) {
+                System.out.println("its your turn");
+                for (int i = 0; i < 4; i++) {
+                    if (cards[i].getLocation().equals(shufflePosition[i]))
+                        disable[i] = false;
+                    // System.out.println("disable[" + i + "] = " + disable[i]);
+                    // System.out.println("cards[" + i + "] = " + cards[i].getLocation());
+                    // System.out.println("shuffleposition[" + i + "] = " + shufflePosition[i]);
+                }
+            } else {
+                System.out.println("waitinng for opponents");
+                String response = nc.recieveString();
+                int selectedCard = Integer.parseInt(response);
+                cards[selectedCard].setLocation(handPosition[(turn + startingTurn) % 4]);
+                turn++;
+
+                if (turn == 4) {
+                    turn = 0;
+                    startingTurn++;
+                    startingTurn %= 4;
+                }
+
+                new Thread(new GameThread()).start();
+            }
+
+        }
     }
 
     private class CardListener implements MouseListener {
@@ -253,9 +251,18 @@ public class ChurPolice extends JFrame {
                 if (e.getSource() == cards[i] && disable[i] == false) {
                     cards[i].setLocation(handPosition[0]);
 
+                    nc.sendString(Integer.toString(i));
+
                     for (int j = 0; j < 4; j++)
-                        disable[i] = true;
-                    notify();
+                        disable[j] = true;
+                    turn++;
+                    if (turn == 4) {
+                        turn = 0;
+                        startingTurn++;
+                        startingTurn %= 4;
+                    }
+
+                    new Thread(new GameThread()).start();
                 }
             }
         }

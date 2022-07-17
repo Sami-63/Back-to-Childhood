@@ -47,7 +47,6 @@ public class CreateChurPolice implements Runnable {
             String toSend = Integer.toString(cards[0]);
             for (int i = 1; i < 4; i++)
                 toSend += "|" + Integer.toString(cards[i]);
-            // for (int i = 0; i < 4; i++)
 
             // sending cards to each player
             System.out.println("cards--------");
@@ -72,8 +71,9 @@ public class CreateChurPolice implements Runnable {
                 for (int j = 0; j < 4; j++)
                     if (move != j)
                         player.elementAt(j).nc.sendString(response);
-                move++;
-                move %= 4;
+                move--;
+                if (move == -1)
+                    move = 3;
             }
 
             // // receiving from police
