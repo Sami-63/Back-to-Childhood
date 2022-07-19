@@ -36,9 +36,15 @@ public class CreateChurPolice implements Runnable {
         if (player.size() == 0)
             return;
 
-        for (int i = 0; i < 4; i++)
-            player.elementAt(i).nc.sendString(Integer.toString(i));
+        for (int i = 0; i < 4; i++) {
 
+            String moveAndOtherPLayerInfo = Integer.toString(i);
+            for (int j = 1; j <= 3; j++)
+                moveAndOtherPLayerInfo += "|" + player.elementAt((i - j + 4) % 4).username;
+
+            System.out.println("-> " + moveAndOtherPLayerInfo);
+            player.elementAt(i).nc.sendString(moveAndOtherPLayerInfo);
+        }
         System.out.println("chur-police started");
         for (int m = 0; m < 10; m++) {
 
@@ -76,13 +82,20 @@ public class CreateChurPolice implements Runnable {
                     move = 3;
             }
 
-            // // receiving from police
-            // String response = player.elementAt(police).nc.recieveString();
+            // receiving from police
+            String response = player.elementAt(police).nc.recieveString();
 
-            // // sending the other
-            // for (int i = 0; i < 4; i++)
-            // if (i != police)
-            // player.elementAt(i).nc.sendString(response);
+            // sending the other
+            for (int i = 0; i < 4; i++)
+                if (i != police)
+                    player.elementAt(i).nc.sendString(response);
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 

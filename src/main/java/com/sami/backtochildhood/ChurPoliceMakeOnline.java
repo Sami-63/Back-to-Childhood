@@ -3,6 +3,7 @@ package com.sami.backtochildhood;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 import Server.NetworkConnection;
 
@@ -15,12 +16,21 @@ public class ChurPoliceMakeOnline {
 
         Scanner sc = new Scanner(System.in);
         name = sc.next();
+        sc.close();
         nc.sendString(name + "|chur-police");
-        String response = nc.recieveString();
+        String responses[] = nc.recieveString().split("\\|");
 
-        int turn = Integer.parseInt(response);
+        String players[] = new String[4];
+        players[0] = name;
+        players[1] = responses[1];
+        players[2] = responses[2];
+        players[3] = responses[3];
 
-        new ChurPolice(nc, turn, name);
+        // for (int i = 0; i < 4; i++)
+        // System.out.println("Player :" + i + " -> " + players[i]);
+
+        int turn = Integer.parseInt(responses[0]);
+        new ChurPolice(nc, turn, players);
     }
 
     public static void main(String[] args) {

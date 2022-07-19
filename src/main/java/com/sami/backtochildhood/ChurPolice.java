@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,12 +18,13 @@ import Server.NetworkConnection;
 public class ChurPolice extends JFrame {
 
     JPanel background, playerProfile[], cards[];
-    JLabel cardPoint[];
+    JLabel cardPoint[], playerName[];
     Point handPosition[], initialPosition[], shufflePosition[], middlePoint;
 
-    Boolean disable[];
+    Boolean cardDisable[], profileDisable[];
     NetworkConnection nc;
     int turn, startingTurn;
+    int playerCard[];
 
     /*
      * 0 1
@@ -34,21 +34,32 @@ public class ChurPolice extends JFrame {
      * 1,2,3 = next player
      */
 
-    ChurPolice(NetworkConnection nc, int turn, String name) {
-        this.setTitle(name);
+    ChurPolice(NetworkConnection nc, int turn, String players[]) {
+
+        this.setTitle(players[0]);
 
         this.turn = 0;
         startingTurn = turn;
         this.nc = nc;
 
+        playerCard = new int[4];
+
         System.out.println("starting turn : " + startingTurn);
 
         {
-            disable = new Boolean[4];
-            disable[0] = true;
-            disable[1] = true;
-            disable[2] = true;
-            disable[3] = true;
+            cardDisable = new Boolean[4];
+            cardDisable[0] = true;
+            cardDisable[1] = true;
+            cardDisable[2] = true;
+            cardDisable[3] = true;
+        }
+
+        {
+            profileDisable = new Boolean[4];
+            profileDisable[0] = true;
+            profileDisable[1] = true;
+            profileDisable[2] = true;
+            profileDisable[3] = true;
         }
 
         background = new JPanel();
@@ -111,25 +122,31 @@ public class ChurPolice extends JFrame {
             cards[i].add(cardPoint[i], BorderLayout.CENTER);
             cards[i].addMouseListener(new CardListener());
         }
+        playerProfile = new JPanel[4];
+        playerName = new JLabel[4];
+        for (int i = 0; i < 4; i++) {
+            playerName[i] = new JLabel();
+            playerName[i].setText(players[i]);
+            playerName[i].setHorizontalAlignment(JLabel.CENTER);
+            playerName[i].setVerticalAlignment(JLabel.CENTER);
+            playerName[i].setForeground(Color.black);
+            playerName[i].setFont(new Font("Roboto", Font.BOLD, 25));
 
-        {
-            playerProfile = new JPanel[4];
-            playerProfile[0] = new JPanel();
-            playerProfile[0].setBounds(0, 0, 150, 150);
-            playerProfile[0].setBackground(Color.red);
-
-            playerProfile[1] = new JPanel();
-            playerProfile[1].setBounds(750, 0, 150, 150);
-            playerProfile[1].setBackground(Color.blue);
-
-            playerProfile[2] = new JPanel();
-            playerProfile[2].setBounds(0, 450, 150, 150);
-            playerProfile[2].setBackground(Color.green);
-
-            playerProfile[3] = new JPanel();
-            playerProfile[3].setBounds(750, 450, 150, 150);
-            playerProfile[3].setBackground(Color.yellow);
+            playerProfile[i] = new JPanel();
         }
+
+        playerProfile[0].setBounds(0, 0, 150, 150);
+        playerProfile[1].setBounds(750, 0, 150, 150);
+        playerProfile[2].setBounds(0, 450, 150, 150);
+        playerProfile[3].setBounds(750, 450, 150, 150);
+
+        for (int i = 0; i < 4; i++) {
+            playerProfile[i].setLayout(new BorderLayout(0, 0));
+            playerProfile[i].add(playerName[i], BorderLayout.CENTER);
+            playerProfile[i].addMouseListener(new ProfileListener());
+        }
+
+        BackToNormalProfileColor();
 
         for (int i = 0; i < 4; i++) {
             background.add(playerProfile[i]);
@@ -146,61 +163,86 @@ public class ChurPolice extends JFrame {
         new Thread(new GameThread()).start();
     }
 
-    /*
-     * receive card's value
-     * all card in initial point
-     * wait some time
-     * gather at middle
-     * wait some time
-     * cards get shuffled
-     * each player picks a card
-     * check move if move=0, you pick card
-     * if move=1, you wait 1 move
-     * if move=2, you wait 2 move
-     * if move=3, you wait 3 move
-     * if you are police then you pick the theif in 10s
-     * if don't pick then you will get zero
-     * then you send your answer
-     * else you wait 10s. or wait to receive answer
-     * after recieving answer / giving answer wait 2 sec
-     * then gather all card at initial point
-     */
+    void BackToNormalProfileColor() {
+        playerProfile[0].setBackground(Color.red);
+        playerProfile[1].setBackground(Color.blue);
+        playerProfile[2].setBackground(Color.green);
+        playerProfile[3].setBackground(Color.yellow);
+    }
 
     void getStarted() {
-        // try {
-        // Thread.sleep(10);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 4; i++)
             cards[i].setLocation(initialPosition[i]);
 
-        // try {
-        // Thread.sleep(10);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 4; i++)
             cards[i].setLocation(middlePoint);
 
-        // try {
-        // Thread.sleep(10);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 4; i++)
             cards[i].setLocation(shufflePosition[i]);
+    }
+
+    private class SecondPhase implements Runnable {
+
+        @Override
+        public void run() {
+
+            if (playerCard[0] == 500) {
+                for (int i = 1; i < 4; i++) {
+                    if (playerCard[i] == 0 || playerCard[i] == 800) {
+                        playerProfile[i].setBackground(new Color(137, 139, 143));
+                        profileDisable[i] = false;
+                    }
+                }
+            } else {
+                String response = nc.recieveString();
+                if (response == "0") {
+                    for (int i = 0; i < 4; i++) {
+                        if (playerCard[i] == 500) {
+                            playerCard[i] = 0;
+                        } else if (playerCard[i] == 0) {
+                            playerCard[i] = 500;
+                        }
+                        cardPoint[i].setText(Integer.toString(playerCard[i]));
+                    }
+                }
+                for (int i = 0; i < 4; i++)
+                    cardPoint[i].setVisible(true);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                new Thread(new GameThread()).start();
+            }
+
+        }
+
     }
 
     private class GameThread implements Runnable {
 
         @Override
         public void run() {
-
-            System.out.println("in geme thread");
-            System.out.println("turn = " + turn + "| now = " + (turn + startingTurn) % 4);
-            for (int i = 0; i < 4; i++)
-                System.out.println("disable[" + i + "] = " + disable[i]);
+            System.out.println("now = " + (turn + startingTurn) % 4);
+            // for (int i = 0; i < 4; i++)
+            // System.out.println("disable[" + i + "] = " + disable[i]);
 
             if (turn == 0) {
                 // reciving card from server
@@ -211,6 +253,10 @@ public class ChurPolice extends JFrame {
                     cardPoint[i].setText(r[i]);
                 }
 
+                for (int j = 0; j < 4; j++)
+                    cardPoint[j].setVisible(false);
+                BackToNormalProfileColor();
+
                 // animating the shuffle
                 getStarted();
             }
@@ -219,27 +265,44 @@ public class ChurPolice extends JFrame {
                 System.out.println("its your turn");
                 for (int i = 0; i < 4; i++) {
                     if (cards[i].getLocation().equals(shufflePosition[i]))
-                        disable[i] = false;
-                    // System.out.println("disable[" + i + "] = " + disable[i]);
-                    // System.out.println("cards[" + i + "] = " + cards[i].getLocation());
-                    // System.out.println("shuffleposition[" + i + "] = " + shufflePosition[i]);
+                        cardDisable[i] = false;
                 }
             } else {
                 System.out.println("waitinng for opponents");
                 String response = nc.recieveString();
                 int selectedCard = Integer.parseInt(response);
                 cards[selectedCard].setLocation(handPosition[(turn + startingTurn) % 4]);
+                playerCard[(turn + startingTurn) % 4] = Integer
+                        .parseInt(cardPoint[selectedCard].getText());
                 turn++;
 
-                if (turn == 4) {
-                    turn = 0;
-                    startingTurn++;
-                    startingTurn %= 4;
-                }
-
-                new Thread(new GameThread()).start();
+                check();
             }
 
+        }
+    }
+
+    void check() {
+        if (turn == 4) {
+
+            for (int i = 0; i < 4; i++) {
+                if (cardPoint[i].getText() == "500" || cardPoint[i].getText() == "1200"
+                        || cardPoint[i].getLocation() == handPosition[0]) {
+                    cardPoint[i].setVisible(true);
+                }
+            }
+
+            turn = 0;
+            startingTurn--;
+            if (startingTurn == -1)
+                startingTurn = 3;
+
+            System.out.println("\n");
+            for (int i = 0; i < 4; i++)
+                System.out.println(playerName[i].getText() + "'s score = " + playerCard[i] + "-");
+            System.out.println("\n");
+
+            new Thread(new SecondPhase()).start();
         }
     }
 
@@ -248,19 +311,17 @@ public class ChurPolice extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             for (int i = 0; i < 4; i++) {
-                if (e.getSource() == cards[i] && disable[i] == false) {
+                if (e.getSource() == cards[i] && cardDisable[i] == false) {
                     cards[i].setLocation(handPosition[0]);
 
                     nc.sendString(Integer.toString(i));
+                    playerCard[0] = Integer.parseInt(cardPoint[i].getText());
+                    System.out.println("you got : " + playerCard[0]);
 
                     for (int j = 0; j < 4; j++)
-                        disable[j] = true;
+                        cardDisable[j] = true;
                     turn++;
-                    if (turn == 4) {
-                        turn = 0;
-                        startingTurn++;
-                        startingTurn %= 4;
-                    }
+                    check();
 
                     new Thread(new GameThread()).start();
                 }
@@ -278,7 +339,7 @@ public class ChurPolice extends JFrame {
         @Override
         public void mouseEntered(MouseEvent e) {
             for (int i = 0; i < 4; i++) {
-                if (e.getSource() == cards[i] && disable[i] == false)
+                if (e.getSource() == cards[i] && cardDisable[i] == false)
                     cards[i].setBackground(new Color(125, 122, 121));
             }
         }
@@ -289,6 +350,66 @@ public class ChurPolice extends JFrame {
                 if (e.getSource() == cards[i])
                     cards[i].setBackground(new Color(214, 204, 203));
             }
+        }
+
+    }
+
+    private class ProfileListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            for (int i = 0; i < 4; i++) {
+                if (e.getSource() == playerProfile[i] && profileDisable[i] == false) {
+                    nc.sendString(Integer.toString(playerCard[i] == 0 ? 1 : 0));
+
+                    for (int j = 0; j < 4; j++)
+                        profileDisable[j] = true;
+
+                    for (int j = 0; j < 4; j++)
+                        cardPoint[j].setVisible(true);
+                    BackToNormalProfileColor();
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    new Thread(new GameThread()).start();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            for (int i = 0; i < 4; i++) {
+                if (e.getSource() == playerProfile[i] && profileDisable[i] == false) {
+                    playerProfile[i].setBackground(new Color(64, 68, 74));
+                }
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            for (int i = 0; i < 4; i++) {
+                if (e.getSource() == playerProfile[i] && profileDisable[i] == false) {
+                    playerProfile[i].setBackground(new Color(137, 139, 143));
+                }
+            }
+
         }
 
     }
