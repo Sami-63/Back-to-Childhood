@@ -9,7 +9,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 public class MakeABoxMakeOnline {
-    static void run(String name, JFrame frame) throws IOException{
+    static void run(String name, JFrame frame) throws IOException {
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
         NetworkConnection nc = new NetworkConnection(socket);
@@ -21,7 +21,9 @@ public class MakeABoxMakeOnline {
 
         String matchInfo = nc.recieveString();
         System.out.println(matchInfo);
-        
+
+        frame.dispose();
+
         String list[] = matchInfo.split("\\$");
 
         int turn = Integer.parseInt(list[0]);
@@ -29,19 +31,17 @@ public class MakeABoxMakeOnline {
         int row = Integer.parseInt(list[2]);
         int column = Integer.parseInt(list[3]);
 
-
         // System.out.println("#" + list[0] + "#");
         // System.out.println(opponent);
         // System.out.println(row + " " + column);
 
-        if (turn==1) {
+        if (turn == 1) {
             System.out.println("You got the first move");
         } else {
             System.out.println("Opponent got the first move");
         }
-        
+
         new MakeABoxOnline(name, opponent, row, column, turn, nc);
-        
 
     }
 }

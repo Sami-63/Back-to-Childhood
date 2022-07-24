@@ -2,23 +2,22 @@ package com.sami.backtochildhood;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
+
+import javax.swing.JFrame;
 
 import Server.NetworkConnection;
 
 public class ChurPoliceMakeOnline {
-    static void run(String name) throws IOException {
+    static void run(String name, JFrame frame) throws IOException {
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
         NetworkConnection nc = new NetworkConnection(socket);
         System.out.println("Network connected");
 
-        Scanner sc = new Scanner(System.in);
-        name = sc.next();
-        sc.close();
         nc.sendString(name + "|chur-police");
         String responses[] = nc.recieveString().split("\\|");
+
+        frame.dispose();
 
         String players[] = new String[4];
         players[0] = name;
@@ -31,14 +30,5 @@ public class ChurPoliceMakeOnline {
 
         int turn = Integer.parseInt(responses[0]);
         new ChurPolice(nc, turn, players);
-    }
-
-    public static void main(String[] args) {
-        try {
-            run("sami");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

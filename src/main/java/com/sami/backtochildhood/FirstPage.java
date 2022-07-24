@@ -573,7 +573,9 @@ public class FirstPage extends javax.swing.JFrame {
     }//GEN-LAST:event_BackFromMakeABoxActionPerformed
 
     private void ChurPoliceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChurPoliceButtonActionPerformed
-        // TODO add your handling code here:
+        GameMode.setVisible(false);
+        gameName = "chur-police";
+        Online.setVisible(true);
     }//GEN-LAST:event_ChurPoliceButtonActionPerformed
 
     private void OnlineKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OnlineKeyTyped
@@ -598,6 +600,12 @@ public class FirstPage extends javax.swing.JFrame {
         }else if( gameName=="make-a-box" ){
             try {
                 MakeABoxMakeOnline.run(usernameJField.getText(), this);
+            } catch (IOException ex) {
+                Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if( gameName=="chur-police" ){
+            try {
+                ChurPoliceMakeOnline.run(usernameJField.getText(), this);
             } catch (IOException ex) {
                 Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
             }

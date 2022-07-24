@@ -18,7 +18,7 @@ import Server.NetworkConnection;
 public class ChurPolice extends JFrame {
 
     JPanel background, playerProfile[], cards[];
-    JLabel cardPoint[], playerName[];
+    JLabel cardPoint[], playerName[], navBar;
     Point handPosition[], initialPosition[], shufflePosition[], middlePoint;
 
     Boolean cardDisable[], profileDisable[];
@@ -44,7 +44,7 @@ public class ChurPolice extends JFrame {
 
         playerCard = new int[4];
 
-        System.out.println("starting turn : " + startingTurn);
+        // System.out.println("starting turn : " + startingTurn);
 
         {
             cardDisable = new Boolean[4];
@@ -64,7 +64,7 @@ public class ChurPolice extends JFrame {
 
         background = new JPanel();
         background.setPreferredSize(new Dimension(900, 600));
-        background.setBackground(new Color(12, 34, 56));
+        background.setBackground(new Color(25, 27, 75));
 
         background.setLayout(null);
         {
@@ -107,7 +107,6 @@ public class ChurPolice extends JFrame {
             else if (i == 3)
                 cardPoint[i].setText("0X0");
 
-            // cardPoint[i].setBounds(10, 20, 60, 40);
             cardPoint[i].setHorizontalAlignment(JLabel.CENTER);
             cardPoint[i].setVerticalAlignment(JLabel.CENTER);
             cardPoint[i].setForeground(Color.black);
@@ -153,6 +152,15 @@ public class ChurPolice extends JFrame {
             background.add(cards[i]);
         }
 
+        navBar = new JLabel();
+        navBar.setText("Chur Police");
+        navBar.setBounds(275, 0, 350, 80);
+        navBar.setHorizontalAlignment(JLabel.CENTER);
+        navBar.setVerticalAlignment(JLabel.CENTER);
+        navBar.setForeground(new Color(247, 164, 0));
+        navBar.setFont(new Font("Roboto", Font.BOLD, 25));
+        background.add(navBar);
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.add(background);
         this.pack();
@@ -171,8 +179,17 @@ public class ChurPolice extends JFrame {
     }
 
     void getStarted() {
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                navBar.setText("chur-police");
+            }
+        }).start();
+
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -196,46 +213,6 @@ public class ChurPolice extends JFrame {
             cards[i].setLocation(shufflePosition[i]);
     }
 
-    private class SecondPhase implements Runnable {
-
-        @Override
-        public void run() {
-
-            if (playerCard[0] == 500) {
-                for (int i = 1; i < 4; i++) {
-                    if (playerCard[i] == 0 || playerCard[i] == 800) {
-                        playerProfile[i].setBackground(new Color(137, 139, 143));
-                        profileDisable[i] = false;
-                    }
-                }
-            } else {
-                String response = nc.recieveString();
-                if (response == "0") {
-                    for (int i = 0; i < 4; i++) {
-                        if (playerCard[i] == 500) {
-                            playerCard[i] = 0;
-                        } else if (playerCard[i] == 0) {
-                            playerCard[i] = 500;
-                        }
-                        cardPoint[i].setText(Integer.toString(playerCard[i]));
-                    }
-                }
-                for (int i = 0; i < 4; i++)
-                    cardPoint[i].setVisible(true);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                new Thread(new GameThread()).start();
-            }
-
-        }
-
-    }
-
     private class GameThread implements Runnable {
 
         @Override
@@ -245,6 +222,12 @@ public class ChurPolice extends JFrame {
             // System.out.println("disable[" + i + "] = " + disable[i]);
 
             if (turn == 0) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+
                 // reciving card from server
                 String res = nc.recieveString();
                 String r[] = res.split("\\|");
@@ -262,12 +245,16 @@ public class ChurPolice extends JFrame {
             }
 
             if ((turn + startingTurn) % 4 == 0) {
+
+                navBar.setText("it's your turn");
                 System.out.println("its your turn");
                 for (int i = 0; i < 4; i++) {
                     if (cards[i].getLocation().equals(shufflePosition[i]))
                         cardDisable[i] = false;
                 }
             } else {
+
+                navBar.setText("it's " + playerName[(turn + startingTurn) % 4].getText() + "'s turn");
                 System.out.println("waitinng for opponents");
                 String response = nc.recieveString();
                 int selectedCard = Integer.parseInt(response);
@@ -282,20 +269,96 @@ public class ChurPolice extends JFrame {
         }
     }
 
+    private class SecondPhase implements Runnable {
+
+        @Override
+        public void run() {
+
+            if (playerCard[0] == 500) {
+                navBar.setText("you are the police... identify the chur");
+                repaint();
+                for (int i = 1; i < 4; i++) {
+                    if (playerCard[i] == 0 || playerCard[i] == 800) {
+                        playerProfile[i].setBackground(new Color(137, 139, 143));
+                        profileDisable[i] = false;
+                    }
+                }
+            } else {
+                navBar.setText("waiting for the police's turn");
+                repaint();
+                System.out.println("waiting for police's turn");
+                String response = nc.recieveString();
+                System.out.println("response -> " + response);
+                if (response.equals("0")) {
+
+                    Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            navBar.setText("the police got the wrong person");
+                        }
+                    });
+
+                    t.start();
+
+                    // navBar.setText("the police got the wrong person");
+                    System.out.println("changing points");
+
+                    for (int i = 0; i < 4; i++) {
+                        if (playerCard[i] == 500) {
+                            playerCard[i] = 0;
+                        } else if (playerCard[i] == 0) {
+                            playerCard[i] = 500;
+                        }
+                    }
+                } else {
+                    // navBar.setText("the police got the chur");
+                    Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            navBar.setText("the police got the chur");
+                        }
+                    });
+
+                    t.start();
+                }
+                for (int i = 0; i < 4; i++) {
+                    // cardPoint[i].setText(Integer.toString(playerCard[i]));
+                    cardPoint[i].setVisible(true);
+                }
+
+                System.out.println("score: ");
+                for (int i = 0; i < 4; i++)
+                    System.out.println(playerName[i].getText() + " -> " + playerCard[i]);
+
+                System.out.println("repainting");
+                repaint();
+                System.out.println("repainting done");
+
+                new Thread(new GameThread()).start();
+            }
+        }
+
+    }
+
     void check() {
         if (turn == 4) {
 
-            for (int i = 0; i < 4; i++) {
-                if (cardPoint[i].getText() == "500" || cardPoint[i].getText() == "1200"
-                        || cardPoint[i].getLocation() == handPosition[0]) {
-                    cardPoint[i].setVisible(true);
-                }
-            }
+            System.out.println("in check function");
 
             turn = 0;
             startingTurn--;
             if (startingTurn == -1)
                 startingTurn = 3;
+
+            // System.out.println("changing cards visibility");
+            for (int i = 0; i < 4; i++) {
+                if (cardPoint[i].getText().equals("500") || cardPoint[i].getText().equals("1200")) {
+                    cardPoint[i].setVisible(true);
+                }
+            }
+            // System.out.println("visibility changed");
 
             System.out.println("\n");
             for (int i = 0; i < 4; i++)
@@ -303,6 +366,8 @@ public class ChurPolice extends JFrame {
             System.out.println("\n");
 
             new Thread(new SecondPhase()).start();
+        } else {
+            new Thread(new GameThread()).start();
         }
     }
 
@@ -313,6 +378,7 @@ public class ChurPolice extends JFrame {
             for (int i = 0; i < 4; i++) {
                 if (e.getSource() == cards[i] && cardDisable[i] == false) {
                     cards[i].setLocation(handPosition[0]);
+                    cardPoint[i].setVisible(true);
 
                     nc.sendString(Integer.toString(i));
                     playerCard[0] = Integer.parseInt(cardPoint[i].getText());
@@ -322,8 +388,6 @@ public class ChurPolice extends JFrame {
                         cardDisable[j] = true;
                     turn++;
                     check();
-
-                    new Thread(new GameThread()).start();
                 }
             }
         }
@@ -362,6 +426,38 @@ public class ChurPolice extends JFrame {
                 if (e.getSource() == playerProfile[i] && profileDisable[i] == false) {
                     nc.sendString(Integer.toString(playerCard[i] == 0 ? 1 : 0));
 
+                    if (playerCard[i] == 0) {
+                        // System.out.println("you got the chur");
+
+                        Thread t = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                navBar.setText("you got the chur");
+                            }
+                        });
+
+                        t.start();
+
+                    } else {
+                        for (int j = 0; j < 4; j++) {
+                            if (playerCard[j] == 500)
+                                playerCard[j] = 0;
+                            else if (playerCard[j] == 0)
+                                playerCard[j] = 500;
+                        }
+                        // System.out.println("u are the chur");
+                        Thread t = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                navBar.setText("u are the chur");
+                            }
+                        });
+
+                        t.start();
+                    }
+                    repaint();
                     for (int j = 0; j < 4; j++)
                         profileDisable[j] = true;
 
@@ -369,14 +465,13 @@ public class ChurPolice extends JFrame {
                         cardPoint[j].setVisible(true);
                     BackToNormalProfileColor();
 
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
+                    System.out.println("score: ");
+                    for (int j = 0; j < 4; j++)
+                        System.out.println(playerName[j].getText() + " -> " + playerCard[j]);
+
+                    repaint();
 
                     new Thread(new GameThread()).start();
-                    return;
                 }
             }
         }
