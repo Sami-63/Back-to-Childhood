@@ -9,6 +9,7 @@ import java.net.Socket;
  *
  * @author As-Sami
  */
+
 public class NetworkConnection {
     Socket socket;
     ObjectOutputStream oos;
@@ -19,8 +20,8 @@ public class NetworkConnection {
         oos = new ObjectOutputStream(socket.getOutputStream());
         ois = new ObjectInputStream(socket.getInputStream());
     }
-    
-    public void write(Object obj){
+
+    public void write(Object obj) {
         try {
             oos.writeObject(obj);
         } catch (IOException ex) {
@@ -28,7 +29,7 @@ public class NetworkConnection {
         }
     }
 
-    public Object read(){
+    public Object read() {
         Object obj;
         try {
             obj = ois.readObject();
@@ -39,22 +40,31 @@ public class NetworkConnection {
         return obj;
     }
 
-    public void sendString(String s){
+    public void sendString(String s) {
         Data data = new Data();
         data.msg = s;
         write(data);
     }
 
-    public String recieveString(){
+    public String recieveString() {
         Data data = (Data) read();
-        if(data == null){
+        if (data == null) {
             System.out.println("couldn't recieve string");
             return "";
         }
         return data.msg;
     }
 
-    boolean isConnected(){
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            System.out.println("couldn't close the socket");
+            e.printStackTrace();
+        }
+    }
+
+    boolean isConnected() {
         return socket.isConnected();
     }
 }

@@ -14,17 +14,18 @@ import javax.swing.JFrame;
  * @author As-Sami
  */
 public class TicTacToeMakeOnline {
-    static void run(String name, JFrame frame) throws IOException{
+    static void run(String name, JFrame frame) throws IOException {
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
         NetworkConnection nc = new NetworkConnection(socket);
         System.out.println("Network connected");
-        
+
         System.out.println("Searching for players");
-        
+
         nc.sendString(name + "|tic-tac-toe");
         String response = nc.recieveString();
-        
+
+        frame.dispose();
         boolean turn;
         if (response.equals("1")) {
             System.out.println("You got the first move");
@@ -35,7 +36,7 @@ public class TicTacToeMakeOnline {
         }
         System.out.println("turn = " + turn);
         System.out.println("----------------------------------------");
-        
+
         new TicTacToeOnline(nc, turn);
     }
 }
