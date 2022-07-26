@@ -13,16 +13,16 @@ import java.util.logging.Logger;
  * @author As-Sami
  */
 public class FirstPage extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form FirstPage
      */
     private String gameName = "", username = "";
-    
+
     public FirstPage() {
         initComponents();
     }
-    
+
     public FirstPage(String username) {
         this.username = username;
         initComponents();
@@ -531,7 +531,7 @@ public class FirstPage extends javax.swing.JFrame {
     }//GEN-LAST:event_LudoButtonActionPerformed
 
     private void TicTacToeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicTacToeButtonActionPerformed
-        System.out.println("Tic tac toe"); 
+        System.out.println("Tic tac toe");
         GameMode.setVisible(false);
         gameName = "tic-tac-toe";
         TicTacToeChoose.setVisible(true);
@@ -552,19 +552,19 @@ public class FirstPage extends javax.swing.JFrame {
     private void Start4x4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start4x4ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-         new MakeABox(4,4);
+        new MakeABox(4, 4);
     }//GEN-LAST:event_Start4x4ActionPerformed
 
     private void Start6x8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start6x8ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-         new MakeABox(6,8);
+        new MakeABox(6, 8);
     }//GEN-LAST:event_Start6x8ActionPerformed
 
     private void Start10x12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Start10x12ActionPerformed
         MakeABoxChooseGrid.setVisible(false);
         dispose();
-         new MakeABox(10,12);
+        new MakeABox(10, 12);
     }//GEN-LAST:event_Start10x12ActionPerformed
 
     private void BackFromMakeABoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackFromMakeABoxActionPerformed
@@ -587,23 +587,23 @@ public class FirstPage extends javax.swing.JFrame {
         System.out.println(usernameJField.getText());
         Online.setVisible(false);
         SearchingPlayers.setVisible(true);
-        
+
         repaint();
         System.out.println("Game :" + gameName);
-        
-        if(gameName=="tic-tac-toe"){
+
+        if (gameName == "tic-tac-toe") {
             try {
                 TicTacToeMakeOnline.run(usernameJField.getText(), this);
             } catch (IOException ex) {
                 System.out.println("error in online katakuti");
             }
-        }else if( gameName=="make-a-box" ){
+        } else if (gameName == "make-a-box") {
             try {
                 MakeABoxMakeOnline.run(usernameJField.getText(), this);
             } catch (IOException ex) {
                 Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if( gameName=="chur-police" ){
+        } else if (gameName == "chur-police") {
             try {
                 ChurPoliceMakeOnline.run(usernameJField.getText(), this);
             } catch (IOException ex) {
@@ -683,8 +683,8 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
     }
-    
-    void run(){
+
+    void run() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -715,7 +715,7 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
     }
-        
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.k33ptoo.components.KButton BackFromGameMode;
     private com.k33ptoo.components.KButton BackFromMakeABox;

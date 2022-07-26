@@ -26,7 +26,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MakeABoxOnline extends JFrame {
 
@@ -35,8 +34,7 @@ public class MakeABoxOnline extends JFrame {
 
     JPanel mainPanel, scorePanel, navigationPanel;
     JLabel scoreLabel, navLabel;
-    JTextField textField;
-    
+
     private int row;
     private int column;
     private Dot dots[][];
@@ -53,42 +51,41 @@ public class MakeABoxOnline extends JFrame {
         this.name = name;
         this.opponent = opponent;
 
-        
-        setName(); 
+        setName();
         turn = (turn == 0 ? -1 : 1);
         this.turn = turn;
         this.nc = nc;
 
         this.row = row;
         this.column = column;
-        
+
         // true -> player 1 turn, false -> player 2 turn
 
         mainPanel = new JPanel();
-        
+
         {
             dots = new Dot[30][30];
             lineX = new LineX[30][30];
             lineY = new LineY[30][30];
             boxes = new Box[30][30];
         }
-        
+
         {
             scorePanel = new JPanel();
             scorePanel.setPreferredSize(new Dimension(70 * column - 50, 70));
-            scorePanel.setBackground(new Color(0,0,0));
-            
+            scorePanel.setBackground(new Color(0, 0, 0));
+
             scoreLabel = new JLabel();
             scoreLabel.setFont(new Font("LCDMono2", Font.PLAIN, 40));
             scoreLabel.setForeground(new Color(0, 255, 0));
             scorePanel.add(scoreLabel);
             updateScore();
         }
-        
+
         {
             navigationPanel = new JPanel();
             navigationPanel.setPreferredSize(new Dimension(70 * column - 50, 40));
-            navigationPanel.setBackground(new Color(0,0,0));
+            navigationPanel.setBackground(new Color(0, 0, 0));
 
             navLabel = new JLabel();
             navLabel.setFont(new Font("LCDMono2", Font.PLAIN, 30));
@@ -97,7 +94,7 @@ public class MakeABoxOnline extends JFrame {
             navigationPanel.add(navLabel);
             updateNav();
         }
-          
+
         mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -125,33 +122,33 @@ public class MakeABoxOnline extends JFrame {
         {
             this.setTitle(name);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            this.setLayout(new BorderLayout(0,10));
+            this.setLayout(new BorderLayout(0, 10));
             this.add(scorePanel, BorderLayout.NORTH);
             this.add(mainPanel, BorderLayout.CENTER);
             this.add(navigationPanel, BorderLayout.SOUTH);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.pack();
-            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             this.setResizable(false);
             this.setVisible(true);
         }
-    
+
         System.out.println("Turn = " + turn);
-        if(turn==-1){
+        if (turn == -1) {
             new Thread(new GetResponse()).start();
         }
     }
 
-    private void setName(){
-        name = name.substring(0,1).toUpperCase();
-        opponent = opponent.substring(0,1).toUpperCase();
+    private void setName() {
+        name = name.substring(0, 1).toUpperCase();
+        opponent = opponent.substring(0, 1).toUpperCase();
     }
 
-    private class GetResponse implements Runnable{
+    private class GetResponse implements Runnable {
 
         @Override
         public void run() {
-            
+
             // keep receiving while opponent has move
 
             System.out.println("waiting to receive...");
@@ -160,26 +157,26 @@ public class MakeABoxOnline extends JFrame {
             int t = Integer.parseInt(s[0]);
             int i = Integer.parseInt(s[1]);
             int j = Integer.parseInt(s[2]);
-            
+
             System.out.println("recived :" + response);
-            
+
             turn = 0;
-            if(t==0)
+            if (t == 0)
                 lineX[i][j].doClick();
             else
                 lineY[i][j].doClick();
         }
     }
 
-    public void updateNav(){
-        if(turn==1)
+    public void updateNav() {
+        if (turn == 1)
             navLabel.setText("Its your turn");
         else
             navLabel.setText("Opponents turn");
     }
 
-    public void updateScore(){
-        scoreLabel.setText( name + " = " + scoreA + "  " + opponent + " = " + scoreB );
+    public void updateScore() {
+        scoreLabel.setText(name + " = " + scoreA + "  " + opponent + " = " + scoreB);
     }
 
     private class Dot extends JPanel {
@@ -226,14 +223,14 @@ public class MakeABoxOnline extends JFrame {
             setMaximumSize(getSize());
             setPreferredSize(getSize());
 
-            this.addActionListener(new ActionListener(){
+            this.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
                     System.out.println("turn " + turn);
 
-                    if (clicked || turn==-1) {
+                    if (clicked || turn == -1) {
                         return;
                     }
 
@@ -246,31 +243,38 @@ public class MakeABoxOnline extends JFrame {
                         nx = x - 1;
                         ny = y;
 
-                        if (nx > -1 && nx < row && lineX[nx][ny].isClicked() && lineY[nx][ny].isClicked() && lineY[nx][ny + 1].isClicked()) {
-                            boxes[nx][ny].setOwner((turn==1 ? p1 : p2));
+                        if (nx > -1 && nx < row
+                                && lineX[nx][ny].isClicked()
+                                && lineY[nx][ny].isClicked()
+                                && lineY[nx][ny + 1].isClicked()) {
+                            boxes[nx][ny].setOwner((turn == 1 ? p1 : p2));
                             scored = true;
                         }
 
                         nx = x + 1;
                         ny = y;
 
-                        if (nx > -1 && nx < row && lineX[nx][ny].isClicked() && lineY[x][y].isClicked() && lineY[x][y + 1].isClicked()) {
-                            boxes[x][y].setOwner((turn==1 ? p1 : p2));
+                        if (nx > -1 && nx < row
+                                && lineX[nx][ny].isClicked()
+                                && lineY[x][y].isClicked()
+                                && lineY[x][y + 1].isClicked()) {
+                            boxes[x][y].setOwner((turn == 1 ? p1 : p2));
                             scored = true;
                         }
                     }
 
                     if (scored) {
                         updateNav();
-                        if(turn==0)
+                        if (turn == 0)
                             new Thread(new GetResponse()).start();
-                        else{
+                        else {
                             String response = "0|" + x + "|" + y + "|1";
                             nc.sendString(response);
                         }
-                    }else{
-                        if(turn==0) turn = 1;
-                        else{
+                    } else {
+                        if (turn == 0)
+                            turn = 1;
+                        else {
                             turn = -1;
                             String response = "0|" + x + "|" + y + "|0";
                             nc.sendString(response);
@@ -283,7 +287,7 @@ public class MakeABoxOnline extends JFrame {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
+
                 }
 
                 @Override
@@ -311,8 +315,7 @@ public class MakeABoxOnline extends JFrame {
                     LineX xx = (LineX) e.getSource();
                     xx.setBackground(Color.white);
                 }
-            }
-            );
+            });
         }
     }
 
@@ -340,13 +343,13 @@ public class MakeABoxOnline extends JFrame {
             setMaximumSize(getSize());
             setPreferredSize(getSize());
 
-            this.addActionListener(new ActionListener(){
+            this.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    
+
                     System.out.println("turn " + turn);
-                    
-                    if (clicked || turn==-1) {
+
+                    if (clicked || turn == -1) {
                         return;
                     }
 
@@ -358,33 +361,38 @@ public class MakeABoxOnline extends JFrame {
 
                     nx = x;
                     ny = y - 1;
-                    
-                    {
-                        if (ny > -1 && ny < column && lineY[nx][ny].isClicked() && lineX[nx][ny].isClicked() && lineX[nx + 1][ny].isClicked()) {
-                            boxes[nx][ny].setOwner((turn==1 ? p1 : p2));
-                            scored = true;
-                        }
 
-                        nx = x;
-                        ny = y + 1;
-
-                        if (ny > -1 && ny < column && lineY[nx][ny].isClicked() && lineX[x][y].isClicked() && lineX[x + 1][y].isClicked()) {
-                            boxes[x][y].setOwner((turn==1 ? p1 : p2));
-                            scored = true;
-                        }
+                    if (ny > -1 && ny < column
+                            && lineY[nx][ny].isClicked()
+                            && lineX[nx][ny].isClicked()
+                            && lineX[nx + 1][ny].isClicked()) {
+                        boxes[nx][ny].setOwner((turn == 1 ? p1 : p2));
+                        scored = true;
                     }
-                    
+
+                    nx = x;
+                    ny = y + 1;
+
+                    if (ny > -1 && ny < column
+                            && lineY[nx][ny].isClicked()
+                            && lineX[x][y].isClicked()
+                            && lineX[x + 1][y].isClicked()) {
+                        boxes[x][y].setOwner((turn == 1 ? p1 : p2));
+                        scored = true;
+                    }
+
                     if (scored) {
                         updateNav();
-                        if(turn==0)
+                        if (turn == 0)
                             new Thread(new GetResponse()).start();
-                        else{
+                        else {
                             String response = "1|" + x + "|" + y + "|1";
                             nc.sendString(response);
                         }
-                    }else{
-                        if(turn==0) turn = 1;
-                        else{
+                    } else {
+                        if (turn == 0)
+                            turn = 1;
+                        else {
                             turn = -1;
                             String response = "1|" + x + "|" + y + "|0";
                             nc.sendString(response);
@@ -399,7 +407,7 @@ public class MakeABoxOnline extends JFrame {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
+
                 }
 
                 @Override
@@ -427,8 +435,7 @@ public class MakeABoxOnline extends JFrame {
                     LineY xx = (LineY) e.getSource();
                     xx.setBackground(Color.white);
                 }
-            }
-            );
+            });
         }
 
     }
@@ -444,7 +451,6 @@ public class MakeABoxOnline extends JFrame {
         public Box(int x, int y) {
 
             this.setFont(new Font("LCDMono2", Font.PLAIN, 20));
-            this.setForeground(Color.green);
 
             this.x = x;
             this.y = y;
@@ -461,19 +467,19 @@ public class MakeABoxOnline extends JFrame {
         }
 
         void setOwner(String s) {
-            if( turn==1 )
+            if (turn == 1)
                 scoreA++;
             else
                 scoreB++;
-            
+
             updateScore();
 
-            owner = turn==1 ? name : opponent;
+            owner = turn == 1 ? name : opponent;
             this.setText(owner);
         }
     }
-    
+
     public static void main(String[] args) {
-        // new MakeABox("sami", "mahmud", 4,5, false);    
+        // new MakeABox("sami", "mahmud", 4,5, false);
     }
 }

@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -22,69 +24,65 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MakeABox extends JFrame {
 
-    private String p1 = "S", p2 = "M";
-    boolean turn;
+    private String p1 = "A", p2 = "B";
+    int turn;
 
     JPanel mainPanel, scorePanel, navigationPanel;
     JLabel scoreLabel, navLabel;
-    JTextField textField;
-    
-    private int row;
-    private int column;
-    private Dot dots[][];
-    private LineX lineX[][];
-    private LineY lineY[][];
-    private Box boxes[][];
 
-    private int scoreA = 0, scoreB = 0;
+    protected int row;
+    protected int column;
+    public Dot dots[][];
+    public LineX lineX[][];
+    public LineY lineY[][];
+    public Box boxes[][];
+
+    protected int scoreA = 0, scoreB = 0;
 
     public MakeABox(int row, int column) {
 
         this.row = row;
         this.column = column;
-        
-        turn = true;// true -> player 1 turn, false -> player 2 turn
+
+        turn = 1;// true -> player 1 turn, false -> player 2 turn
 
         mainPanel = new JPanel();
-        
-        dots = new Dot[30][30];
-        lineX = new LineX[30][30];
-        lineY = new LineY[30][30];
-        boxes = new Box[30][30];
-        
-        scorePanel = new JPanel();
-        scorePanel.setPreferredSize(new Dimension(70 * column - 50, 70));
-        scorePanel.setBackground(new Color(25, 250, 0));
 
-        scoreLabel = new JLabel();
-        scoreLabel.setText( "A = " + scoreA + " | B = " + scoreB );
-        scoreLabel.setFont(new Font("Ink Free", Font.BOLD, 40));
-        scorePanel.add(scoreLabel);
-        
+        {
+            dots = new Dot[30][30];
+            lineX = new LineX[30][30];
+            lineY = new LineY[30][30];
+            boxes = new Box[30][30];
+        }
 
-        navigationPanel = new JPanel();
-        navigationPanel.setPreferredSize(new Dimension(70 * column - 50, 70));
-        navigationPanel.setBackground(Color.blue);
+        {
+            scorePanel = new JPanel();
+            scorePanel.setPreferredSize(new Dimension(70 * column - 50, 70));
+            scorePanel.setBackground(new Color(0, 0, 0));
 
-        navLabel = new JLabel();
-        navLabel.setText( "A's turn" );
-        navLabel.setFont(new Font("Ink Free", Font.BOLD, 40));
-        navigationPanel.add(navLabel);
-        
-        
-        textField = new JTextField();
-        textField.setBackground(new Color(0,0,0,125));
-        textField.setFont(new Font("MV Boli", Font.BOLD, 50));
-        textField.setHorizontalAlignment(JLabel.CENTER);
-        textField.setText("Make-A-Box");
-        textField.setOpaque(true);
-        textField.setSize(70 * column - 50, 70);
-        
-        
+            scoreLabel = new JLabel();
+            scoreLabel.setFont(new Font("LCDMono2", Font.PLAIN, 40));
+            scoreLabel.setForeground(new Color(0, 255, 0));
+            scorePanel.add(scoreLabel);
+            updateScore();
+        }
+
+        {
+            navigationPanel = new JPanel();
+            navigationPanel.setPreferredSize(new Dimension(70 * column - 50, 40));
+            navigationPanel.setBackground(new Color(0, 0, 0));
+
+            navLabel = new JLabel();
+            navLabel.setFont(new Font("LCDMono2", Font.PLAIN, 30));
+            navLabel.setForeground(new Color(0, 255, 0));
+            navLabel.setHorizontalAlignment(JLabel.CENTER);
+            navigationPanel.add(navLabel);
+            updateNav();
+        }
+
         mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -108,31 +106,43 @@ public class MakeABox extends JFrame {
                 }
             }
         }
-
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLayout(new BorderLayout(0,10));
-        this.add(scorePanel, BorderLayout.NORTH);
-        this.add(mainPanel, BorderLayout.CENTER);
-        this.add(navigationPanel, BorderLayout.SOUTH);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        this.setResizable(false);
-        this.setVisible(true);
+        {
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLayout(new BorderLayout(0, 10));
+            this.add(scorePanel, BorderLayout.NORTH);
+            this.add(mainPanel, BorderLayout.CENTER);
+            this.add(navigationPanel, BorderLayout.SOUTH);
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.pack();
+            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            this.setResizable(false);
+            this.setVisible(true);
+        }
     }
 
-    public void updateNav(){
-        if(turn)
+    public void updateNav() {
+        if (turn == 1)
             navLabel.setText("A's turn");
         else
             navLabel.setText("B's turn");
     }
 
-    public void updateScore(){
-        scoreLabel.setText( "A = " + scoreA + " | B = " + scoreB );
+    public void updateScore() {
+        scoreLabel.setText("A = " + scoreA + " | B = " + scoreB);
     }
 
-    private class Dot extends JButton {
+    void updateTurn(boolean scored, int lineType, int x, int y) {
+        if (scored == false) {
+            turn = (turn == 1 ? 0 : 1);
+            updateNav();
+        }
+    }
+
+    boolean isClickable(boolean clicked) {
+        return clicked;
+    }
+
+    protected class Dot extends JButton {
 
         private int x, y;
 
@@ -153,7 +163,7 @@ public class MakeABox extends JFrame {
         }
     }
 
-    private class LineX extends JButton {
+    protected class LineX extends JButton {
 
         private int x, y;
 
@@ -177,15 +187,15 @@ public class MakeABox extends JFrame {
             setMaximumSize(getSize());
             setPreferredSize(getSize());
 
-            this.addMouseListener(new MouseListener() {
+            this.addActionListener(new ActionListener() {
+
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (clicked) {
+                public void actionPerformed(ActionEvent e) {
+                    if (isClickable(clicked)) {
                         return;
                     }
 
-                    LineX xx = (LineX) e.getSource();
-                    xx.setBackground(activate);
+                    setBackground(activate);
                     clicked = true;
 
                     int nx, ny;
@@ -198,7 +208,7 @@ public class MakeABox extends JFrame {
                             && lineX[nx][ny].isClicked()
                             && lineY[nx][ny].isClicked()
                             && lineY[nx][ny + 1].isClicked()) {
-                        boxes[nx][ny].setOwner((turn ? p1 : p2));
+                        boxes[nx][ny].setOwner((turn == 1 ? p1 : p2));
                         scored = true;
                     }
 
@@ -209,16 +219,27 @@ public class MakeABox extends JFrame {
                             && lineX[nx][ny].isClicked()
                             && lineY[x][y].isClicked()
                             && lineY[x][y + 1].isClicked()) {
-                        boxes[x][y].setOwner((turn ? p1 : p2));
+                        boxes[x][y].setOwner((turn == 1 ? p1 : p2));
                         scored = true;
                     }
 
-                    if (scored == false) {
-                        turn = (turn ? false : true);
-                        updateNav();
-                    }
+                    updateTurn(scored, 0, x, y);
+
+                    // if (scored == false) {
+                    // turn = (turn == 1 ? 0 : 1);
+                    // updateNav();
+                    // }
 
                     // System.out.println(x + " " + y);
+
+                }
+
+            });
+
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
                 }
 
                 @Override
@@ -246,12 +267,11 @@ public class MakeABox extends JFrame {
                     LineX xx = (LineX) e.getSource();
                     xx.setBackground(Color.white);
                 }
-            }
-            );
+            });
         }
     }
 
-    private class LineY extends JButton {
+    protected class LineY extends JButton {
 
         private int x, y;
 
@@ -275,9 +295,14 @@ public class MakeABox extends JFrame {
             setMaximumSize(getSize());
             setPreferredSize(getSize());
 
-            this.addMouseListener(new MouseListener() {
+            this.addActionListener(new ActionListener() {
+
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent e) {
+                    if (isClickable(clicked)) {
+                        return;
+                    }
+
                     LineY xx = (LineY) e.getSource();
                     xx.setBackground(activate);
                     clicked = true;
@@ -292,7 +317,7 @@ public class MakeABox extends JFrame {
                             && lineY[nx][ny].isClicked()
                             && lineX[nx][ny].isClicked()
                             && lineX[nx + 1][ny].isClicked()) {
-                        boxes[nx][ny].setOwner((turn ? p1 : p2));
+                        boxes[nx][ny].setOwner((turn == 1 ? p1 : p2));
                         scored = true;
                     }
 
@@ -303,16 +328,22 @@ public class MakeABox extends JFrame {
                             && lineY[nx][ny].isClicked()
                             && lineX[x][y].isClicked()
                             && lineX[x + 1][y].isClicked()) {
-                        boxes[x][y].setOwner((turn ? p1 : p2));
+                        boxes[x][y].setOwner((turn == 1 ? p1 : p2));
                         scored = true;
                     }
 
-                    if (scored == false) {
-                        turn = (turn ? false : true);
-                        updateNav();
-                    }
+                    updateTurn(scored, 1, x, y);
 
                     // System.out.println(x + " " + y);
+
+                }
+
+            });
+
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
                 }
 
                 @Override
@@ -340,13 +371,12 @@ public class MakeABox extends JFrame {
                     LineY xx = (LineY) e.getSource();
                     xx.setBackground(Color.white);
                 }
-            }
-            );
+            });
         }
 
     }
 
-    private class Box extends JButton {
+    protected class Box extends JButton {
 
         private int x, y;
 
@@ -355,6 +385,9 @@ public class MakeABox extends JFrame {
         private String owner;
 
         public Box(int x, int y) {
+
+            this.setFont(new Font("LCDMono2", Font.PLAIN, 20));
+
             this.x = x;
             this.y = y;
 
@@ -370,19 +403,19 @@ public class MakeABox extends JFrame {
         }
 
         void setOwner(String s) {
-            if( turn )
+            if (turn == 1)
                 scoreA++;
             else
                 scoreB++;
-            
+
             updateScore();
 
             owner = s;
             this.setText(s);
         }
     }
-    
+
     public static void main(String[] args) {
-        // new MakeABoxOnline(4,6);    
+        new MakeABox(4, 6);
     }
 }
