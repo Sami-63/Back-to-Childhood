@@ -16,11 +16,13 @@ import java.awt.event.ActionEvent;
 public class TicTacToeOnline extends TicTacToe {
 
     NetworkConnection nc;
+    boolean gameover;
 
     TicTacToeOnline(NetworkConnection nc, boolean turn) {
         super();
         this.nc = nc;
         this.player1_turn = turn;
+        gameover = false;
         StartGame();
     }
 
@@ -36,15 +38,57 @@ public class TicTacToeOnline extends TicTacToe {
                         buttons[i].setText("X");
                         player1_turn = false;
                         textfield.setText("its your opponents turn");
-                        check();
 
                         nc.sendString(Integer.toString(i));
-                        new Thread(new GetResponse()).start();
+                        check();
+
+                        if (!gameover)
+                            new Thread(new GetResponse()).start();
                     }
                 }
             }
 
         }
+    }
+
+    @Override
+    public void XWins(int a, int b, int c) {
+        buttons[a].setBackground(Color.green);
+        buttons[b].setBackground(Color.green);
+        buttons[c].setBackground(Color.green);
+
+        for (int i = 0; i < 9; i++) {
+            buttons[i].setEnabled(false);
+        }
+
+        textfield.setText("You win!");
+        nc.close();
+        gameover = true;
+        new Thread(new GameOver()).start();
+
+    }
+
+    @Override
+    public void OWins(int a, int b, int c) {
+        buttons[a].setBackground(Color.green);
+        buttons[b].setBackground(Color.green);
+        buttons[c].setBackground(Color.green);
+
+        for (int i = 0; i < 9; i++) {
+            buttons[i].setEnabled(false);
+        }
+
+        textfield.setText("You lost!");
+        nc.close();
+        gameover = true;
+        new Thread(new GameOver()).start();
+    }
+
+    @Override
+    public void Tie() {
+        gameover = true;
+        textfield.setText("Nobody wins");
+        nc.close();
     }
 
     @Override

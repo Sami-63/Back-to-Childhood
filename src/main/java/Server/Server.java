@@ -5,9 +5,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server{
-    
+public class Server {
     public static UserList userList = new UserList();
+
     public static void main(String[] args) throws IOException {
 
         ServerSocket serverSocket = new ServerSocket(12345);
@@ -20,7 +20,8 @@ public class Server{
             NetworkConnection nc = new NetworkConnection(socket);
 
             System.out.println("Found a user... ");
-            new Thread(new CreateConnection(nc, userList)).start();;
+            new Thread(new CreateConnection(nc, userList)).start();
+            ;
         }
     }
 }

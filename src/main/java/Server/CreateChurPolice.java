@@ -46,7 +46,7 @@ public class CreateChurPolice implements Runnable {
             player.elementAt(i).nc.sendString(moveAndOtherPLayerInfo);
         }
         System.out.println("chur-police started");
-        for (int m = 0; m < 10; m++) {
+        for (int m = 0; m < 1; m++) {
 
             // getting random card
             int[] cards = getCard();
@@ -97,6 +97,9 @@ public class CreateChurPolice implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println("complete");
+        for (int i = 0; i < 4; i++)
+            player.elementAt(i).nc.close();
     }
 
 }

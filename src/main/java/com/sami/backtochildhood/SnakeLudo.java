@@ -32,11 +32,11 @@ public class SnakeLudo extends JFrame {
     JLabel LudoPaper = new JLabel();
     JLabel diceLabel = new JLabel();
     Random random = new Random();
-    
+
     Guti guti[];
     int turn = 0; // 0, 1, 2, 3 - th player's move
     int dice = 0;
-    int player, win=0;
+    int player, win = 0;
 
     private int t = 0;
     Timer diceTimer = new Timer(10, new ActionListener() {
@@ -65,7 +65,7 @@ public class SnakeLudo extends JFrame {
 
         this.player = player;
         guti = new Guti[4];
-        for( int i=0 ; i<4 ; i++ )
+        for (int i = 0; i < 4; i++)
             guti[i] = new Guti(i);
 
         icon = new ImageIcon("src\\main\\java\\Image\\SnakeLudo.png");
@@ -77,8 +77,6 @@ public class SnakeLudo extends JFrame {
         dice5 = new ImageIcon("src\\main\\java\\Image\\dice5.jpg");
         dice6 = new ImageIcon("src\\main\\java\\Image\\dice6.jpg");
 
-        
-        
         gamePanel = new JPanel();
         gamePanel.setPreferredSize(new Dimension(700, 700));
 
@@ -106,7 +104,7 @@ public class SnakeLudo extends JFrame {
         roll.setkHoverStartColor(new Color(146, 141, 171));
         roll.setkHoverEndColor(new Color(31, 28, 44));
         roll.setkHoverForeGround(Color.white);
-        
+
         dicePanel.add(roll);
         roll.addActionListener(new ActionListener() {
             @Override
@@ -124,7 +122,7 @@ public class SnakeLudo extends JFrame {
         exitButton.setkHoverStartColor(new Color(146, 141, 171));
         exitButton.setkHoverEndColor(new Color(31, 28, 44));
         exitButton.setkHoverForeGround(Color.white);
-        
+
         dicePanel.add(exitButton);
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -167,9 +165,9 @@ public class SnakeLudo extends JFrame {
     public void paint(Graphics g) {
         super.paintComponents(g);
 
-        for( int i=0 ; i<player ; i++ )
+        for (int i = 0; i < player; i++)
             guti[i].draw(g);
-                
+
     }
 
     private class Guti {
@@ -181,12 +179,12 @@ public class SnakeLudo extends JFrame {
         Point cell[];
 
         public void move(int n) {
-            if(position == 0){
-                if(n==1)position = 1;
-            } 
-            else if( position+n < 101 )
+            if (position == 0) {
+                if (n == 1)
+                    position = 1;
+            } else if (position + n < 101)
                 position += n;
-            else if( position+n == 101 ){
+            else if (position + n == 101) {
                 position += n;
                 win++;
             }
@@ -200,36 +198,34 @@ public class SnakeLudo extends JFrame {
                     int n = 10 - i;
                     n *= 10;
                     for (int j = 0; j < 10; j++) {
-                        cell[n--] = new Point(208 + 35 + 70 * j, 30 + 35 + 70 * i - (i / 4));
+                        cell[n--] = new Point(208 + 35 + 60 * j, 30 + 35 + 60 * i - (i / 4));
                     }
                 } else {
                     int n = 10 - i - 1;
                     n *= 10;
                     for (int j = 0; j < 10; j++) {
-                        cell[++n] = new Point(208 + 35 + 70 * j, 30 + 35 + 70 * i - (i / 4));
+                        cell[++n] = new Point(208 + 35 + 60 * j, 30 + 35 + 60 * i - (i / 4));
                     }
                 }
             }
-            
+
             if (type == 0) {
                 cell[0] = new Point(150, 695);
                 cell[101] = new Point(150, 70);
                 color = new Color(26, 105, 133);
-            } 
-            else if (type == 1) {
+            } else if (type == 1) {
                 cell[0] = new Point(75, 695);
                 cell[101] = new Point(75, 70);
                 color = new Color(220, 24, 24);
-            } 
-            else if (type == 2) {
+            } else if (type == 2) {
                 cell[0] = new Point(150, 625);
                 cell[101] = new Point(150, 140);
                 color = new Color(255, 103, 0);
-            } 
-            else if (type == 3) {
+            } else if (type == 3) {
                 cell[0] = new Point(75, 625);
                 cell[101] = new Point(75, 140);
-                color = new Color(34, 139, 34);;
+                color = new Color(34, 139, 34);
+                ;
             }
 
         }
@@ -239,7 +235,7 @@ public class SnakeLudo extends JFrame {
 
             x = cell[position].x;
             y = cell[position].y;
-            
+
             g.setColor(color);
             g.fillOval(x - r, y - r, r * 2, r * 2);
 
@@ -257,22 +253,20 @@ public class SnakeLudo extends JFrame {
         }
     }
 
-    private void makeMove() {        
+    private void makeMove() {
         guti[turn].move(dice);
         repaint();
-        
-        if(win==player)return;
-        
-        do{
+
+        if (win == player)
+            return;
+
+        do {
             turn++;
             turn %= player;
-        }while(guti[turn].position==101);
-        
-        
+        } while (guti[turn].position == 101);
+
         System.out.println(turn);
     }
-    
-    
 
     public static void main(String[] args) {
         new SnakeLudo(2);

@@ -212,9 +212,14 @@ public class TicTacToe implements ActionListener {
                 buttons[i].setEnabled(false);
             }
 
-            textfield.setText("No One Wins!");
+            // textfield.setText("No One Wins!");
+            Tie();
             new Thread(new GameOver()).start();
         }
+    }
+
+    public void Tie() {
+        textfield.setText("Nobody wins");
     }
 
     public void XWins(int a, int b, int c) {

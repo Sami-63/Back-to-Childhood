@@ -24,7 +24,7 @@ public class ChurPolice extends JFrame {
     Boolean cardDisable[], profileDisable[];
     NetworkConnection nc;
     int turn, startingTurn;
-    int playerCard[];
+    int playerCard[], playerScore[], moves;
 
     /*
      * 0 1
@@ -45,6 +45,8 @@ public class ChurPolice extends JFrame {
         playerCard = new int[4];
 
         // System.out.println("starting turn : " + startingTurn);
+
+        playerScore = new int[4];
 
         {
             cardDisable = new Boolean[4];
@@ -184,7 +186,7 @@ public class ChurPolice extends JFrame {
 
             @Override
             public void run() {
-                navBar.setText("chur-police");
+                navBar.setText("Chur-Police");
             }
         }).start();
 
@@ -217,6 +219,14 @@ public class ChurPolice extends JFrame {
 
         @Override
         public void run() {
+
+            if (moves == 1) {
+
+                new Thread(new GameOver()).start();
+
+                return;
+            }
+
             System.out.println("now = " + (turn + startingTurn) % 4);
             // for (int i = 0; i < 4; i++)
             // System.out.println("disable[" + i + "] = " + disable[i]);
@@ -231,7 +241,7 @@ public class ChurPolice extends JFrame {
                 // reciving card from server
                 String res = nc.recieveString();
                 String r[] = res.split("\\|");
-                System.out.println("Cards : " + res);
+                // System.out.println("Cards : " + res);
                 for (int i = 0; i < 4; i++) {
                     cardPoint[i].setText(r[i]);
                 }
@@ -247,7 +257,7 @@ public class ChurPolice extends JFrame {
             if ((turn + startingTurn) % 4 == 0) {
 
                 navBar.setText("it's your turn");
-                System.out.println("its your turn");
+                // System.out.println("its your turn");
                 for (int i = 0; i < 4; i++) {
                     if (cards[i].getLocation().equals(shufflePosition[i]))
                         cardDisable[i] = false;
@@ -255,7 +265,7 @@ public class ChurPolice extends JFrame {
             } else {
 
                 navBar.setText("it's " + playerName[(turn + startingTurn) % 4].getText() + "'s turn");
-                System.out.println("waitinng for opponents");
+                // System.out.println("waitinng for opponents");
                 String response = nc.recieveString();
                 int selectedCard = Integer.parseInt(response);
                 cards[selectedCard].setLocation(handPosition[(turn + startingTurn) % 4]);
@@ -286,7 +296,7 @@ public class ChurPolice extends JFrame {
             } else {
                 navBar.setText("waiting for the police's turn");
                 repaint();
-                System.out.println("waiting for police's turn");
+                // System.out.println("waiting for police's turn");
                 String response = nc.recieveString();
                 System.out.println("response -> " + response);
                 if (response.equals("0")) {
@@ -302,7 +312,7 @@ public class ChurPolice extends JFrame {
                     t.start();
 
                     // navBar.setText("the police got the wrong person");
-                    System.out.println("changing points");
+                    // System.out.println("changing points");
 
                     for (int i = 0; i < 4; i++) {
                         if (playerCard[i] == 500) {
@@ -329,13 +339,19 @@ public class ChurPolice extends JFrame {
                 }
 
                 System.out.println("score: ");
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++) {
                     System.out.println(playerName[i].getText() + " -> " + playerCard[i]);
-
-                System.out.println("repainting");
+                    playerScore[i] += playerCard[i];
+                }
+                // System.out.println("repainting");
                 repaint();
-                System.out.println("repainting done");
+                // System.out.println("repainting done");
 
+                for (int i = 0; i < 4; i++) {
+                    System.out.println(playerName[i].getText() + " -> " + playerScore[i]);
+                }
+
+                moves++;
                 new Thread(new GameThread()).start();
             }
         }
@@ -345,7 +361,7 @@ public class ChurPolice extends JFrame {
     void check() {
         if (turn == 4) {
 
-            System.out.println("in check function");
+            // System.out.println("in check function");
 
             turn = 0;
             startingTurn--;
@@ -360,10 +376,11 @@ public class ChurPolice extends JFrame {
             }
             // System.out.println("visibility changed");
 
-            System.out.println("\n");
-            for (int i = 0; i < 4; i++)
-                System.out.println(playerName[i].getText() + "'s score = " + playerCard[i] + "-");
-            System.out.println("\n");
+            // System.out.println("\n");
+            // for (int i = 0; i < 4; i++)
+            // System.out.println(playerName[i].getText() + "'s score = " + playerCard[i] +
+            // "-");
+            // System.out.println("\n");
 
             new Thread(new SecondPhase()).start();
         } else {
@@ -382,7 +399,7 @@ public class ChurPolice extends JFrame {
 
                     nc.sendString(Integer.toString(i));
                     playerCard[0] = Integer.parseInt(cardPoint[i].getText());
-                    System.out.println("you got : " + playerCard[0]);
+                    // System.out.println("you got : " + playerCard[0]);
 
                     for (int j = 0; j < 4; j++)
                         cardDisable[j] = true;
@@ -451,7 +468,7 @@ public class ChurPolice extends JFrame {
 
                             @Override
                             public void run() {
-                                navBar.setText("u are the chur");
+                                navBar.setText("you choose the wrong person");
                             }
                         });
 
@@ -466,9 +483,16 @@ public class ChurPolice extends JFrame {
                     BackToNormalProfileColor();
 
                     System.out.println("score: ");
-                    for (int j = 0; j < 4; j++)
+                    for (int j = 0; j < 4; j++) {
                         System.out.println(playerName[j].getText() + " -> " + playerCard[j]);
+                        playerScore[j] += playerCard[j];
+                    }
 
+                    // System.out.println("score: ");
+                    // for (int j = 0; j < 4; j++)
+                    // System.out.println(playerName[j].getText() + " -> " + playerCard[j]);
+
+                    moves++;
                     repaint();
 
                     new Thread(new GameThread()).start();
@@ -505,6 +529,48 @@ public class ChurPolice extends JFrame {
                 }
             }
 
+        }
+
+    }
+
+    private class GameOver implements Runnable {
+
+        @Override
+        public void run() {
+            for (int i = 0; i < 4; i++) {
+                cards[i].setVisible(false);
+            }
+
+            // ---------------------------------------------------------------
+            JPanel scoreBoard = new JPanel();
+            scoreBoard.setBounds(200, 200, 500, 400);
+            scoreBoard.setBackground(Color.white);
+
+            for (int i = 0; i < 4; i++)
+                for (int j = i + 1; j < 4; j++)
+                    if (playerScore[i] < playerScore[j]) {
+                        int temp = playerScore[i];
+                        playerScore[i] = playerScore[j];
+                        playerScore[j] = temp;
+
+                        String stemp = playerName[i].getText();
+                        playerName[i].setText(playerName[j].getText());
+                        playerName[j].setText(stemp);
+                    }
+
+            JLabel label = new JLabel("Leader Board");
+            JLabel p1 = new JLabel("King      - " + playerName[0].getText() + "\t - " + playerScore[0]);
+            JLabel p2 = new JLabel("Queen     - " + playerName[1].getText() + "\t - " + playerScore[1]);
+            JLabel p3 = new JLabel("Villager  - " + playerName[2].getText() + "\t - " + playerScore[2]);
+            JLabel p4 = new JLabel("Terrorist - " + playerName[3].getText() + "\t - " + playerScore[3]);
+
+            scoreBoard.add(label);
+            scoreBoard.add(p1);
+            scoreBoard.add(p2);
+            scoreBoard.add(p3);
+            scoreBoard.add(p4);
+            background.add(scoreBoard);
+            // ---------------------------------------------------------------
         }
 
     }
