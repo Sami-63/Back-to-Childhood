@@ -6,12 +6,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server{
+    
     public static UserList userList = new UserList();
     public static void main(String[] args) throws IOException {
+
         ServerSocket serverSocket = new ServerSocket(12345);
         System.out.println("Server started...");
         System.out.println(InetAddress.getLocalHost());
 
+        System.out.println("-------------------------------------------------\n");
         while (true) {
             Socket socket = serverSocket.accept();
             NetworkConnection nc = new NetworkConnection(socket);

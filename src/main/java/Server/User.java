@@ -5,7 +5,7 @@ package Server;
  * @author As-Sami
  */
 public class User {
-    String username;
+    public String username;
     NetworkConnection nc;
 
     public User(NetworkConnection nc, String username) {

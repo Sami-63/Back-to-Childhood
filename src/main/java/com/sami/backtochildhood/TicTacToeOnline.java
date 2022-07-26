@@ -4,38 +4,87 @@
  */
 package com.sami.backtochildhood;
 
-import Server.NetworkConnection;
-import java.io.IOException;
-import java.net.Socket;
-import javax.swing.JFrame;
-
 /**
  *
- * @author As-Sami
+ * @author Hp
  */
-public class TicTacToeOnline {
-    static void run(String name, JFrame frame) throws IOException{
-        Socket socket = new Socket("192.168.56.1", 12345);
-        System.out.println("socket connecteds....");
-        NetworkConnection nc = new NetworkConnection(socket);
-        System.out.println("Network connected");
-        
-        System.out.println("Searching for players");
-        
-        nc.sendString(name + "|tic-tac-toe");
-        String response = nc.recieveString();
-        
-        boolean turn;
-        if (response.equals("1")) {
-            System.out.println("You got the first move");
-            turn = true;
-        } else {
-            System.out.println("Opponent got the first move");
-            turn = false;
+
+import Server.NetworkConnection;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+public class TicTacToeOnline extends TicTacToe {
+
+    NetworkConnection nc;
+
+    TicTacToeOnline(NetworkConnection nc, boolean turn) {
+        super();
+        this.nc = nc;
+        this.player1_turn = turn;
+        StartGame();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("katakuti file....");
+        for (int i = 0; i < 9; i++) {
+            if (e.getSource() == buttons[i]) {
+
+                if (player1_turn == true) {
+                    if (buttons[i].getText() == "") {
+                        buttons[i].setForeground(new Color(255, 0, 0));
+                        buttons[i].setText("X");
+                        player1_turn = false;
+                        textfield.setText("its your opponents turn");
+                        check();
+
+                        nc.sendString(Integer.toString(i));
+                        new Thread(new GetResponse()).start();
+                    }
+                }
+            }
+
         }
-        System.out.println("turn = " + turn);
-        System.out.println("----------------------------------------");
-        
-        new TicTacToe1(nc, turn);
+    }
+
+    @Override
+    public void firstTurn() {
+    }
+
+    void StartGame() {
+
+        if (player1_turn) {
+            textfield.setText("its your turn");
+        } else {
+            textfield.setText("its your opponents turn");
+            new Thread(new GetResponse()).start();
+        }
+    }
+
+    class GetResponse implements Runnable {
+
+        @Override
+        public void run() {
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Recieving string...");
+            String s = nc.recieveString();
+            System.out.println("String received... : 0 + s");
+            int n = Integer.parseInt(s);
+            buttons[n].doClick();
+
+            buttons[n].setForeground(new Color(0, 0, 255));
+            buttons[n].setText("O");
+            player1_turn = true;
+            textfield.setText("its your turn");
+            check();
+
+            return;
+        }
     }
 }

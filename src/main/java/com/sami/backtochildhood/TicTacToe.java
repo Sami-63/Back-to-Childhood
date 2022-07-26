@@ -25,19 +25,19 @@ public class TicTacToe implements ActionListener {
     public boolean player1_turn;
 
     public TicTacToe() {
-        
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();        
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
 
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setBackground(new Color(25, 250, 0));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 60));
+        textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Tic-Tac-Toe");
         textfield.setOpaque(true);
@@ -112,100 +112,86 @@ public class TicTacToe implements ActionListener {
     }
 
     public void check() {
-        //check X win conditions
+        // check X win conditions
         if ((buttons[0].getText() == "X")
                 && (buttons[1].getText() == "X")
                 && (buttons[2].getText() == "X")) {
 
             XWins(0, 1, 2);
-        }
-        else if ((buttons[3].getText() == "X")
+        } else if ((buttons[3].getText() == "X")
                 && (buttons[4].getText() == "X")
                 && (buttons[5].getText() == "X")) {
 
             XWins(3, 4, 5);
-        }
-        else if ((buttons[6].getText() == "X")
+        } else if ((buttons[6].getText() == "X")
                 && (buttons[7].getText() == "X")
                 && (buttons[8].getText() == "X")) {
 
             XWins(6, 7, 8);
-        }
-        else if ((buttons[0].getText() == "X")
+        } else if ((buttons[0].getText() == "X")
                 && (buttons[3].getText() == "X")
                 && (buttons[6].getText() == "X")) {
 
             XWins(0, 3, 6);
-        }
-        else if ((buttons[1].getText() == "X")
+        } else if ((buttons[1].getText() == "X")
                 && (buttons[4].getText() == "X")
                 && (buttons[7].getText() == "X")) {
 
             XWins(1, 4, 7);
-        }
-        else if ((buttons[2].getText() == "X")
+        } else if ((buttons[2].getText() == "X")
                 && (buttons[5].getText() == "X")
                 && (buttons[8].getText() == "X")) {
 
             XWins(2, 5, 8);
-        }
-        else if ((buttons[0].getText() == "X")
+        } else if ((buttons[0].getText() == "X")
                 && (buttons[4].getText() == "X")
                 && (buttons[8].getText() == "X")) {
 
             XWins(0, 4, 8);
-        }
-        else if ((buttons[2].getText() == "X")
+        } else if ((buttons[2].getText() == "X")
                 && (buttons[4].getText() == "X")
                 && (buttons[6].getText() == "X")) {
 
             XWins(2, 4, 6);
         }
 
-        //check O win conditions
+        // check O win conditions
         else if ((buttons[0].getText() == "O")
                 && (buttons[1].getText() == "O")
                 && (buttons[2].getText() == "O")) {
 
             OWins(0, 1, 2);
-        }
-        else if ((buttons[3].getText() == "O")
+        } else if ((buttons[3].getText() == "O")
                 && (buttons[4].getText() == "O")
                 && (buttons[5].getText() == "O")) {
 
             OWins(3, 4, 5);
-        }
-        else if ((buttons[6].getText() == "O")
+        } else if ((buttons[6].getText() == "O")
                 && (buttons[7].getText() == "O")
                 && (buttons[8].getText() == "O")) {
 
             OWins(6, 7, 8);
-        }
-        else if ((buttons[0].getText() == "O")
+        } else if ((buttons[0].getText() == "O")
                 && (buttons[3].getText() == "O")
                 && (buttons[6].getText() == "O")) {
 
             OWins(0, 3, 6);
-        }
-        else if ((buttons[1].getText() == "O")
+        } else if ((buttons[1].getText() == "O")
                 && (buttons[4].getText() == "O")
                 && (buttons[7].getText() == "O")) {
 
             OWins(1, 4, 7);
-        }
-        else if ((buttons[2].getText() == "O")
+        } else if ((buttons[2].getText() == "O")
                 && (buttons[5].getText() == "O")
                 && (buttons[8].getText() == "O")) {
 
             OWins(2, 5, 8);
-        }
-        else if ((buttons[0].getText() == "O")
+        } else if ((buttons[0].getText() == "O")
                 && (buttons[4].getText() == "O")
                 && (buttons[8].getText() == "O")) {
 
             OWins(0, 4, 8);
-        }
-        else if ((buttons[2].getText() == "O")
+        } else if ((buttons[2].getText() == "O")
                 && (buttons[4].getText() == "O")
                 && (buttons[6].getText() == "O")) {
 
@@ -226,7 +212,8 @@ public class TicTacToe implements ActionListener {
                 buttons[i].setEnabled(false);
             }
 
-            textfield.setText("No One Wins!!! Game Over!!!");
+            textfield.setText("No One Wins!");
+            new Thread(new GameOver()).start();
         }
     }
 
@@ -239,7 +226,9 @@ public class TicTacToe implements ActionListener {
             buttons[i].setEnabled(false);
         }
 
-        textfield.setText("X wins!");   
+        textfield.setText("X wins!");
+        new Thread(new GameOver()).start();
+
     }
 
     public void OWins(int a, int b, int c) {
@@ -252,8 +241,67 @@ public class TicTacToe implements ActionListener {
         }
 
         textfield.setText("O wins!");
-        
-               
+        new Thread(new GameOver()).start();
+    }
+
+    class GameOver implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            JLabel score = new JLabel();
+
+            score.setBackground(new Color(0, 0, 0));
+            score.setForeground(new Color(255, 0, 0));
+            score.setFont(new Font("Ink Free", Font.BOLD, 50));
+            score.setHorizontalAlignment(JLabel.CENTER);
+            score.setText("Game Over");
+            score.setOpaque(true);
+
+            button_panel.removeAll();
+            button_panel.revalidate();
+            button_panel.repaint();
+
+            button_panel.setPreferredSize(new Dimension(400, 400));
+            button_panel.setLayout(null);
+            button_panel.add(score);
+            button_panel.setBackground(Color.black);
+
+            score.setBounds(50, 50, 400, 200);
+
+            JButton exitButton = new JButton("Exit");
+            JButton retryButton = new JButton("Retry");
+            exitButton.setBounds(100, 250, 100, 50);
+            retryButton.setBounds(100, 300, 100, 50);
+
+            exitButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    new FirstPage().run();
+                }
+            });
+
+            retryButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    new TicTacToe();
+                }
+            });
+
+            button_panel.add(exitButton);
+            button_panel.add(retryButton);
+        }
+
     }
 
     public static void main(String[] args) {
