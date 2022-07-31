@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-/**
- *
- * @author As-Sami
- */
+
 package com.sami.backtochildhood;
+
+/**
+*
+* @author As-Sami
+*/
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -106,6 +108,38 @@ public class SnakeLudo extends JFrame {
         LudoPaper.setBounds(150, 0, 600, 600);
 
         {
+            initialPanel = new JPanel();
+            initialPanel.setLayout(null);
+            initialPanel.setBounds(0, 480, 150, 120);
+            initialPanel.setBackground(new Color(12, 23, 34));
+
+            initialGuti = new GutiBox[4];
+            initialGuti[0] = new GutiBox();
+            initialGuti[0].setBounds(10, 0, 60, 60);
+
+            initialGuti[1] = new GutiBox();
+            initialGuti[1].setBounds(10, 60, 60, 60);
+
+            initialGuti[2] = new GutiBox();
+            initialGuti[2].setBounds(80, 0, 60, 60);
+
+            initialGuti[3] = new GutiBox();
+            initialGuti[3].setBounds(80, 60, 60, 60);
+
+            for (int i = 0; i < 4; i++)
+                initialPanel.add(initialGuti[i]);
+        }
+
+        for (int i = 0; i < player; i++)
+            initialGuti[i].addGuti(playerColor[i]);
+
+        // playerPosition[0] = 99;
+        // playerPosition[1] = 99;
+
+        // grid[99].addGuti(playerColor[0]);
+        // grid[99].addGuti(playerColor[1]);
+
+        {
             winnerPanel = new JPanel();
             winnerPanel.setLayout(null);
             winnerPanel.setBounds(0, 0, 150, 120);
@@ -113,19 +147,15 @@ public class SnakeLudo extends JFrame {
 
             winnerGuti = new GutiBox[4];
             winnerGuti[0] = new GutiBox();
-            // winnerGuti[0].addGuti(Color.blue);
             winnerGuti[0].setBounds(10, 0, 60, 60);
 
             winnerGuti[1] = new GutiBox();
-            // winnerGuti[1].addGuti(Color.red);
             winnerGuti[1].setBounds(10, 60, 60, 60);
 
             winnerGuti[2] = new GutiBox();
-            // winnerGuti[2].addGuti(Color.yellow);
             winnerGuti[2].setBounds(80, 0, 60, 60);
 
             winnerGuti[3] = new GutiBox();
-            // winnerGuti[3].addGuti(Color.green);
             winnerGuti[3].setBounds(80, 60, 60, 60);
 
             for (int i = 0; i < 4; i++)
@@ -162,7 +192,7 @@ public class SnakeLudo extends JFrame {
             });
             roll.setBorder(null);
             roll.setkBorderRadius(40);
-            roll.setText("Role");
+            roll.setText("Roll");
 
             KButton exitButton = new KButton();
             exitButton.setPreferredSize(new Dimension(100, 40));
@@ -184,33 +214,6 @@ public class SnakeLudo extends JFrame {
             exitButton.setkBorderRadius(40);
             exitButton.setText("Quit game");
 
-        }
-
-        {
-            initialPanel = new JPanel();
-            initialPanel.setLayout(null);
-            initialPanel.setBounds(0, 480, 150, 120);
-            initialPanel.setBackground(new Color(12, 23, 34));
-
-            initialGuti = new GutiBox[4];
-            initialGuti[0] = new GutiBox();
-            initialGuti[0].addGuti(playerColor[0]);
-            initialGuti[0].setBounds(10, 0, 60, 60);
-
-            initialGuti[1] = new GutiBox();
-            initialGuti[1].addGuti(playerColor[1]);
-            initialGuti[1].setBounds(10, 60, 60, 60);
-
-            initialGuti[2] = new GutiBox();
-            initialGuti[2].addGuti(playerColor[2]);
-            initialGuti[2].setBounds(80, 0, 60, 60);
-
-            initialGuti[3] = new GutiBox();
-            initialGuti[3].addGuti(playerColor[3]);
-            initialGuti[3].setBounds(80, 60, 60, 60);
-
-            for (int i = 0; i < 4; i++)
-                initialPanel.add(initialGuti[i]);
         }
 
         navPanel = new JPanel();
@@ -384,8 +387,21 @@ public class SnakeLudo extends JFrame {
                 playerPosition[turn] += dice;
                 winnerGuti[turn].addGuti(playerColor[turn]);
                 win++;
+                new Thread(new Runnable() {
 
-                if (win == 4) {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        navLabel.setText("Player " + (turn + 1 + "wins"));
+                    }
+                }).start();
+
+                if (win == player - 1) {
                     disable = true;
 
                     KButton retryButton = new KButton();
@@ -401,13 +417,28 @@ public class SnakeLudo extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             dispose();
-                            new SnakeLudo(4);
+                            new SnakeLudo(player);
                         }
                     });
                     retryButton.setBorder(null);
                     retryButton.setkBorderRadius(40);
                     retryButton.setText("Play Again");
                     dicePanel.add(retryButton);
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            navLabel.setText("Game Over");
+                        }
+
+                    }).start();
                 }
 
             } else {
@@ -428,7 +459,7 @@ public class SnakeLudo extends JFrame {
                                 e.printStackTrace();
                             }
 
-                            int tt = (turn + 4 - 1) % 4;
+                            int tt = (turn + player - 1) % player;
 
                             // System.out.println("end = " + playerPosition[turn]);
 
@@ -449,10 +480,10 @@ public class SnakeLudo extends JFrame {
         }
 
         turn++;
-        turn %= 4;
+        turn %= player;
 
         updateNav();
-        System.out.println(turn);
+        // System.out.println(turn);
     }
 
     void restart() {
