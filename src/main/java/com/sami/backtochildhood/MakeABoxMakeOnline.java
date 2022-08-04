@@ -18,8 +18,14 @@ public class MakeABoxMakeOnline {
 
         nc.sendString(name + "|make-a-box");
 
-        String matchInfo = nc.recieveString();
-        System.out.println(matchInfo);
+        // String matchInfo = nc.recieveString();
+        // System.out.println(matchInfo);
+
+        String matchInfo = "online?";// = nc.recieveString();
+
+        while (matchInfo.equals("online?")) {
+            matchInfo = nc.recieveString();
+        }
 
         frame.dispose();
 

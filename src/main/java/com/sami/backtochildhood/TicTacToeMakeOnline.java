@@ -13,17 +13,22 @@ import javax.swing.JFrame;
  *
  * @author As-Sami
  */
-public class TicTacToeMakeOnline {
-    static void run(String name, JFrame frame) throws IOException {
+public class TicTacToeMakeOnline implements Runnable {
+    void run(String name, JFrame frame) throws IOException {
         Socket socket = new Socket("192.168.56.1", 12345);
         System.out.println("socket connecteds....");
         NetworkConnection nc = new NetworkConnection(socket);
         System.out.println("Network connected");
 
         System.out.println("Searching for players");
+        frame.repaint();
 
         nc.sendString(name + "|tic-tac-toe");
-        String response = nc.recieveString();
+        String response = "online?";// = nc.recieveString();
+
+        while (response.equals("online?")) {
+            response = nc.recieveString();
+        }
 
         frame.dispose();
         boolean turn;
@@ -38,5 +43,22 @@ public class TicTacToeMakeOnline {
         System.out.println("----------------------------------------");
 
         new TicTacToeOnline(nc, turn);
+    }
+
+    String name;
+    JFrame frame;
+
+    TicTacToeMakeOnline(String name, JFrame frame) {
+        this.name = name;
+        this.frame = frame;
+    }
+
+    @Override
+    public void run() {
+        try {
+            run(name, frame);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

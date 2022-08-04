@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.sami.backtochildhood;
-
-/**
- *
- * @author Hp
- */
 
 import Server.NetworkConnection;
 import java.awt.Color;
@@ -28,7 +19,7 @@ public class TicTacToeOnline extends TicTacToe {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("katakuti file....");
+
         for (int i = 0; i < 9; i++) {
             if (e.getSource() == buttons[i]) {
 
@@ -116,9 +107,7 @@ public class TicTacToeOnline extends TicTacToe {
                 e.printStackTrace();
             }
 
-            System.out.println("Recieving string...");
             String s = nc.recieveString();
-            System.out.println("String received... : 0 + s");
             int n = Integer.parseInt(s);
             buttons[n].doClick();
 

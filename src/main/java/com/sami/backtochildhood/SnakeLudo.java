@@ -39,32 +39,14 @@ public class SnakeLudo extends JFrame {
 
     int turn = 0; // 0, 1, 2, 3 - th player's move
     int dice = 0;
-    int player, win = 0, playerPosition[];
+    int player, playerPosition[];
+    Vector<Integer> winner;
 
     GutiBox grid[], initialGuti[], winnerGuti[];
     boolean disable;
 
-    private int t = 0;
-    Timer diceTimer = new Timer(10, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (t == 20) {
-                diceTimer.stop();
-                t = 0;
-
-                makeMove();
-                return;
-            }
-
-            t++;
-            dice = Math.abs(random.nextInt()) % 6 + 1;
-            String s = "src\\main\\java\\Image\\dice" + Integer.toString(dice) + ".jpg";
-            ImageIcon icon = new ImageIcon(s);
-
-            diceLabel.setIcon(icon);
-            diceLabel.revalidate();
-        }
-    });
+    int t = 0;
+    Timer diceTimer = new Timer(10, new DiceListener());
 
     SnakeLudo(int player) {
 
@@ -73,6 +55,7 @@ public class SnakeLudo extends JFrame {
         this.player = player;
         playerPosition = new int[4];
 
+        winner = new Vector<>();
         grid = new GutiBox[101];
         int n = 100;
         for (int i = 0; i < 10; i++) {
@@ -92,10 +75,10 @@ public class SnakeLudo extends JFrame {
         }
 
         playerColor = new Color[4];
-        playerColor[0] = new Color(225, 0, 0, 140);
-        playerColor[1] = new Color(0, 0, 255, 140);
-        playerColor[2] = new Color(255, 255, 0, 140);
-        playerColor[3] = new Color(0, 255, 0, 140);
+        playerColor[0] = new Color(225, 0, 0, 140); // red
+        playerColor[1] = new Color(0, 0, 255, 140); // blue
+        playerColor[2] = new Color(255, 255, 0, 140); // yello
+        playerColor[3] = new Color(0, 255, 0, 140); // green
 
         icon = new ImageIcon("src\\main\\java\\Image\\SnakeLudo.png");
 
@@ -126,7 +109,7 @@ public class SnakeLudo extends JFrame {
             initialGuti[3] = new GutiBox();
             initialGuti[3].setBounds(80, 60, 60, 60);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < player; i++)
                 initialPanel.add(initialGuti[i]);
         }
 
@@ -306,8 +289,6 @@ public class SnakeLudo extends JFrame {
         }
 
         void addGuti(Color c) {
-            // this.setBackground(Color.BLACK);
-            // System.out.println("guti addeed");
             gutiColor.add(c);
             draw();
         }
@@ -318,13 +299,11 @@ public class SnakeLudo extends JFrame {
                 if (gutiColor.elementAt(i).equals(c))
                     pos = i;
 
-            // System.out.println("To be removed color pos :" + pos);
             gutiColor.remove(pos);
             draw();
         }
 
         void draw() {
-            // System.out.println("guti color size : " + gutiColor.size());
 
             if (gutiColor.size() == 1) {
                 gutis[0].setColor(gutiColor.elementAt(0));
@@ -366,7 +345,9 @@ public class SnakeLudo extends JFrame {
         }
     }
 
-    private void makeMove() {
+    void makeMove() {
+
+        System.out.println("turn -> " + turn);
 
         if (playerPosition[turn] == 0) {
             if (dice == 1) {
@@ -386,7 +367,9 @@ public class SnakeLudo extends JFrame {
                 grid[playerPosition[turn]].removeGuti(playerColor[turn]);
                 playerPosition[turn] += dice;
                 winnerGuti[turn].addGuti(playerColor[turn]);
-                win++;
+
+                winner.add(turn);
+
                 new Thread(new Runnable() {
 
                     @Override
@@ -397,11 +380,11 @@ public class SnakeLudo extends JFrame {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        navLabel.setText("Player " + (turn + 1 + "wins"));
+                        navLabel.setText("Player " + ((turn + 3) % 4 + 1 + "wins"));
                     }
                 }).start();
 
-                if (win == player - 1) {
+                if (winner.size() == player - 1) {
                     disable = true;
 
                     KButton retryButton = new KButton();
@@ -432,7 +415,6 @@ public class SnakeLudo extends JFrame {
                             try {
                                 Thread.sleep(2000);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                             navLabel.setText("Game Over");
@@ -448,42 +430,83 @@ public class SnakeLudo extends JFrame {
 
                 if (grid[playerPosition[turn]].isLadder || grid[playerPosition[turn]].isSnake) {
                     disable = true;
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-
-                            int tt = (turn + player - 1) % player;
-
-                            // System.out.println("end = " + playerPosition[turn]);
-
-                            // System.out.println("Turn = " + turn);
-                            // System.out.println("Player position = " + playerPosition[turn]);
-                            // System.out.println("end = " + grid[playerPosition[turn]].end);
-
-                            grid[playerPosition[tt]].removeGuti(playerColor[tt]);
-                            playerPosition[tt] = grid[playerPosition[tt]].end;
-                            grid[playerPosition[tt]].addGuti(playerColor[tt]);
-
-                            disable = false;
-                        }
-
-                    }).start();
+                    new Thread(new Jump(turn)).start();
                 }
             }
         }
 
-        turn++;
-        turn %= player;
+        increamentTurn();
 
         updateNav();
         // System.out.println(turn);
+    }
+
+    class Jump implements Runnable {
+        int x;
+
+        Jump(int x) {
+            this.x = x;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            int tt = this.x;
+
+            // System.out.println("end = " + playerPosition[turn]);
+
+            // System.out.println("Turn = " + turn);
+            // System.out.println("Player position = " + playerPosition[turn]);
+            // System.out.println("end = " + grid[playerPosition[turn]].end);
+
+            grid[playerPosition[tt]].removeGuti(playerColor[tt]);
+            playerPosition[tt] = grid[playerPosition[tt]].end;
+            grid[playerPosition[tt]].addGuti(playerColor[tt]);
+
+            disable = false;
+        }
+
+    }
+
+    class DiceListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (t == 20) {
+                diceTimer.stop();
+                t = 0;
+
+                makeMove();
+                return;
+            }
+
+            t++;
+            dice = Math.abs(random.nextInt()) % 6 + 1;
+
+            // if (t == 20)
+            // dice = 1;
+
+            String s = "src\\main\\java\\Image\\dice" + Integer.toString(dice) + ".jpg";
+            ImageIcon icon = new ImageIcon(s);
+
+            diceLabel.setIcon(icon);
+            diceLabel.revalidate();
+        }
+
+    }
+
+    void increamentTurn() {
+
+        do {
+            turn++;
+            turn %= player;
+        } while (winner.contains(turn));
+
     }
 
     void restart() {
@@ -495,6 +518,6 @@ public class SnakeLudo extends JFrame {
     }
 
     public static void main(String[] args) {
-        new SnakeLudo(2);
+        new SnakeLudo(3);
     }
 }

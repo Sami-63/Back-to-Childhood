@@ -15,7 +15,14 @@ public class ChurPoliceMakeOnline {
         System.out.println("Network connected");
 
         nc.sendString(name + "|chur-police");
-        String responses[] = nc.recieveString().split("\\|");
+
+        String response = "online?";// = nc.recieveString();
+
+        while (response.equals("online?")) {
+            response = nc.recieveString();
+        }
+
+        String responses[] = response.split("\\|");
 
         frame.dispose();
 

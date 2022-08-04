@@ -64,7 +64,9 @@ public class MakeABox extends JFrame {
             scorePanel.setBackground(new Color(0, 0, 0));
 
             scoreLabel = new JLabel();
-            scoreLabel.setFont(new Font("LCDMono2", Font.PLAIN, 40));
+            scoreLabel.setFont(new Font("LCDMono2", Font.PLAIN, 30));
+            scoreLabel.setHorizontalAlignment(JLabel.CENTER);
+            scoreLabel.setVerticalAlignment(JLabel.CENTER);
             scoreLabel.setForeground(new Color(0, 255, 0));
             scorePanel.add(scoreLabel);
             updateScore();
@@ -416,6 +418,6 @@ public class MakeABox extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MakeABox(4, 6);
+        new MakeABox(4, 4);
     }
 }
