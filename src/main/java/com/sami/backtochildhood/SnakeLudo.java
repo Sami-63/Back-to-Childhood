@@ -190,7 +190,7 @@ public class SnakeLudo extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose();
-                    new FirstPage().run();
+                    new HomePage();
                 }
             });
             exitButton.setBorder(null);

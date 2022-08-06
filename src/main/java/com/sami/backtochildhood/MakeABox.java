@@ -44,6 +44,8 @@ public class MakeABox extends JFrame {
 
     public MakeABox(int row, int column) {
 
+        this.setTitle("Make a box");
+
         this.row = row;
         this.column = column;
 

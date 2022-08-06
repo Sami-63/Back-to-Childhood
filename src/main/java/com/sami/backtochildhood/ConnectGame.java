@@ -42,7 +42,7 @@ public class ConnectGame implements Runnable {
             System.out.println("Opponent got the first move");
         }
 
-        new MakeABoxOnlineV2(name, opponent, row, column, turn, nc);
+        new MakeABoxOnline(name, opponent, row, column, turn, nc);
     }
 
     void snakeLudo(String response) {

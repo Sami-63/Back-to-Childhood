@@ -18,22 +18,32 @@ import com.k33ptoo.components.KGradientPanel;
 
 public class HomePage extends JFrame {
 
-    JPanel background;
+    KGradientPanel background;
     Page startGame;
     NextPage gameChooser, gameMode, makeABoxGridChooser, snakeLudoGridChooser, online, searching;
 
-    JLabel searchingLabel;
+    JLabel searchingLabel, title;
 
     String currentGame = "";
     JTextField usernameTextfield;
     Button start;
 
     HomePage() {
+        title = new JLabel();
+        title.setText("Back to Childhood");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setVerticalAlignment(SwingConstants.CENTER);
+        title.setBackground(new Color(0, 0, 0, 0));
+        title.setFont(new Font("Best Valentina", Font.PLAIN, 70));
+        title.setBounds(150, 35, 500, 94);
+        title.setOpaque(true);
+
         setTitle("Back to Childhood");
-        background = new JPanel();
+        background = new KGradientPanel();
         background.setPreferredSize(new Dimension(800, 500));
         background.setLayout(null);
-        background.setBackground(new Color(191, 207, 255));
+        background.setkStartColor(new Color(106, 145, 19));
+        background.setkEndColor(new Color(20, 21, 23));
 
         {
             Button playButton = new Button("Play");
@@ -252,6 +262,7 @@ public class HomePage extends JFrame {
         usernameTextfield.setFont(new Font("Constantia", Font.BOLD, 30));
         usernameTextfield.setBorder(null);
         usernameTextfield.setHorizontalAlignment(SwingConstants.CENTER);
+        usernameTextfield.setBackground(new Color(255, 255, 255, 150));
 
         usernameTextfield.addActionListener(new ActionListener() {
             @Override
@@ -291,6 +302,7 @@ public class HomePage extends JFrame {
         searching.button.setVisible(false);
         searching.add(searchingLabel);
 
+        background.add(title);
         background.add(startGame);
         background.add(gameChooser);
         background.add(gameMode);
@@ -318,12 +330,13 @@ public class HomePage extends JFrame {
             this.setkBorderRadius(40);
             this.setBackground(new Color(0, 0, 0, 0));
 
-            this.setkStartColor(new Color(128, 159, 255));
-            this.setkEndColor(new Color(128, 159, 255));
+            this.setkStartColor(new Color(51, 0, 27));
+            this.setkEndColor(new Color(255, 0, 132));
+
             this.setLayout(null);
 
-            // this.setkStartColor(new Color(0, 0, 0, 100));
-            // this.setkEndColor(new Color(0, 0, 0, 100));
+            // this.setkStartColor(new Color(255, 255, 255, 100));
+            // this.setkEndColor(new Color(255, 255, 255, 100));
         }
     }
 

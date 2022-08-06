@@ -2,11 +2,11 @@ package com.sami.backtochildhood;
 
 import Server.NetworkConnection;
 
-public class MakeABoxOnlineV2 extends MakeABox {
+public class MakeABoxOnline extends MakeABox {
     String name, opponent;
     NetworkConnection nc;
 
-    public MakeABoxOnlineV2(String name, String opponent, int row, int column, int turn, NetworkConnection nc) {
+    public MakeABoxOnline(String name, String opponent, int row, int column, int turn, NetworkConnection nc) {
         super(row, column);
         this.name = name;
         this.opponent = opponent;
