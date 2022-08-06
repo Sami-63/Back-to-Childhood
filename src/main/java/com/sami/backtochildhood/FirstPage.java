@@ -35,6 +35,7 @@ public class FirstPage extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -62,7 +63,7 @@ public class FirstPage extends javax.swing.JFrame {
         OnlineButton = new com.k33ptoo.components.KButton();
         OfflineButton = new com.k33ptoo.components.KButton();
         SearchingPlayers = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        searchLabel = new javax.swing.JLabel();
         BackgroundPanel = new javax.swing.JPanel();
         kGradientPanel2 = new com.k33ptoo.components.KGradientPanel();
 
@@ -486,11 +487,11 @@ public class FirstPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Searching for players");
-        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        searchLabel.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
+        searchLabel.setForeground(new java.awt.Color(255, 255, 0));
+        searchLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        searchLabel.setText("Searching for players");
+        searchLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         javax.swing.GroupLayout SearchingPlayersLayout = new javax.swing.GroupLayout(SearchingPlayers);
         SearchingPlayers.setLayout(SearchingPlayersLayout);
@@ -498,7 +499,7 @@ public class FirstPage extends javax.swing.JFrame {
                 SearchingPlayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(SearchingPlayersLayout.createSequentialGroup()
                                 .addGap(69, 69, 69)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360,
+                                .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 360,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(71, Short.MAX_VALUE)));
         SearchingPlayersLayout.setVerticalGroup(
@@ -506,7 +507,7 @@ public class FirstPage extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                 SearchingPlayersLayout.createSequentialGroup()
                                         .addContainerGap(106, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88,
+                                        .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(106, 106, 106)));
 
@@ -650,11 +651,13 @@ public class FirstPage extends javax.swing.JFrame {
             // }
             new Thread(new TicTacToeMakeOnline(usernameJField.getText(), this)).start();
         } else if (gameName == "make-a-box") {
-            try {
-                MakeABoxMakeOnline.run(usernameJField.getText(), this);
-            } catch (IOException ex) {
-                Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            // try {
+            // MakeABoxMakeOnline.run(usernameJField.getText(), this);
+            // } catch (IOException ex) {
+            // Logger.getLogger(FirstPage.class.getName()).log(Level.SEVERE, null, ex);
+            // }
+            // new Thread(new ConnectGame(gameName, usernameJField.getText(), this,
+            // searchLabel)).start();
         } else if (gameName == "chur-police") {
             try {
                 ChurPoliceMakeOnline.run(usernameJField.getText(), this);
@@ -799,10 +802,10 @@ public class FirstPage extends javax.swing.JFrame {
     private javax.swing.JPanel StartGame;
     private com.k33ptoo.components.KButton TicTacToeButton;
     private javax.swing.JPanel TicTacToeChoose;
-    private javax.swing.JLabel jLabel1;
     private com.k33ptoo.components.KButton kButton1;
     private com.k33ptoo.components.KButton kButton2;
     private com.k33ptoo.components.KGradientPanel kGradientPanel2;
+    private javax.swing.JLabel searchLabel;
     private javax.swing.JTextField usernameJField;
     // End of variables declaration//GEN-END:variables
 }

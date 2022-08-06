@@ -16,6 +16,8 @@ public class MakeABoxOnlineV2 extends MakeABox {
         this.turn = turn;
         this.nc = nc;
 
+        updateNav();
+        updateScore();
         if (turn == -1) {
             new Thread(new GetResponse()).start();
         }

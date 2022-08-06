@@ -1,9 +1,7 @@
 package com.sami.backtochildhood;
 
-import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -24,10 +22,9 @@ public class SnakeLudoMakeOnline {
             response = nc.recieveString();
         }
 
-        String responses[] = response.split("\\|");
-
         frame.dispose();
 
+        String responses[] = response.split("\\|");
         String players[] = new String[4];
         players[0] = name;
         players[1] = responses[1];
@@ -39,20 +36,5 @@ public class SnakeLudoMakeOnline {
 
         int turn = Integer.parseInt(responses[0]);
         new SnakeLudoOnline(nc, turn, players);
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        String name = sc.next();
-        try {
-            run(name, new JFrame());
-        } catch (HeadlessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }
