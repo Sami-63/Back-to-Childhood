@@ -21,11 +21,13 @@ public class NetworkConnection {
         ois = new ObjectInputStream(socket.getInputStream());
     }
 
-    public void write(Object obj) {
+    public boolean write(Object obj) {
         try {
             oos.writeObject(obj);
+            return true;
         } catch (IOException ex) {
             System.out.println("Failed to write");
+            return false;
         }
     }
 
@@ -40,10 +42,10 @@ public class NetworkConnection {
         return obj;
     }
 
-    public void sendString(String s) {
+    public boolean sendString(String s) {
         Data data = new Data();
         data.msg = s;
-        write(data);
+        return write(data);
     }
 
     public String recieveString() {

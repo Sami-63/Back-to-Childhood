@@ -12,6 +12,6 @@ package com.sami.backtochildhood;
 public class BackToChildHood {
 
     public static void main(String[] args) {
-        new FirstPage().run();
+        new HomePage();
     }
 }

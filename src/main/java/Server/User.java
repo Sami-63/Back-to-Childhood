@@ -12,8 +12,8 @@ public class User {
         this.nc = nc;
         this.username = username;
     }
-    
-    public void send(String s){
+
+    public void send(String s) {
         Data data = new Data();
         data.msg = s;
 
@@ -26,7 +26,7 @@ public class User {
         return data;
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return nc.isConnected();
     }
 }

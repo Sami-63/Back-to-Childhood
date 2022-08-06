@@ -8,6 +8,7 @@ package com.sami.backtochildhood;
  *
  * @author Mahmud
  */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -65,7 +66,6 @@ public class TicTacToe implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
 
         for (int i = 0; i < 9; i++) {
             if (e.getSource() == buttons[i]) {
@@ -98,7 +98,6 @@ public class TicTacToe implements ActionListener {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -112,7 +111,7 @@ public class TicTacToe implements ActionListener {
     }
 
     public void check() {
-        // check X win conditions
+
         if ((buttons[0].getText() == "X")
                 && (buttons[1].getText() == "X")
                 && (buttons[2].getText() == "X")) {
@@ -256,7 +255,6 @@ public class TicTacToe implements ActionListener {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -290,7 +288,7 @@ public class TicTacToe implements ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
-                    new FirstPage().run();
+                    new HomePage();
                 }
             });
 
@@ -306,7 +304,6 @@ public class TicTacToe implements ActionListener {
             button_panel.add(exitButton);
             button_panel.add(retryButton);
         }
-
     }
 
     public static void main(String[] args) {
