@@ -24,6 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import com.k33ptoo.components.KButton;
 
 public class MakeABox extends JFrame {
 
@@ -40,7 +43,7 @@ public class MakeABox extends JFrame {
     public LineY lineY[][];
     public Box boxes[][];
 
-    protected int scoreA = 0, scoreB = 0;
+    protected int scoreA = 0, scoreB = 0, totalLies = 0;
 
     public MakeABox(int row, int column) {
 
@@ -88,7 +91,7 @@ public class MakeABox extends JFrame {
         }
 
         mainPanel.setPreferredSize(new Dimension(70 * column - 50, 70 * row - 50));
-        mainPanel.setBackground(Color.GRAY);
+        mainPanel.setBackground(Color.white);
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         for (int i = 0; i < 2 * row - 1; i++) {
@@ -98,12 +101,14 @@ public class MakeABox extends JFrame {
                         mainPanel.add(dots[i / 2][j / 2] = new Dot(i / 2, j / 2));
                     } else {
                         mainPanel.add(lineX[i / 2][j / 2] = new LineX(i / 2, j / 2));
+                        totalLies++;
                     }
                 }
             } else {
                 for (int j = 0; j < column * 2 - 1; j++) {
                     if (j % 2 == 0) {
                         mainPanel.add(lineY[i / 2][j / 2] = new LineY(i / 2, j / 2));
+                        totalLies++;
                     } else {
                         mainPanel.add(boxes[i / 2][j / 2] = new Box(i / 2, j / 2));
                     }
@@ -136,9 +141,16 @@ public class MakeABox extends JFrame {
     }
 
     void updateTurn(boolean scored, int lineType, int x, int y) {
+        System.out.println("updating turn");
         if (scored == false) {
             turn = (turn == 1 ? 0 : 1);
             updateNav();
+        }
+
+        totalLies--;
+
+        if (totalLies == 0) {
+            new Thread(new GameOver()).start();
         }
     }
 
@@ -380,7 +392,7 @@ public class MakeABox extends JFrame {
 
     }
 
-    protected class Box extends JButton {
+    protected class Box extends JLabel {
 
         private int x, y;
 
@@ -390,7 +402,7 @@ public class MakeABox extends JFrame {
 
         public Box(int x, int y) {
 
-            this.setFont(new Font("LCDMono2", Font.PLAIN, 20));
+            this.setFont(new Font("Arial", Font.BOLD, 20));
 
             this.x = x;
             this.y = y;
@@ -398,8 +410,10 @@ public class MakeABox extends JFrame {
             owner = "";
 
             this.setBackground(bg);
-            this.setBorderPainted(false);
-            this.setEnabled(false);
+            this.setHorizontalAlignment(SwingConstants.CENTER);
+            this.setVerticalAlignment(SwingConstants.CENTER);
+            this.setForeground(Color.black);
+            // this.setEnabled(false);
             this.setSize(width, height);
             setMinimumSize(getSize());
             setMaximumSize(getSize());
@@ -419,7 +433,109 @@ public class MakeABox extends JFrame {
         }
     }
 
+    class GameOver implements Runnable {
+
+        @Override
+        public void run() {
+            Dimension d = mainPanel.getSize();
+
+            mainPanel.removeAll();
+            mainPanel.revalidate();
+            mainPanel.repaint();
+
+            navLabel.setText("");
+
+            mainPanel.setPreferredSize(d);
+            mainPanel.setLayout(null);
+
+            SLabel label1 = new SLabel();
+            SLabel label2 = new SLabel();
+
+            label1.setText("Game Over");
+
+            label1.setOpaque(true);
+            label2.setOpaque(true);
+
+            setWinner(label2);
+
+            SButton retry = new SButton("Retry");
+            retry.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    new MakeABox(row, column);
+                }
+            });
+
+            SButton exit = new SButton("Exit");
+            exit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    new HomePage();
+                }
+            });
+
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            panel.setBounds((int) d.getWidth() / 2 - 150, (int) d.getHeight() / 2 - 100, 300, 200);
+
+            panel.setBackground(Color.black);
+            panel.add(label1);
+            panel.add(label2);
+            panel.add(exit);
+            panel.add(retry);
+
+            mainPanel.add(panel);
+
+            mainPanel.revalidate();
+            mainPanel.repaint();
+
+        }
+
+        private class SLabel extends JLabel {
+            SLabel() {
+                super();
+                setBackground(new Color(0, 0, 0, 0));
+                setForeground(new Color(0, 255, 0));
+                setPreferredSize(new Dimension(200, 50));
+                setHorizontalAlignment(SwingConstants.CENTER);
+                setVerticalAlignment(SwingConstants.CENTER);
+                setFont(new Font("LCDMono2", Font.PLAIN, 30));
+            }
+        }
+
+        private class SButton extends KButton {
+            SButton(String t) {
+                super();
+
+                setBorder(null);
+                setText(t);
+                setPreferredSize(new Dimension(120, 60));
+                setkStartColor(new Color(241, 39, 17));
+                setkEndColor(new Color(245, 175, 25));
+
+                setkHoverStartColor(new Color(245, 175, 25));
+                setkHoverEndColor(new Color(241, 39, 17));
+                setkHoverForeGround(Color.black);
+
+                setkPressedColor(Color.white);
+
+                setkBorderRadius(20);
+            }
+        }
+    }
+
+    void setWinner(JLabel label) {
+        if (scoreA > scoreB)
+            label.setText("A wins");
+        else if (scoreA < scoreB)
+            label.setText("B wins");
+        else
+            label.setText("It's  a  tie");
+    }
+
     public static void main(String[] args) {
-        new MakeABox(4, 4);
+        new MakeABox(4, 6);
     }
 }

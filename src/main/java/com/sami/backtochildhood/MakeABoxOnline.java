@@ -1,5 +1,7 @@
 package com.sami.backtochildhood;
 
+import javax.swing.JLabel;
+
 import Server.NetworkConnection;
 
 public class MakeABoxOnline extends MakeABox {
@@ -45,9 +47,10 @@ public class MakeABoxOnline extends MakeABox {
     void updateTurn(boolean scored, int lineType, int x, int y) {
         if (scored) {
             updateNav();
-            if (turn == 0)
+            if (turn == 0) {
+                turn = -1;
                 new Thread(new GetResponse()).start();
-            else {
+            } else {
                 String response = lineType + "|" + x + "|" + y + "|1";
                 nc.sendString(response);
             }
@@ -62,6 +65,12 @@ public class MakeABoxOnline extends MakeABox {
             }
         }
         updateNav();
+
+        totalLies--;
+
+        if (totalLies == 0) {
+            new Thread(new GameOver()).start();
+        }
     }
 
     private class GetResponse implements Runnable {
@@ -91,5 +100,14 @@ public class MakeABoxOnline extends MakeABox {
     private void setName() {
         name = name.substring(0, 1).toUpperCase();
         opponent = opponent.substring(0, 1).toUpperCase();
+    }
+
+    void setWinner(JLabel label) {
+        if (scoreA > scoreB)
+            label.setText("You wins");
+        else if (scoreA < scoreB)
+            label.setText("You lost");
+        else
+            label.setText("It's  a  tie");
     }
 }
