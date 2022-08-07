@@ -93,13 +93,18 @@ public class CreateChurPolice implements Runnable {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        System.out.println("complete");
-        for (int i = 0; i < 4; i++)
-            player.elementAt(i).nc.close();
+
+        try {
+            System.out.println("complete");
+            for (int i = 0; i < 4; i++)
+                player.elementAt(i).nc.close();
+            System.out.println("socket closed");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
