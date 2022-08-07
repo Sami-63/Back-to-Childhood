@@ -14,6 +14,8 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import com.k33ptoo.components.KButton;
+
 public class TicTacToe implements ActionListener {
 
     Random random = new Random();
@@ -258,33 +260,24 @@ public class TicTacToe implements ActionListener {
                 e.printStackTrace();
             }
 
-            JLabel score = new JLabel();
-
-            score.setBackground(new Color(0, 0, 0));
-            score.setForeground(new Color(255, 0, 0));
-            score.setFont(new Font("Ink Free", Font.BOLD, 50));
-            score.setHorizontalAlignment(JLabel.CENTER);
+            SLabel score = new SLabel();
             score.setText("Game Over");
-            score.setOpaque(true);
 
             button_panel.removeAll();
             button_panel.revalidate();
             button_panel.repaint();
+            score.setBounds(50, 50, 400, 200);
 
             button_panel.setPreferredSize(new Dimension(400, 400));
             button_panel.setLayout(null);
-            button_panel.add(score);
             button_panel.setBackground(Color.black);
 
-            score.setBounds(50, 50, 400, 200);
+            SButton exit = new SButton("Exit");
+            SButton retry = new SButton("Retry");
+            exit.setBounds(100, 250, 100, 50);
+            retry.setBounds(100, 300, 100, 50);
 
-            JButton exitButton = new JButton("Exit");
-            JButton retryButton = new JButton("Retry");
-            exitButton.setBounds(100, 250, 100, 50);
-            retryButton.setBounds(100, 300, 100, 50);
-
-            exitButton.addActionListener(new ActionListener() {
-
+            exit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
@@ -292,8 +285,7 @@ public class TicTacToe implements ActionListener {
                 }
             });
 
-            retryButton.addActionListener(new ActionListener() {
-
+            retry.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
@@ -301,8 +293,54 @@ public class TicTacToe implements ActionListener {
                 }
             });
 
-            button_panel.add(exitButton);
-            button_panel.add(retryButton);
+            Dimension d = button_panel.getSize();
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            panel.setBounds((int) d.getWidth() / 2 - 150, 100, 300, 400);
+
+            panel.setBackground(Color.black);
+            panel.add(score);
+            panel.add(exit);
+            panel.add(retry);
+
+            button_panel.add(panel);
+
+            button_panel.revalidate();
+            button_panel.repaint();
+        }
+
+        private class SLabel extends JLabel {
+            SLabel() {
+                super();
+                setBackground(new Color(0, 0, 0, 0));
+                setForeground(new Color(0, 255, 0));
+                setPreferredSize(new Dimension(400, 70));
+                setHorizontalAlignment(SwingConstants.CENTER);
+                setVerticalAlignment(SwingConstants.CENTER);
+                setFont(new Font("LCDMono2", Font.PLAIN, 50));
+            }
+        }
+
+        private class SButton extends KButton {
+            SButton(String t) {
+                super();
+
+                setFont(new Font("Arial", Font.BOLD, 30));
+                setForeground(Color.black);
+                setBorder(null);
+                setText(t);
+                setPreferredSize(new Dimension(200, 80));
+                setkStartColor(new Color(241, 39, 17));
+                setkEndColor(new Color(245, 175, 25));
+
+                setkHoverStartColor(new Color(245, 175, 25));
+                setkHoverEndColor(new Color(241, 39, 17));
+                setkHoverForeGround(Color.black);
+
+                setkPressedColor(Color.white);
+
+                setkBorderRadius(20);
+            }
         }
     }
 
