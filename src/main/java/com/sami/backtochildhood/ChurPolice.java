@@ -36,7 +36,7 @@ public class ChurPolice extends JFrame {
 
     ChurPolice(NetworkConnection nc, int turn, String players[]) {
 
-        this.setTitle(players[0]);
+        this.setTitle("Chur Police");
 
         this.turn = 0;
         startingTurn = turn;

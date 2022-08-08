@@ -1,15 +1,16 @@
 package com.sami.backtochildhood;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -34,16 +35,28 @@ public class HomePage extends JFrame {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
         title.setBackground(new Color(0, 0, 0, 0));
-        title.setFont(new Font("Best Valentina", Font.PLAIN, 70));
         title.setBounds(150, 35, 500, 94);
         title.setOpaque(true);
+        title.setForeground(Color.black);
+
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(
+                    Font.createFont(Font.TRUETYPE_FONT, new File("Best Valentina TTF.ttf")));
+            title.setFont(new Font("Best Valentina", Font.PLAIN, 70));
+            // System.out.println("font added");
+        } catch (Exception e) {
+            title.setFont(new Font("Constantia", Font.BOLD, 25));
+            // System.out.println("failed");
+        }
+        // title.setFont(new Font("Constantia", Font.BOLD, 50));
 
         setTitle("Back to Childhood");
         background = new KGradientPanel();
         background.setPreferredSize(new Dimension(800, 500));
         background.setLayout(null);
-        background.setkStartColor(new Color(106, 145, 19));
-        background.setkEndColor(new Color(20, 21, 23));
+        background.setkStartColor(new Color(189, 195, 199));
+        background.setkEndColor(new Color(164, 162, 180));
 
         {
             Button playButton = new Button("Play");
@@ -262,7 +275,7 @@ public class HomePage extends JFrame {
         usernameTextfield.setFont(new Font("Constantia", Font.BOLD, 30));
         usernameTextfield.setBorder(null);
         usernameTextfield.setHorizontalAlignment(SwingConstants.CENTER);
-        usernameTextfield.setBackground(new Color(255, 255, 255, 150));
+        usernameTextfield.setBackground(new Color(255, 255, 255));
 
         usernameTextfield.addActionListener(new ActionListener() {
             @Override
@@ -313,10 +326,13 @@ public class HomePage extends JFrame {
 
         this.add(background);
         this.pack();
+        this.setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+        repaint();
     }
 
     void startOnline() {
@@ -330,8 +346,8 @@ public class HomePage extends JFrame {
             this.setkBorderRadius(40);
             this.setBackground(new Color(0, 0, 0, 0));
 
-            this.setkStartColor(new Color(51, 0, 27));
-            this.setkEndColor(new Color(255, 0, 132));
+            this.setkStartColor(new Color(40, 49, 59));
+            this.setkEndColor(new Color(72, 84, 97));
 
             this.setLayout(null);
 
@@ -377,16 +393,17 @@ public class HomePage extends JFrame {
             this.setPreferredSize(new Dimension(200, 75));
             this.setBackground(new Color(0, 0, 0, 0));
             this.setkBorderRadius(20);
-            this.setkStartColor(new Color(0, 45, 179));
-            this.setkEndColor(new Color(0, 45, 179));
+            this.setkStartColor(Color.white);
+            this.setkEndColor(Color.white);
 
             this.setkHoverStartColor(new Color(255, 255, 255, 100));
             this.setkHoverEndColor(new Color(255, 255, 255, 100));
 
             this.setFont(new Font("Constantia", Font.BOLD, 25));
+            this.setkForeGround(Color.black);
             this.setBorder(null);
 
-            this.setkHoverForeGround(new Color(0, 45, 179));
+            this.setkHoverForeGround(Color.black);
             this.setkPressedColor(Color.white);
         }
 
