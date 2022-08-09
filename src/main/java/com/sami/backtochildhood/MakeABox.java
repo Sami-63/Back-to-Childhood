@@ -141,7 +141,7 @@ public class MakeABox extends JFrame {
     }
 
     protected void updateTurn(boolean scored, int lineType, int x, int y) {
-        System.out.println("updating turn");
+        // System.out.println("updating turn");
         if (scored == false) {
             turn = (turn == 1 ? 0 : 1);
             updateNav();
@@ -430,6 +430,15 @@ public class MakeABox extends JFrame {
     }
 
     class GameOver implements Runnable {
+        String text = "";
+
+        GameOver() {
+
+        }
+
+        GameOver(String t) {
+            text = t;
+        }
 
         @Override
         public void run() {
@@ -439,7 +448,7 @@ public class MakeABox extends JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
 
-            navLabel.setText("");
+            navLabel.setText(text);
 
             mainPanel.setPreferredSize(d);
             mainPanel.setLayout(null);
@@ -452,7 +461,11 @@ public class MakeABox extends JFrame {
             label1.setOpaque(true);
             label2.setOpaque(true);
 
-            setWinner(label2);
+            if (text.equals(""))
+                setWinner(label2);
+            else {
+                label2.setText("");
+            }
 
             SButton retry = new SButton("Retry");
             retry.addActionListener(new ActionListener() {
@@ -486,7 +499,7 @@ public class MakeABox extends JFrame {
 
             mainPanel.revalidate();
             mainPanel.repaint();
-
+            repaint();
         }
 
         private class SLabel extends JLabel {

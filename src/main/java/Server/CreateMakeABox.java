@@ -63,10 +63,15 @@ public class CreateMakeABox implements Runnable {
             if (turn) {
 
                 String res = player1.nc.recieveString();
+
+                if (res.equals("")) {
+                    break;
+                }
+
                 running = player2.nc.sendString(res);
 
-                if (!running || res.equals(""))
-                    break;
+                // if (!running || res.equals(""))
+                // break;
 
                 if (res.charAt(res.length() - 1) == '0')
                     turn = false;
@@ -74,10 +79,15 @@ public class CreateMakeABox implements Runnable {
             } else {
 
                 String res = player2.nc.recieveString();
+
+                if (res.equals("")) {
+                    break;
+                }
+
                 running = player1.nc.sendString(res);
 
-                if (!running || res.equals(""))
-                    break;
+                // if (!running || res.equals(""))
+                // break;
 
                 if (res.charAt(res.length() - 1) == '0')
                     turn = true;
@@ -86,6 +96,16 @@ public class CreateMakeABox implements Runnable {
         }
 
         try {
+            try {
+                player1.nc.sendString("win");
+            } catch (Exception e) {
+            }
+
+            try {
+                player2.nc.sendString("win");
+            } catch (Exception e) {
+            }
+
             System.out.println("complete");
             player1.nc.socket.close();
             player2.nc.socket.close();

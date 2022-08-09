@@ -52,7 +52,13 @@ public class MakeABoxOnline extends MakeABox {
                 new Thread(new GetResponse()).start();
             } else {
                 String response = lineType + "|" + x + "|" + y + "|1";
-                nc.sendString(response);
+                if (nc.sendString(response))
+                    ;
+                else {
+                    turn = -1;
+                    // navLabel.setText("Server's offline");
+                    new Thread(new GameOver("Server's offline")).start();
+                }
             }
         } else {
             if (turn == 0)
@@ -60,8 +66,12 @@ public class MakeABoxOnline extends MakeABox {
             else {
                 turn = -1;
                 String response = lineType + "|" + x + "|" + y + "|0";
-                nc.sendString(response);
-                new Thread(new GetResponse()).start();
+                if (nc.sendString(response))
+                    new Thread(new GetResponse()).start();
+                else {
+                    // navLabel.setText("Server's offline");
+                    new Thread(new GameOver("Server's offline")).start();
+                }
             }
         }
         updateNav();
@@ -80,14 +90,38 @@ public class MakeABoxOnline extends MakeABox {
 
             // keep receiving while opponent has move
 
-            System.out.println("waiting to receive...");
+            // System.out.println("waiting to receive...");
             String response = nc.recieveString();
+
+            if (response.equals("")) {
+                // navLabel.setText("Serve's offline");
+                new Thread(new GameOver("Server's offline")).start();
+                return;
+            } else if (response.equals("win")) {
+                navLabel.setText("opponent has left");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            navLabel.setText("You win.....");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+                // navLabel.setText("Serve's offline");
+                new Thread(new GameOver("opponent has left")).start();
+                return;
+            }
+
             String s[] = response.split("\\|");
             int t = Integer.parseInt(s[0]);
             int i = Integer.parseInt(s[1]);
             int j = Integer.parseInt(s[2]);
 
-            System.out.println("recived :" + response);
+            // System.out.println("recived :" + response);
 
             turn = 0;
             if (t == 0)

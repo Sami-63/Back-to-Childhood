@@ -131,6 +131,8 @@ public class TicTacToeOnline extends TicTacToe {
                 return;
             } else if (s.equals("")) {
                 navLabel.setText("Server's offline");
+                new Thread(new GameOver()).start();
+                return;
             }
 
             int n = Integer.parseInt(s);
