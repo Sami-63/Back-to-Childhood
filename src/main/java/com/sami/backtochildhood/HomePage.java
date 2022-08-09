@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import com.k33ptoo.components.KButton;
 import com.k33ptoo.components.KGradientPanel;
 
+//master
+
 public class HomePage extends JFrame {
 
     KGradientPanel background;

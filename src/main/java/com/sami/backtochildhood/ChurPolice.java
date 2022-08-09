@@ -1,17 +1,21 @@
 package com.sami.backtochildhood;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import Server.NetworkConnection;
 
@@ -541,10 +545,16 @@ public class ChurPolice extends JFrame {
                 cards[i].setVisible(false);
             }
 
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
+
             // ---------------------------------------------------------------
             JPanel scoreBoard = new JPanel();
-            scoreBoard.setBounds(200, 200, 500, 400);
+            scoreBoard.setBounds(200, 100, 500, 400);
             scoreBoard.setBackground(Color.white);
+            scoreBoard.setLayout(null);
 
             for (int i = 0; i < 4; i++)
                 for (int j = i + 1; j < 4; j++)
@@ -558,21 +568,88 @@ public class ChurPolice extends JFrame {
                         playerName[j].setText(stemp);
                     }
 
-            JLabel label = new JLabel("Leader Board");
-            JLabel p1 = new JLabel("King      - " + playerName[0].getText() + "\t - " + playerScore[0]);
-            JLabel p2 = new JLabel("Queen     - " + playerName[1].getText() + "\t - " + playerScore[1]);
-            JLabel p3 = new JLabel("Villager  - " + playerName[2].getText() + "\t - " + playerScore[2]);
-            JLabel p4 = new JLabel("Terrorist - " + playerName[3].getText() + "\t - " + playerScore[3]);
+            try {
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(
+                        Font.createFont(Font.TRUETYPE_FONT, new File("Lighthouse_PersonalUse.ttf")));
+            } catch (Exception e) {
+            }
+
+            SLabel label = new SLabel("Leader Board");
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setFont(new Font("Lighthouse Personal Use", Font.PLAIN, 30));
+            label.setBounds(50, 0, 400, 80);
+
+            SPanel panels[] = new SPanel[3];
+            for (int i = 0; i < 3; i++) {
+                panels[i] = new SPanel();
+                panels[i].setBounds(25 + 150 * i, 100, 150, 320);
+                panels[i].setLayout(new FlowLayout());
+            }
+
+            panels[0].add(new SLabel("King"));
+            panels[0].add(new SLabel("Minister"));
+            panels[0].add(new SLabel("Police"));
+            panels[0].add(new SLabel("Thief"));
+
+            for (int i = 0; i < 4; i++) {
+                panels[1].add(new SLabel("- " + playerName[i].getText()));
+            }
+
+            for (int i = 0; i < 4; i++) {
+                panels[2].add(new SLabel("- " + playerScore[i]));
+            }
+
+            // SLabel p1 = new SLabel("<p>King &emsp;- " + playerName[0].getText() + " - " +
+            // playerScore[0] + "</p>");
+            // SLabel p2 = new SLabel("<p>Minister &emsp;- " + playerName[1].getText() + " -
+            // " + playerScore[1] + "</p>");
+            // SLabel p3 = new SLabel("<p>Police &emsp;- " + playerName[2].getText() + " - "
+            // + playerScore[2] + "</p>");
+            // SLabel p4 = new SLabel("<p>Theif &emsp;- " + playerName[3].getText() + " - "
+            // + playerScore[3] + "</p>");
 
             scoreBoard.add(label);
-            scoreBoard.add(p1);
-            scoreBoard.add(p2);
-            scoreBoard.add(p3);
-            scoreBoard.add(p4);
+            for (int i = 0; i < 3; i++)
+                scoreBoard.add(panels[i]);
+
             background.add(scoreBoard);
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    restart();
+
+                }
+
+            }).start();
             // ---------------------------------------------------------------
         }
 
+        private class SPanel extends JPanel {
+            SPanel() {
+                super();
+                setPreferredSize(new Dimension(150, 300));
+            }
+        }
+
+        private class SLabel extends JLabel {
+            SLabel(String text) {
+                super(text);
+
+                setVerticalAlignment(SwingConstants.CENTER);
+                setPreferredSize(new Dimension(120, 70));
+                setForeground(Color.black);
+                setBackground(new Color(0, 0, 0, 0));
+
+                setFont(new Font("Constantia", Font.BOLD, 20));
+                // setFont(new Font("LightHouse", Font.BOLD, 20));
+            }
+        }
+    }
+
+    private void restart() {
+        this.repaint();
     }
 
     public static void main(String[] args) {
