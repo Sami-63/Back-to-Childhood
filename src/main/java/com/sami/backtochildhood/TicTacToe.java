@@ -88,9 +88,7 @@ public class TicTacToe implements ActionListener {
                     }
                 }
             }
-
         }
-
     }
 
     public void firstTurn() {
@@ -110,6 +108,7 @@ public class TicTacToe implements ActionListener {
         }
     }
 
+    //checking that one's wins or not
     public void check() {
 
         if ((buttons[0].getText() == "X")
@@ -196,7 +195,8 @@ public class TicTacToe implements ActionListener {
 
             OWins(2, 4, 6);
         }
-
+        
+        //no one wins condition
         else if ((buttons[0].getText() == "O" || buttons[0].getText() == "X")
                 && (buttons[1].getText() == "O" || buttons[1].getText() == "X")
                 && (buttons[2].getText() == "O" || buttons[2].getText() == "X")

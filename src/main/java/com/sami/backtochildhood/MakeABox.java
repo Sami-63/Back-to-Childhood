@@ -42,6 +42,7 @@ public class MakeABox extends JFrame {
 
     protected int scoreA = 0, scoreB = 0;
 
+    //constructor to defune MakeABox
     public MakeABox(int row, int column) {
 
         this.setTitle("Make a box");
@@ -54,7 +55,8 @@ public class MakeABox extends JFrame {
         mainPanel = new JPanel();
 
         {
-            dots = new Dot[30][30];
+            //max size 30*30
+            dots = new Dot[30][30];    
             lineX = new LineX[30][30];
             lineY = new LineY[30][30];
             boxes = new Box[30][30];
@@ -123,23 +125,32 @@ public class MakeABox extends JFrame {
             this.setVisible(true);
         }
     }
+    
+    public void setName(String s,String ss){
+        for(int i=0;i<Math.min(s.length(),ss.length());i++){
+            if(s.charAt(i)!=ss.charAt(i)){
+                p1=String.valueOf(s.charAt(i));
+                p2=String.valueOf(ss.charAt(i));
+            }
+        }
+    }
 
     public void updateNav() {
         if (turn == 1)
-            navLabel.setText("A's turn");
+            navLabel.setText(p1+"'s turn");
         else
-            navLabel.setText("B's turn");
+            navLabel.setText(p2+"'s turn");
     }
 
     public void updateScore() {
-        scoreLabel.setText("A = " + scoreA + " | B = " + scoreB);
+        scoreLabel.setText(p1+" = " + scoreA + " | "+p2+"= " + scoreB);
         if(scoreA+scoreB == (row-1)*(column-1)){
             whoWins = new JPanel();
             if(scoreA>scoreB){
-                navLabel.setText("A wins!");
+                navLabel.setText(p1+" wins!");
             }
             else if(scoreA<scoreB){
-                navLabel.setText("B wins!");
+                navLabel.setText(p2+" wins!");
             }
             else if(scoreA==scoreB){
                 navLabel.setText("Nobody wins! Match Tied!");

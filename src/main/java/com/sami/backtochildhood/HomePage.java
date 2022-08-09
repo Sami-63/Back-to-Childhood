@@ -16,7 +16,7 @@ import com.k33ptoo.components.KButton;
 import com.k33ptoo.components.KGradientPanel;
 
 public class HomePage extends JFrame {
-
+    
     KGradientPanel background;
     Page startGame;
     NextPage gameChooser, gameMode, makeABoxGridChooser, snakeLudoGridChooser, online, searching;
