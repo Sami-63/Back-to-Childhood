@@ -577,13 +577,13 @@ public class ChurPolice extends JFrame {
 
             SLabel label = new SLabel("Leader Board");
             label.setHorizontalAlignment(SwingConstants.CENTER);
-            label.setFont(new Font("Lighthouse Personal Use", Font.PLAIN, 30));
+            label.setFont(new Font("Lighthouse Personal Use", Font.PLAIN, 40));
             label.setBounds(50, 0, 400, 80);
 
             SPanel panels[] = new SPanel[3];
             for (int i = 0; i < 3; i++) {
                 panels[i] = new SPanel();
-                panels[i].setBounds(25 + 150 * i, 100, 150, 320);
+                panels[i].setBounds(25 + 150 * i, 90, 150, 320);
                 panels[i].setLayout(new FlowLayout());
             }
 
@@ -593,11 +593,11 @@ public class ChurPolice extends JFrame {
             panels[0].add(new SLabel("Thief"));
 
             for (int i = 0; i < 4; i++) {
-                panels[1].add(new SLabel("- " + playerName[i].getText()));
+                panels[1].add(new SLabel(playerName[i].getText()));
             }
 
             for (int i = 0; i < 4; i++) {
-                panels[2].add(new SLabel("- " + playerScore[i]));
+                panels[2].add(new SLabel("" + playerScore[i]));
             }
 
             // SLabel p1 = new SLabel("<p>King &emsp;- " + playerName[0].getText() + " - " +
@@ -619,7 +619,7 @@ public class ChurPolice extends JFrame {
                 @Override
                 public void run() {
                     restart();
-
+                    background.revalidate();
                 }
 
             }).start();
@@ -638,11 +638,11 @@ public class ChurPolice extends JFrame {
                 super(text);
 
                 setVerticalAlignment(SwingConstants.CENTER);
-                setPreferredSize(new Dimension(120, 70));
+                setPreferredSize(new Dimension(100, 70));
                 setForeground(Color.black);
                 setBackground(new Color(0, 0, 0, 0));
 
-                setFont(new Font("Constantia", Font.BOLD, 20));
+                setFont(new Font("Arial", Font.BOLD, 20));
                 // setFont(new Font("LightHouse", Font.BOLD, 20));
             }
         }
