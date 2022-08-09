@@ -40,9 +40,13 @@ public class CreateTicTacToe implements Runnable {
         for (int i = 0; i < 9; i++) {
             if (i % 2 == turn) {
                 String response = player2.nc.recieveString();
+                if (response.equals(""))
+                    break;
                 flag = player1.nc.sendString(response);
             } else {
                 String response = player1.nc.recieveString();
+                if (response.equals(""))
+                    break;
                 flag = player2.nc.sendString(response);
             }
 
@@ -51,6 +55,19 @@ public class CreateTicTacToe implements Runnable {
         }
 
         try {
+
+            try {
+                player1.nc.sendString("win");
+                System.out.println("send to p1");
+            } catch (Exception e) {
+            }
+
+            try {
+                player2.nc.sendString("win");
+                System.out.println("send to p2");
+            } catch (Exception e) {
+            }
+
             System.out.println("complete");
             player1.nc.socket.close();
             player2.nc.socket.close();

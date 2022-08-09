@@ -26,7 +26,7 @@ public class MakeABoxOnline extends MakeABox {
     }
 
     @Override
-    public void updateNav() {
+    protected void updateNav() {
         if (turn == 1)
             navLabel.setText("Its your turn");
         else
@@ -34,17 +34,17 @@ public class MakeABoxOnline extends MakeABox {
     }
 
     @Override
-    public void updateScore() {
+    protected void updateScore() {
         scoreLabel.setText(name + " = " + scoreA + "  " + opponent + " = " + scoreB);
     }
 
     @Override
-    boolean isClickable(boolean clicked) {
+    protected boolean isClickable(boolean clicked) {
         return clicked || turn == -1;
     }
 
     @Override
-    void updateTurn(boolean scored, int lineType, int x, int y) {
+    protected void updateTurn(boolean scored, int lineType, int x, int y) {
         if (scored) {
             updateNav();
             if (turn == 0) {
@@ -98,11 +98,12 @@ public class MakeABoxOnline extends MakeABox {
     }
 
     private void setName() {
-        name = name.substring(0, 1).toUpperCase();
-        opponent = opponent.substring(0, 1).toUpperCase();
+        p1 = name.substring(0, 1).toUpperCase();
+        p2 = opponent.substring(0, 1).toUpperCase();
     }
 
-    void setWinner(JLabel label) {
+    @Override
+    protected void setWinner(JLabel label) {
         if (scoreA > scoreB)
             label.setText("You wins");
         else if (scoreA < scoreB)

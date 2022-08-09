@@ -30,18 +30,18 @@ import com.k33ptoo.components.KButton;
 
 public class MakeABox extends JFrame {
 
-    private String p1 = "A", p2 = "B";
-    int turn;
+    protected String p1 = "A", p2 = "B";
+    protected int turn;
 
-    JPanel mainPanel, scorePanel, navigationPanel;
-    JLabel scoreLabel, navLabel;
+    protected JPanel mainPanel, scorePanel, navigationPanel;
+    protected JLabel scoreLabel, navLabel;
 
     protected int row;
     protected int column;
-    public Dot dots[][];
-    public LineX lineX[][];
-    public LineY lineY[][];
-    public Box boxes[][];
+    protected Dot dots[][];
+    protected LineX lineX[][];
+    protected LineY lineY[][];
+    protected Box boxes[][];
 
     protected int scoreA = 0, scoreB = 0, totalLies = 0;
 
@@ -129,18 +129,18 @@ public class MakeABox extends JFrame {
         }
     }
 
-    public void updateNav() {
+    protected void updateNav() {
         if (turn == 1)
             navLabel.setText("A's turn");
         else
             navLabel.setText("B's turn");
     }
 
-    public void updateScore() {
+    protected void updateScore() {
         scoreLabel.setText("A = " + scoreA + " | B = " + scoreB);
     }
 
-    void updateTurn(boolean scored, int lineType, int x, int y) {
+    protected void updateTurn(boolean scored, int lineType, int x, int y) {
         System.out.println("updating turn");
         if (scored == false) {
             turn = (turn == 1 ? 0 : 1);
@@ -154,7 +154,7 @@ public class MakeABox extends JFrame {
         }
     }
 
-    boolean isClickable(boolean clicked) {
+    protected boolean isClickable(boolean clicked) {
         return clicked;
     }
 
@@ -398,7 +398,6 @@ public class MakeABox extends JFrame {
 
         private int height = 50, width = 50;
         private Color bg = Color.white;
-        private String owner;
 
         public Box(int x, int y) {
 
@@ -406,8 +405,6 @@ public class MakeABox extends JFrame {
 
             this.x = x;
             this.y = y;
-
-            owner = "";
 
             this.setBackground(bg);
             this.setHorizontalAlignment(SwingConstants.CENTER);
@@ -428,7 +425,6 @@ public class MakeABox extends JFrame {
 
             updateScore();
 
-            owner = s;
             this.setText(s);
         }
     }
@@ -526,7 +522,7 @@ public class MakeABox extends JFrame {
         }
     }
 
-    void setWinner(JLabel label) {
+    protected void setWinner(JLabel label) {
         if (scoreA > scoreB)
             label.setText("A wins");
         else if (scoreA < scoreB)

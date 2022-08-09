@@ -21,11 +21,11 @@ public class TicTacToe implements ActionListener {
     Random random = new Random();
 
     JFrame frame = new JFrame();
-    JPanel title_panel = new JPanel();
-    JPanel button_panel = new JPanel();
-    public JLabel textfield = new JLabel();
+    JPanel titlePanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
+    public JLabel navLabel = new JLabel();
     public JButton[] buttons = new JButton[9];
-    public boolean player1_turn;
+    public boolean player1Turn;
 
     public TicTacToe() {
 
@@ -40,30 +40,30 @@ public class TicTacToe implements ActionListener {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
 
-        textfield.setBackground(new Color(25, 25, 25));
-        textfield.setBackground(new Color(25, 250, 0));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
-        textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("Tic-Tac-Toe");
-        textfield.setOpaque(true);
+        navLabel.setBackground(new Color(25, 25, 25));
+        navLabel.setBackground(new Color(25, 250, 0));
+        navLabel.setFont(new Font("Ink Free", Font.BOLD, 50));
+        navLabel.setHorizontalAlignment(JLabel.CENTER);
+        navLabel.setText("Tic-Tac-Toe");
+        navLabel.setOpaque(true);
 
-        title_panel.setLayout(new BorderLayout());
-        title_panel.setBounds(0, 0, 800, 100);
+        titlePanel.setLayout(new BorderLayout());
+        titlePanel.setBounds(0, 0, 800, 100);
 
-        button_panel.setLayout(new GridLayout(3, 3));
-        button_panel.setBackground(new Color(150, 150, 150));
+        buttonPanel.setLayout(new GridLayout(3, 3));
+        buttonPanel.setBackground(new Color(150, 150, 150));
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton();
-            button_panel.add(buttons[i]);
+            buttonPanel.add(buttons[i]);
             buttons[i].setFont(new Font("MV Boli", Font.BOLD, 100));
             buttons[i].setBackground(Color.black);
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
         }
 
-        title_panel.add(textfield);
-        frame.add(title_panel, BorderLayout.NORTH);
-        frame.add(button_panel);
+        titlePanel.add(navLabel);
+        frame.add(titlePanel, BorderLayout.NORTH);
+        frame.add(buttonPanel);
 
         firstTurn();
     }
@@ -74,20 +74,20 @@ public class TicTacToe implements ActionListener {
         for (int i = 0; i < 9; i++) {
             if (e.getSource() == buttons[i]) {
 
-                if (player1_turn == true) {
+                if (player1Turn == true) {
                     if (buttons[i].getText() == "") {
                         buttons[i].setForeground(new Color(255, 0, 0));
                         buttons[i].setText("X");
-                        player1_turn = false;
-                        textfield.setText("O turn");
+                        player1Turn = false;
+                        navLabel.setText("O turn");
                         check();
                     }
                 } else {
                     if (buttons[i].getText() == "") {
                         buttons[i].setForeground(new Color(0, 0, 255));
                         buttons[i].setText("O");
-                        player1_turn = true;
-                        textfield.setText("X turn");
+                        player1Turn = true;
+                        navLabel.setText("X turn");
                         check();
                     }
                 }
@@ -106,11 +106,11 @@ public class TicTacToe implements ActionListener {
         }
 
         if (random.nextInt(2) == 0) {
-            player1_turn = true;
-            textfield.setText("X turn");
+            player1Turn = true;
+            navLabel.setText("X turn");
         } else {
-            player1_turn = false;
-            textfield.setText("O turn");
+            player1Turn = false;
+            navLabel.setText("O turn");
         }
     }
 
@@ -222,7 +222,7 @@ public class TicTacToe implements ActionListener {
     }
 
     public void Tie() {
-        textfield.setText("Nobody wins");
+        navLabel.setText("Nobody wins");
     }
 
     public void XWins(int a, int b, int c) {
@@ -234,7 +234,7 @@ public class TicTacToe implements ActionListener {
             buttons[i].setEnabled(false);
         }
 
-        textfield.setText("X wins!");
+        navLabel.setText("X wins!");
         new Thread(new GameOver()).start();
 
     }
@@ -248,7 +248,7 @@ public class TicTacToe implements ActionListener {
             buttons[i].setEnabled(false);
         }
 
-        textfield.setText("O wins!");
+        navLabel.setText("O wins!");
         new Thread(new GameOver()).start();
     }
 
@@ -265,19 +265,19 @@ public class TicTacToe implements ActionListener {
             SLabel score = new SLabel();
             score.setText("Game Over");
 
-            button_panel.removeAll();
-            button_panel.revalidate();
-            button_panel.repaint();
+            buttonPanel.removeAll();
+            buttonPanel.revalidate();
+            buttonPanel.repaint();
             score.setBounds(50, 50, 400, 200);
 
-            button_panel.setPreferredSize(new Dimension(400, 400));
-            button_panel.setLayout(null);
-            button_panel.setBackground(Color.black);
+            buttonPanel.setPreferredSize(new Dimension(400, 400));
+            buttonPanel.setLayout(null);
+            buttonPanel.setBackground(Color.black);
 
             SButton exit = new SButton("Exit");
             SButton retry = new SButton("Retry");
-            exit.setBounds(100, 250, 100, 50);
-            retry.setBounds(100, 300, 100, 50);
+            exit.setBounds(100, 300, 100, 50);
+            retry.setBounds(100, 250, 100, 50);
 
             exit.addActionListener(new ActionListener() {
                 @Override
@@ -295,20 +295,21 @@ public class TicTacToe implements ActionListener {
                 }
             });
 
-            Dimension d = button_panel.getSize();
+            Dimension d = buttonPanel.getSize();
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout());
             panel.setBounds((int) d.getWidth() / 2 - 150, 100, 300, 400);
 
             panel.setBackground(Color.black);
             panel.add(score);
-            panel.add(exit);
             panel.add(retry);
+            panel.add(exit);
 
-            button_panel.add(panel);
+            buttonPanel.add(panel);
 
-            button_panel.revalidate();
-            button_panel.repaint();
+            buttonPanel.revalidate();
+            buttonPanel.repaint();
+            frame.repaint();
         }
 
         private class SLabel extends JLabel {

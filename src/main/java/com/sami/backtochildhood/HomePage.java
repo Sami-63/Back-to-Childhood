@@ -283,7 +283,6 @@ public class HomePage extends JFrame {
                 start.doClick();
             }
         });
-        searchingLabel = new JLabel();
 
         start = new Button("Start");
         start.setBounds(150, 160, 200, 75);
@@ -304,6 +303,7 @@ public class HomePage extends JFrame {
 
         // ---------------------------------------------
 
+        searchingLabel = new JLabel();
         searchingLabel = new JLabel("Searching for players....");
         searchingLabel.setBackground(new Color(255, 255, 255, 0));
         searchingLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -311,7 +311,20 @@ public class HomePage extends JFrame {
         searchingLabel.setFont(new Font("Constantia", Font.BOLD, 30));
         searchingLabel.setOpaque(true);
 
-        searching = new NextPage(startGame);
+        searching = new NextPage(null);
+        for (ActionListener al : searching.button.getActionListeners()) {
+            searching.button.removeActionListener(al);
+        }
+        searching.button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usernameTextfield.setText("");
+                searchingLabel.setText("Searching for players....");
+                searching.setVisible(false);
+                startGame.setVisible(true);
+                repaint();
+            }
+        });
         searching.button.setVisible(false);
         searching.add(searchingLabel);
 
@@ -364,9 +377,9 @@ public class HomePage extends JFrame {
         public NextPage(Page prevPage) {
             this.prevPage = prevPage;
 
-            Button back = new Button("Back");
-            back.setPreferredSize(new Dimension(50, 50));
-            back.setkBorderRadius(50);
+            // Button back = new Button("Back");
+            // back.setPreferredSize(new Dimension(50, 50));
+            // back.setkBorderRadius(50);
             this.setVisible(false);
 
             button = new Button("Back");

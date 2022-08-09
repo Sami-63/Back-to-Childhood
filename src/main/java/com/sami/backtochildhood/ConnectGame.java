@@ -117,6 +117,7 @@ public class ConnectGame implements Runnable {
             System.out.println("server offline");
             label.setText("server offline");
             button.setVisible(true);
+            frame.repaint();
         }
     }
 
