@@ -79,7 +79,6 @@ public class MakeABoxOnline extends MakeABox {
             int j = Integer.parseInt(s[2]);
 
             System.out.println("recived :" + response);
-
             turn = 0;
             if (t == 0)
                 lineX[i][j].doClick();
@@ -89,7 +88,7 @@ public class MakeABoxOnline extends MakeABox {
     }
 
     private void setName() {
-        name = name.substring(0, 1).toUpperCase();
-        opponent = opponent.substring(0, 1).toUpperCase();
+        p1 = name.substring(0, 1).toUpperCase();
+        p2 = opponent.substring(0, 1).toUpperCase();
     }
 }

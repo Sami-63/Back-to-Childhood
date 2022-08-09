@@ -27,10 +27,10 @@ import javax.swing.JPanel;
 
 public class MakeABox extends JFrame {
 
-    private String p1 = "A", p2 = "B";
+    protected String p1 = "A", p2 = "B";
     int turn;
 
-    JPanel mainPanel, scorePanel, navigationPanel;
+    JPanel mainPanel, scorePanel, navigationPanel,whoWins;
     JLabel scoreLabel, navLabel;
 
     protected int row;
@@ -133,6 +133,18 @@ public class MakeABox extends JFrame {
 
     public void updateScore() {
         scoreLabel.setText("A = " + scoreA + " | B = " + scoreB);
+        if(scoreA+scoreB == (row-1)*(column-1)){
+            whoWins = new JPanel();
+            if(scoreA>scoreB){
+                navLabel.setText("A wins!");
+            }
+            else if(scoreA<scoreB){
+                navLabel.setText("B wins!");
+            }
+            else if(scoreA==scoreB){
+                navLabel.setText("Nobody wins! Match Tied!");
+            }
+        }
     }
 
     void updateTurn(boolean scored, int lineType, int x, int y) {

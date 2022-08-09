@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -42,8 +41,9 @@ public class HomePage extends JFrame {
         background = new KGradientPanel();
         background.setPreferredSize(new Dimension(800, 500));
         background.setLayout(null);
-        background.setkStartColor(new Color(106, 145, 19));
-        background.setkEndColor(new Color(20, 21, 23));
+        
+        background.setkStartColor(new Color(196, 209, 13));
+        background.setkEndColor(new Color(101, 212, 28));
 
         {
             Button playButton = new Button("Play");
@@ -93,7 +93,6 @@ public class HomePage extends JFrame {
                     currentGame = "make-a-box";
                     gameChooser.setVisible(false);
                     gameMode.setVisible(true);
-
                 }
             });
 
@@ -377,8 +376,8 @@ public class HomePage extends JFrame {
             this.setPreferredSize(new Dimension(200, 75));
             this.setBackground(new Color(0, 0, 0, 0));
             this.setkBorderRadius(20);
-            this.setkStartColor(new Color(0, 45, 179));
-            this.setkEndColor(new Color(0, 45, 179));
+            this.setkStartColor(new Color(235, 226, 68));
+            this.setkEndColor(new Color(201, 191, 14));
 
             this.setkHoverStartColor(new Color(255, 255, 255, 100));
             this.setkHoverEndColor(new Color(255, 255, 255, 100));
