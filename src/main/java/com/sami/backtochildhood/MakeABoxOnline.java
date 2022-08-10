@@ -136,6 +136,18 @@ public class MakeABoxOnline extends MakeABox {
         p2 = opponent.substring(0, 1).toUpperCase();
     }
 
+    // private void setName() {
+    // for (int i = 0; i < Math.min(name.length(), opponent.length()); i++) {
+    // name = name.toUpperCase();
+    // opponent = opponent.toUpperCase();
+    // if (name.charAt(i) != opponent.charAt(i)) {
+    // p1 = String.valueOf(name.charAt(i)).toUpperCase();
+    // p2 = String.valueOf(opponent.charAt(i)).toUpperCase();
+    // break;
+    // }
+    // }
+    // }
+
     @Override
     protected void setWinner(JLabel label) {
         if (scoreA > scoreB)

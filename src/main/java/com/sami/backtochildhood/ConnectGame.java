@@ -60,15 +60,21 @@ public class ConnectGame implements Runnable {
     void churPolice(String response) {
         String responses[] = response.split("\\|");
 
+        System.out.println("got response");
+
         String players[] = new String[4];
         players[0] = name;
         players[1] = responses[1];
         players[2] = responses[2];
         players[3] = responses[3];
 
+        System.out.println("moves......");
         int moves = Integer.parseInt(responses[4]);
 
+        System.out.println("turn.....");
         int turn = Integer.parseInt(responses[0]);
+
+        System.out.println("starting chur-police");
         new ChurPolice(nc, turn, players, moves);
     }
 
@@ -90,7 +96,7 @@ public class ConnectGame implements Runnable {
     @Override
     public void run() {
         try {
-            Socket socket = new Socket("192.168.56.1", 12345);
+            Socket socket = new Socket("192.168.31.118", 12345);
             System.out.println("socket connecteds....");
             nc = new NetworkConnection(socket);
             System.out.println("Network connected");
@@ -99,11 +105,15 @@ public class ConnectGame implements Runnable {
 
             nc.sendString(name + "|" + game);
 
+            System.out.println("response snet.....");
+
             String response = "online?";
             while (response.equals("online?")) {
                 response = nc.recieveString();
+                System.out.println("response -> " + response);
             }
 
+            System.out.println("connection istablished");
             frame.dispose();
 
             if (game == "tic-tac-toe")

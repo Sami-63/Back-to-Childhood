@@ -26,7 +26,7 @@ public class CreateTicTacToe implements Runnable {
 
         // game starts from here.....
         Random rand = new Random();
-        int turn = rand.nextInt() % 2;
+        int turn = Math.abs(rand.nextInt()) % 2;
 
         User player1 = users.elementAt(0);
         User player2 = users.elementAt(1);

@@ -307,6 +307,7 @@ public class HomePage extends JFrame {
 
         searchingLabel = new JLabel();
         searchingLabel = new JLabel("Searching for players....");
+        searchingLabel.setForeground(Color.white);
         searchingLabel.setBackground(new Color(255, 255, 255, 0));
         searchingLabel.setHorizontalAlignment(SwingConstants.CENTER);
         searchingLabel.setBounds(50, 100, 400, 100);
