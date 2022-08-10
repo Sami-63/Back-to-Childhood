@@ -272,12 +272,21 @@ public class HomePage extends JFrame {
             }
         });
 
+        KGradientPanel usernameBackground = new KGradientPanel();
+        usernameBackground.setBounds(150, 65, 200, 75);
+        usernameBackground.setkBorderRadius(20);
+        usernameBackground.setkStartColor(Color.white);
+        usernameBackground.setkEndColor(Color.white);
+        usernameBackground.setLayout(null);
+        usernameBackground.setBackground(new Color(0, 0, 0, 0));
+
         usernameTextfield = new JTextField();
-        usernameTextfield.setBounds(150, 65, 200, 75);
+        usernameTextfield.setBounds(0, 16, 195, 40);
         usernameTextfield.setFont(new Font("Constantia", Font.BOLD, 30));
         usernameTextfield.setBorder(null);
         usernameTextfield.setHorizontalAlignment(SwingConstants.CENTER);
         usernameTextfield.setBackground(new Color(255, 255, 255));
+        usernameTextfield.setText("username");
 
         usernameTextfield.addActionListener(new ActionListener() {
             @Override
@@ -285,6 +294,7 @@ public class HomePage extends JFrame {
                 start.doClick();
             }
         });
+        usernameBackground.add(usernameTextfield);
 
         start = new Button("Start");
         start.setBounds(150, 160, 200, 75);
@@ -300,7 +310,7 @@ public class HomePage extends JFrame {
             }
         });
 
-        online.add(usernameTextfield);
+        online.add(usernameBackground);
         online.add(start);
 
         // ---------------------------------------------
@@ -348,6 +358,18 @@ public class HomePage extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                reset();
+            }
+
+        }).start();
+    }
+
+    void reset() {
+        revalidate();
         repaint();
     }
 

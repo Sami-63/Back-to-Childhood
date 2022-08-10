@@ -18,7 +18,7 @@ public class CreateChurPolice implements Runnable {
 
         Random rand = new Random();
         for (int i = 0; i < 4; i++) {
-            int pos = rand.nextInt(4);
+            int pos = Math.abs(rand.nextInt(4));
             int temp = cards[i];
             cards[i] = cards[pos];
             cards[pos] = temp;
