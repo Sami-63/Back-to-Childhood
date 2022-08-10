@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -16,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import com.k33ptoo.components.KButton;
 
 import Server.NetworkConnection;
 
@@ -28,7 +32,7 @@ public class ChurPolice extends JFrame {
     Boolean cardDisable[], profileDisable[];
     NetworkConnection nc;
     int turn, startingTurn;
-    int playerCard[], playerScore[], moves;
+    int playerCard[], playerScore[], moves, counter = 0;
 
     /*
      * 0 1
@@ -38,10 +42,11 @@ public class ChurPolice extends JFrame {
      * 1,2,3 = next player
      */
 
-    ChurPolice(NetworkConnection nc, int turn, String players[]) {
+    ChurPolice(NetworkConnection nc, int turn, String players[], int moves) {
 
         this.setTitle("Chur Police");
 
+        this.moves = moves;
         this.turn = 0;
         startingTurn = turn;
         this.nc = nc;
@@ -224,7 +229,7 @@ public class ChurPolice extends JFrame {
         @Override
         public void run() {
 
-            if (moves == 1) {
+            if (moves == counter) {
 
                 new Thread(new GameOver()).start();
 
@@ -250,6 +255,8 @@ public class ChurPolice extends JFrame {
                     cardPoint[i].setText(r[i]);
                 }
 
+                System.out.println("got the cards");
+
                 for (int j = 0; j < 4; j++)
                     cardPoint[j].setVisible(false);
                 BackToNormalProfileColor();
@@ -261,7 +268,7 @@ public class ChurPolice extends JFrame {
             if ((turn + startingTurn) % 4 == 0) {
 
                 navBar.setText("it's your turn");
-                // System.out.println("its your turn");
+                System.out.println("its your turn");
                 for (int i = 0; i < 4; i++) {
                     if (cards[i].getLocation().equals(shufflePosition[i]))
                         cardDisable[i] = false;
@@ -269,8 +276,10 @@ public class ChurPolice extends JFrame {
             } else {
 
                 navBar.setText("it's " + playerName[(turn + startingTurn) % 4].getText() + "'s turn");
-                // System.out.println("waitinng for opponents");
+                System.out.println("waitinng for opponents");
                 String response = nc.recieveString();
+                System.out.println("response -> " + response);
+
                 int selectedCard = Integer.parseInt(response);
                 cards[selectedCard].setLocation(handPosition[(turn + startingTurn) % 4]);
                 playerCard[(turn + startingTurn) % 4] = Integer
@@ -289,7 +298,9 @@ public class ChurPolice extends JFrame {
         public void run() {
 
             if (playerCard[0] == 500) {
-                navBar.setText("you are the police... identify the chur");
+                counter++;
+                navBar.setText("you are the police... identify the theif");
+                System.out.println("you need to identify the chur");
                 repaint();
                 for (int i = 1; i < 4; i++) {
                     if (playerCard[i] == 0 || playerCard[i] == 800) {
@@ -300,7 +311,7 @@ public class ChurPolice extends JFrame {
             } else {
                 navBar.setText("waiting for the police's turn");
                 repaint();
-                // System.out.println("waiting for police's turn");
+                System.out.println("waiting for police's turn");
                 String response = nc.recieveString();
                 System.out.println("response -> " + response);
                 if (response.equals("0")) {
@@ -344,18 +355,18 @@ public class ChurPolice extends JFrame {
 
                 System.out.println("score: ");
                 for (int i = 0; i < 4; i++) {
-                    System.out.println(playerName[i].getText() + " -> " + playerCard[i]);
+                    // System.out.println(playerName[i].getText() + " -> " + playerCard[i]);
                     playerScore[i] += playerCard[i];
                 }
                 // System.out.println("repainting");
                 repaint();
                 // System.out.println("repainting done");
 
-                for (int i = 0; i < 4; i++) {
-                    System.out.println(playerName[i].getText() + " -> " + playerScore[i]);
-                }
+                // for (int i = 0; i < 4; i++) {
+                // System.out.println(playerName[i].getText() + " -> " + playerScore[i]);
+                // }
 
-                moves++;
+                counter++;
                 new Thread(new GameThread()).start();
             }
         }
@@ -496,10 +507,14 @@ public class ChurPolice extends JFrame {
                     // for (int j = 0; j < 4; j++)
                     // System.out.println(playerName[j].getText() + " -> " + playerCard[j]);
 
-                    moves++;
                     repaint();
 
-                    new Thread(new GameThread()).start();
+                    System.out.println("counter -> " + counter + " | moves -> " + moves);
+
+                    if (moves == counter)
+                        new Thread(new GameOver()).start();
+                    else
+                        new Thread(new GameThread()).start();
                 }
             }
         }
@@ -546,9 +561,11 @@ public class ChurPolice extends JFrame {
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (Exception e) {
             }
+
+            navBar.setText("");
 
             // ---------------------------------------------------------------
             JPanel scoreBoard = new JPanel();
@@ -583,7 +600,7 @@ public class ChurPolice extends JFrame {
             SPanel panels[] = new SPanel[3];
             for (int i = 0; i < 3; i++) {
                 panels[i] = new SPanel();
-                panels[i].setBounds(25 + 150 * i, 90, 150, 320);
+                panels[i].setBounds(25 + 150 * i, 90, 150, 300);
                 panels[i].setLayout(new FlowLayout());
             }
 
@@ -609,11 +626,33 @@ public class ChurPolice extends JFrame {
             // SLabel p4 = new SLabel("<p>Theif &emsp;- " + playerName[3].getText() + " - "
             // + playerScore[3] + "</p>");
 
+            KButton exit = new KButton();
+            exit.setText("Exit");
+            exit.setFont(new Font("Arial", Font.PLAIN, 25));
+            exit.setkStartColor(new Color(0, 0, 70));
+            exit.setkEndColor(new Color(28, 181, 224));
+            exit.setkForeGround(new Color(250, 250, 205));
+            exit.setkHoverStartColor(new Color(28, 181, 224));
+            exit.setkHoverEndColor(new Color(0, 0, 70));
+            exit.setBounds(350, 510, 200, 80);
+            exit.setBorder(null);
+            exit.setkBorderRadius(20);
+            exit.setkPressedColor(Color.gray);
+            exit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    termnate();
+                    new HomePage();
+                }
+            });
+
             scoreBoard.add(label);
             for (int i = 0; i < 3; i++)
                 scoreBoard.add(panels[i]);
 
             background.add(scoreBoard);
+            background.add(exit);
+
             new Thread(new Runnable() {
 
                 @Override
@@ -646,6 +685,10 @@ public class ChurPolice extends JFrame {
                 // setFont(new Font("LightHouse", Font.BOLD, 20));
             }
         }
+    }
+
+    private void termnate() {
+        this.dispose();
     }
 
     private void restart() {

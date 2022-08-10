@@ -66,8 +66,10 @@ public class ConnectGame implements Runnable {
         players[2] = responses[2];
         players[3] = responses[3];
 
+        int moves = Integer.parseInt(responses[4]);
+
         int turn = Integer.parseInt(responses[0]);
-        new ChurPolice(nc, turn, players);
+        new ChurPolice(nc, turn, players, moves);
     }
 
     void tictactoe(String response) {
