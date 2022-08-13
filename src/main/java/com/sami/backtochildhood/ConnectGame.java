@@ -96,7 +96,7 @@ public class ConnectGame implements Runnable {
     @Override
     public void run() {
         try {
-            Socket socket = new Socket("192.168.31.118", 12345);
+            Socket socket = new Socket("192.168.56.1", 12345); // ip address
             System.out.println("socket connecteds....");
             nc = new NetworkConnection(socket);
             System.out.println("Network connected");

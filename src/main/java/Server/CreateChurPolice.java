@@ -36,7 +36,7 @@ public class CreateChurPolice implements Runnable {
         if (player.size() == 0)
             return;
 
-        int moves = 1;
+        int moves = 20;
 
         for (int i = 0; i < 4; i++) {
 
